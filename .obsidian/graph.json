@@ -1,6 +1,6 @@
 {
   "collapse-filter": false,
-  "search": "bash",
+  "search": "generator.yml",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": false,
@@ -17,6 +17,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 1.0574799868102285,
+  "scale": 0.5380055120519018,
   "close": false
 }

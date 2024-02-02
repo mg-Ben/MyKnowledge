@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Useful_tools/tmux.md",
+                "file": "Networks/Protocols/Application_Layer/SSH/SSH.md",
                 "mode": "source",
                 "source": false
               }
@@ -129,7 +129,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Useful_tools/tmux.md",
+                "file": "Networks/Protocols/Application_Layer/SSH/SSH.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -146,7 +146,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Useful_tools/tmux.md",
+                "file": "Networks/Protocols/Application_Layer/SSH/SSH.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -169,7 +169,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Useful_tools/tmux.md"
+                "file": "Networks/Protocols/Application_Layer/SSH/SSH.md"
               }
             }
           }
@@ -192,9 +192,23 @@
   },
   "active": "e46f689de01752a4",
   "lastOpenFiles": [
+    "Networks/Protocols/Application_Layer/SNMP/SNMP.md",
+    "Networks/Protocols/Application_Layer/Telnet/Telnet.md",
+    "Networks/Protocols/Application_Layer/SSH/SSH.md",
+    "Networks/Protocols/Application_Layer/Telnet",
+    "Networks/Internet/Internet.md",
+    "Networks/Internet/Internet-Terminals-Concept.png",
+    "Networks/Internet/Layer_architecture/Layer architecture.md",
+    "Networks/Internet/Internet-Terminal-Concept.jpg",
+    "ComputerNetworks/Internet-Terminal-Concept.jpg.crdownload",
+    "Data_visualization_and_analysis/Grafana/Grafana.md",
+    "Networks/Protocols/Application_Layer/SSH",
+    "Data_visualization_and_analysis/Kibana/Kibana.md",
+    "Useful_tools/tmux.md",
+    "Databases/Prometheus/Instrumenting/Exporters_and_integrations/SNMP Exporter.md",
+    "Data_visualization_and_analysis/Kibana",
     "Useful_tools/tmux-clients-example.png",
     "Programming_Languages/Markdown.md",
-    "Useful_tools/tmux.md",
     "Others/Regular_Expressions/Regular Expressions.md",
     "Computer_Systems/Operating_Systems/UNIX.md",
     "Computer_Systems/Operating_Systems/GNU.md",
@@ -207,35 +221,22 @@
     "Useful_tools/tmux-window-example.png",
     "Pasted image 20240202111141.png",
     "Programming_Languages/Bash Scripting.md",
-    "Data_visualization_and_analysis/Grafana/Grafana.md",
     "Useful_tools",
     "Others/Useful_tools",
     "Data_visualization_and_analysis/Grafana",
     "Data_visualization_and_analysis",
-    "Databases/Prometheus/Instrumenting/Exporters_and_integrations/SNMP Exporter.md",
-    "Networks/Protocols/Application_Layer/SNMP/SNMP.md",
     "Databases/Prometheus/Prometheus.md",
     "Networks/Protocols/Application_Layer/SNMP/SNMP-table-example-index.png",
     "Networks/Protocols/Application_Layer/SNMP/SNMP-table-example.png",
     "SNMP WALK operation.md",
     "Networks/Protocols/Application_Layer/SNMP/MIB-content-example.png",
-    "Networks/Protocols/Application_Layer/SNMP/MIB-content-dependency-example.png",
     "Networks/Protocols/Application_Layer/SNMP",
-    "Networks/Protocols/Application_Layer/SNMP/MIBs-example-circitor.png",
     "Networks/Protocols/Application_Layer/HTTP.md",
-    "Networks/Internet/Internet.md",
     "Programming_Languages/Go.md",
     "Programming_Languages/AWK.md",
-    "Computer_Systems/Operating_Systems",
-    "Computer_Systems",
-    "Others/Regular_Expressions",
-    "Others",
     "Application_Development/Linux_Services/Linux Service.md",
     "Evaluation period.md",
     "[Configuration.md",
-    "Application_Development/Docker/Docker.md",
-    "Dockerfile.md",
-    "docker images.md",
-    "Networks/Internet/Layer_architecture/OSI/OSI Model.md"
+    "Application_Development/Docker/Docker.md"
   ]
 }

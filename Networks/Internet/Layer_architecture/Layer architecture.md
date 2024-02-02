@@ -3,7 +3,6 @@ tags:
   - Internet
   - Networks
 ---
-
 # Core principles
 ## Definition
 A way to understand complex systems by simplifying them in layers. Each layer has its own function in the information delivery, and that layer in source speaks the same language as the same layer in destination.

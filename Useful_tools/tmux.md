@@ -5,7 +5,7 @@ tags:
 # Core principles
 _tmux stands for terminal multiplexer_
 It's a tool which acts as a terminal multiplexer for [[UNIX|UNIX-like]] [[Operating System|Operating Systems]]. In other words, this tool allows us to split a single terminal into several sub-terminals.
-It's also very useful for leaving processes running on remote hosts even though you close your session with them.
+It's also very useful for keeping processes running on remote hosts even though you close your session with them.
 ![[tmux-example.png]]
 ## Concepts
 ### tmux client
