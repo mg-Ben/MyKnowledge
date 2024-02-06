@@ -272,6 +272,7 @@ WorkingDirectory=<path_to_sh> #Example /home/user/
 WantedBy=default.target
 RequiredBy=prometheus.service
 ```
+However, you can also use the [example snmpd unit file from GitHub repository](https://github.com/prometheus/snmp_exporter/blob/main/examples/systemd/snmp_exporter.service).
 ### Usage
 You can communicate with your running Exporter through HTTP while It is running, as many Prometheus Exporters. In this case, you need to communicate to ```/smmp``` endpoint and send the following _Query string_ parameters:
 ```
