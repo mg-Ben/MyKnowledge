@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Networks/Protocols/Application_Layer/SSH/SSH.md",
+                "file": "Application_Development/Linux_Services/Linux Service.md",
                 "mode": "source",
                 "source": false
               }
@@ -129,7 +129,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Networks/Protocols/Application_Layer/SSH/SSH.md",
+                "file": "Application_Development/Linux_Services/Linux Service.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -146,7 +146,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Networks/Protocols/Application_Layer/SSH/SSH.md",
+                "file": "Application_Development/Linux_Services/Linux Service.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -169,7 +169,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Networks/Protocols/Application_Layer/SSH/SSH.md"
+                "file": "Application_Development/Linux_Services/Linux Service.md"
               }
             }
           }
@@ -192,9 +192,13 @@
   },
   "active": "e46f689de01752a4",
   "lastOpenFiles": [
-    "Networks/Protocols/Application_Layer/SNMP/SNMP.md",
+    "Databases/Prometheus/Instrumenting/Exporters_and_integrations/SNMP Exporter.md",
+    "Application_Development/Linux_Services/Linux Service.md",
+    "Application_Development/Linux_Services/systemd-services-example.png",
     "Networks/Protocols/Application_Layer/Telnet/Telnet.md",
+    "L.md",
     "Networks/Protocols/Application_Layer/SSH/SSH.md",
+    "Networks/Protocols/Application_Layer/SNMP/SNMP.md",
     "Networks/Protocols/Application_Layer/Telnet",
     "Networks/Internet/Internet.md",
     "Networks/Internet/Internet-Terminals-Concept.png",
@@ -205,7 +209,6 @@
     "Networks/Protocols/Application_Layer/SSH",
     "Data_visualization_and_analysis/Kibana/Kibana.md",
     "Useful_tools/tmux.md",
-    "Databases/Prometheus/Instrumenting/Exporters_and_integrations/SNMP Exporter.md",
     "Data_visualization_and_analysis/Kibana",
     "Useful_tools/tmux-clients-example.png",
     "Programming_Languages/Markdown.md",
@@ -229,14 +232,10 @@
     "Networks/Protocols/Application_Layer/SNMP/SNMP-table-example-index.png",
     "Networks/Protocols/Application_Layer/SNMP/SNMP-table-example.png",
     "SNMP WALK operation.md",
-    "Networks/Protocols/Application_Layer/SNMP/MIB-content-example.png",
     "Networks/Protocols/Application_Layer/SNMP",
     "Networks/Protocols/Application_Layer/HTTP.md",
     "Programming_Languages/Go.md",
     "Programming_Languages/AWK.md",
-    "Application_Development/Linux_Services/Linux Service.md",
-    "Evaluation period.md",
-    "[Configuration.md",
-    "Application_Development/Docker/Docker.md"
+    "Evaluation period.md"
   ]
 }

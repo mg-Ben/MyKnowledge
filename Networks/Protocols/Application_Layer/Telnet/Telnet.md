@@ -5,4 +5,3 @@ tags:
   - Application_Layer
 ---
 # Core principles
-An [[L]]

@@ -258,6 +258,20 @@ sudo docker run --rm -v "${PWD}:/opt/" prom/snmp-generator:v0.24.1 parse_errors
 ```
 ### Execution
 Once you have the ```snmp.yml``` file configured, the next step is to download the [[#Reference|SNMP Bash Script Binaries]]. Decompress it and override the default ```snmp.yml``` with your own ```snmp.yml``` configuration. Then, you can [[Bash Scripting#Hands on#Run Script|run it]]. The SNMP exporter will run in ```localhost:9116``` by default.
+You can also [[Linux Service#Daemonize bash script]] to run the SNMP Exporter as a background process with this unit file:
+```
+[Unit]
+Description=SNMP Exporter Daemon
+After=prometheus.service
+
+[Service]
+ExecStart=<path_to_sh> #Example /home/user/my_script.sh
+WorkingDirectory=<path_to_sh> #Example /home/user/
+
+[Install]
+WantedBy=default.target
+RequiredBy=prometheus.service
+```
 ### Usage
 You can communicate with your running Exporter through HTTP while It is running, as many Prometheus Exporters. In this case, you need to communicate to ```/smmp``` endpoint and send the following _Query string_ parameters:
 ```
