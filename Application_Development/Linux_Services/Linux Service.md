@@ -14,7 +14,7 @@ Located under ```/etc/systemd/system``` path for ```superusers```, and under ```
 ```shell
 mkdir -p ~/.config/systemd/user
 ```
-
+See [[Linux#/etc]].
 It consists of several sections.
 #### Unit section
 Here is where you define a description and whether your service must run after or before another service, or both.

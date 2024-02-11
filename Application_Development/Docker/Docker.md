@@ -13,7 +13,7 @@ Docker is a kind of **virtualization**, but with Docker we virtualize applicatio
 In the following image example, we have created two containers inside the Host OS: one is the server container (which might be python-based) and the other one is the DataBase container (e.g., MongoDB).
 - The server receives requests, process them and communicate with Database container. Therefore, every network packet that is received in Host OS must be forwarded to the internal Server container. There are several ways to get this (see [[#Docker network]]): in this example, we have bound 5566 port of Host OS machine to 1228 container machine. Thus, so as to connect to server, a remote machine must communicate to port 5566 and the Host Machine OS would redirect the network packets to Server container:1228.
 - The Database container has not direct reachability from Host OS. We are forced to communicate with Server container as an intermediary. To enable the inter-container communication, we must define a Docker network too (see [[#Docker network]]).
-![[docker-containers.png.png]]
+![[docker-containers.png]]
 ## Advantages
 - **Portability**: you can run your app on any Operating System with Docker installed.
 - **Scalability**: you can deploy _N_ instances of your application just with one click, so It is easily scalable.
@@ -65,7 +65,7 @@ Supposing you have two containers inside the same bridged net, they communicate 
 ## Host driver
 Docker container-to-Host OS communication.
 ## IPVLAN driver
-Docker container-to-external Internet directly. It assigns an IP address to your docker container, so it is directly reachable from outside Internet as if it was a network interface on your machine.
+Docker container-to-external Internet directly. It assigns an [[IP#IP address|IP address]] to your docker container, so it is directly reachable from outside Internet as if it was a network interface on your machine.
 ## MACVLAN driver
 Docker container-to-external Internet directly, but as though it was a separated physical machine. It assigns a MAC Address to your docker container.
 ## None driver

@@ -49,6 +49,7 @@ services:
 		- <path_to_prometheus_yml>:/etc/prometheus #Bind mount prometheus.yml
 ```
 Then, ```docker compose up```.
+See [[Linux#/etc]].
 ### Prometheus as Linux Service
 ## Configuration files
 ### prometheus.yml
