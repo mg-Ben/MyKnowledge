@@ -50,9 +50,9 @@ RequiredBy=network.target
 ```shell
 systemctl status
 ```
-### Daemonize bash script
-You can daemonize a [[Bash Scripting|Bash Script]] (i.e. turn the script process into a background process) with systemd. To do so, you will need to follow these steps:
-1. Define the [[#Unit file]] for the Script specifying the path of that Script file.
+### Daemonize Bash command
+You can daemonize a [[GNU#Bash#Useful commands|GNU or UNIX-standard command]] (i.e. turn the script process into a background process) with systemd. To do so, you will need to follow these steps:
+1. Define the [[#Unit file]] for the Script specifying the command to daemonize.
 2. Run ````systemctl [--user] daemon-reload```
 3. Enable the service with ```systemctl [--user] enable <your_unit_file>.service```
 4. Run ```systemctl [--user] restart <your_unit_file>.service```

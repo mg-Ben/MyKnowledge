@@ -15,7 +15,8 @@ _Bash stands for Bourne Again SHell_
 It is a [[Operating System#Shell|CLI Shell]] with its own shell-specific language. It is the classic shell you can find inside [[Linux]]:
 ![[Bash-shell.png]]
 ### Useful commands
-Some commands that are provided by GNU Bash are the following.
+Some commands that are provided by GNU Bash are the following. However, you can also run [[UNIX#UNIX-CLI standard commands]] (i.e. Bash is not limited to just GNU commands).
+Every command is a binary ```.sh``` file (located in [[Linux#/bin]] directory). Therefore, a [[Bash Scripting#Binary|binary Bash Script]].
 #### echo (Print text to the terminal)
 ```shell
 echo "Hello, World!"
@@ -29,3 +30,11 @@ read -p "Enter your name: " <name>
 #### sed (Stream editor for text transformation)
 #### find (Search for files in a directory hierarchy)
 #### chmod (Change file permissions)
+#### /bin/bash (execute a Bash Script)
+```shell
+/bin/bash <script-name.sh>
+```
+Or:
+```shell
+./<script-name.sh>
+```
