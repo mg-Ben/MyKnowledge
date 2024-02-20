@@ -34,3 +34,24 @@ Destination port of the SSH server.
 ##### IdentityFile
 
 
+
+
+#### Commands
+##### scp (Secure Copy)
+You can copy files from one machine to a remote machine securely with:
+```shell
+scp <filename> destination:<destination_directory>
+```
+Or you can copy directories from one machine to a remote machine securely with:
+```shell
+scp -r <path> destination:<destination_directory>
+```
+Tips:
+- Don't use scp with sudo, as you can find errors like:
+```
+ssh: Could not resolve hostname X: Temporary failure in name resolution
+lost connection
+```
+- You must have permissions on ```<destination_directory>```
+
+
