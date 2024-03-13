@@ -20,23 +20,44 @@ Whenever you want to connect to a target SSH server, you need to create a **SSH 
 ```shell
 ssh-keygen -t <encryption_algorithm> -C "usermail"
 ```
-The encryption algorithm can be 
+The encryption algorithm can be one of the following: [[Cybersecurity#Example algorithms]].
+The output of this command is both the public key and the private key as files (the public key one would have the ```.pub``` extension, whereas the private has no visible extension).
 #### Configuration
-You will find the ```~/.ssh/config``` file, where all SSH configurations are set. If the file does not exist, you can [[UNIX#touch (Create new file)|create it]].
+You will find the ```~/.ssh/config``` file, where all SSH configurations are set. If the file does not exist, you can [[UNIX#touch (Create new file)|create it]]. This configuration file help you not specify all the flags in [[#ssh (Connect remotely to the SSH server)|ssh command]] when connecting to the remote server, but configure them in a single configuration file.
 ##### Hostname
 Either [[IP#IP address|IP address]] of the destination device or the [[DNS|domain name]].
 ##### Port
-Destination port of the SSH server.
+Destination port of the SSH server. Equivalent to specify ```-p``` flag in [[#ssh (Connect remotely to the SSH server)|ssh command]].
 ##### User
+Some SSH Servers expect users to specify a username. Equivalent to specify ```username@...``` in [[#ssh (Connect remotely to the SSH server)|ssh command]].
 ##### ProxyJump
+When you connect to a remote server, an intermediate machine can exist between client and server (i.e. a [[Proxies|Proxy]]. Here is where you can set the proxy information.
 ##### LocalForward
-##### Dynamic Forward
+Once you are connected to a remote SSH server, you can mirror your [[Internet#Interact with running ports|interaction with some local port]] on your client machine to the interaction of the SSH server with its port. In other words, for instance, if you are connected to the remote SSH server and you interact with your ```localhost:8080``` port, actually, instead of interacting with your ```localhost:8080```, you are interacting with ```8080``` port on the remote server.
+
+![[LocalForwardIdea.png]]
+
+You can also configure which port on your local corresponds to which port on the remote (e.g. ```localhost:A``` to ```localhost:B``` on remote).
+##### DynamicForward
+When you connect to a remote SSH server, sometimes you need to connect to a certain port in that server. In that case, you could use [[#LocalForward]], but sometimes you need to use your own local ports. In that case, you could directly connect to ```IP_remote:Port_remote```. However, your [[Internet#Interact with running ports|interaction with that port]] might require the use of a web browser, which doesn't typically allow the connection to SSH servers directly. Therefore, a [[Proxies#SOCKS5|Proxy SOCKS]] must be configured on your local machine to connect to the SSH server through an intermediate proxy by a web browser, but also on your configuration SSH file. The Proxy SOCKS is just a process running on your localhost which acts as a proxy.
+With DynamicForward, you can set which port to launch the proxy SOCKS on. Once set, the proxy SOCKS is executed when running ```ssh``` command. Then, you can configure your web browser so as to use that proxy. You can now connect to any port on remote SSH server.
+
+![[DynamicForwardIdea.png]]
+
 ##### IdentityFile
-
-
-
-
+With this configuration you can specify the path and name of the keyfiles. Equivalent to ```-i``` flag in [[#ssh (Connect remotely to the SSH server)|ssh command]].
 #### Commands
+##### ssh (Connect remotely to the SSH server)
+You can connect remotely to a SSH server by:
+```shell
+ssh <destination>
+```
+The value of ```<destination>``` can be:
+- The destination [[IP#IP address|IP address]] or [[DNS]]
+- The username + the destination [[IP#IP address|IP address]] or [[DNS|domain name]], separated by ```@``` (e.g. ```bmartin@1.2.3.4```)
+Flags:
+- ```-p <PORT>```: specify destination port
+- ```-i <keyfile>```: specify the name of the [[#keyfile]].
 ##### scp (Secure Copy)
 You can copy files from one machine to a remote machine securely with:
 ```shell
@@ -47,7 +68,7 @@ Or you can copy directories from one machine to a remote machine securely with:
 scp -r <path> destination:<destination_directory>
 ```
 Tips:
-- Don't use scp with sudo, as you can find errors like:
+- **Don't use scp with sudo**, as you can find errors like:
 ```
 ssh: Could not resolve hostname X: Temporary failure in name resolution
 lost connection

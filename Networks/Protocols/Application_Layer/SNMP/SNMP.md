@@ -63,8 +63,6 @@ Has got an entry object, which represents a table row. That entry often contains
 ###### Example
 ![[SNMP-table-example.png]]
 ![[SNMP-table-example-index.png]]
-
-
 # Hands on
 ## How to deploy a SNMP agent
 ### With snmpd service
@@ -80,6 +78,18 @@ snmpwalk -v <version_to_use> -c <community_name> <agent_IP> <OID_from>
 ```
 If not ```<OID_from>``` specified, it performs walk operation from highest OID tree level (i.e. ```.1 = iso```).
 #### snmpget
+## Good practices
+Most SNMP devices can be managed through custom enterprise MIB files depending on which device or the manufacturer. This means that you should analyze specific MIBs for the Internet devices to be managed instead of the most general ones. All these specific-enterprise MIBs lie under ```1.3.6.1.4.1 (iso.org.dod.internet.private.enterprise``` subtree. For example, all the CISCO MIBs can be found under ```1.3.6.1.4.1.9.9```.  Therefore, a good practice when analyzing some device (such as [[Firewalls]], [[Balancers]], [[Switches]] or whatever) is directly performing a [[#WALK]] from the specific OID.
+Here you have a useful command to process through [[AWK]] and [[UNIX#(Pipes)]] the output of ```snmpwalk```. For each OID subtree under the OID you want, this command will count the number of OIDs that are inside each one of those subtrees. For example, you want to count how many OIDs the SNMP agent exposes for each MIB in CISCO:
+- ```1.3.6.1.4.1.9.9.1```
+- ```1.3.6.1.4.1.9.9.2```
+- ```1.3.6.1.4.1.9.9.3```
+- ```1.3.6.1.4.1.9.9.4```
+- ...
+
+```shell
+snmpwalk [whatever] 1.3.6.1.4.1.9.9 | awk -F '.' '{dict[$4] += 1}END{for(key in dict){print(key";"dict[key])}}'
+```
 # Good references
 - To explore the [[#OIDs]] tree: [SNMPLink](http://www.snmplink.org/) (Go to Online-MIB Section)
 - To get information of a specific OID (e.g. get the MIB of an OID), refer to:

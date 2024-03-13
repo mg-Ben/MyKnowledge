@@ -18,12 +18,24 @@ Those terminals might be:
 - Servers
 - Network balancers, firewalls, switches, gateways...
 And they can communicate each other in different ways.
+### Gateways
+A gateway machine actually means:
+- A [[Proxies|Proxy]]
+- A [[Firewalls|Firewall]]
+- A [[Balancers]]
+- A router
+- A NAT
 ### Client-Server communication
 - **Server**: a running process which is usually indefinitely awaiting for connections and which provides a service to the client (e.g. a webpage)
 - **Client**: the process that wants to be served and sends requests to the server (e.g. our web browser-background process, when we are surfing the internet)
 ### Peer-to-Peer communication
 
 
+# Hands on
+## Interact with running ports
+You can interact with running ports on some [[IP#IP address|IP Address]], including your own machine (```localhost```) by:
+- A web browser
+- Curl
 # IANA
 _Internet Assigned Numbers Authority_
 

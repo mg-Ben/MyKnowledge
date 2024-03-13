@@ -26,7 +26,7 @@ echo "Hello, World!"
 read -p "Enter your name: " <name>
 ```
 #### grep (Search for patterns in files)
-#### awk (Text processing tool)
+
 #### sed (Stream editor for text transformation)
 #### find (Search for files in a directory hierarchy)
 #### chmod (Change file permissions)
@@ -38,3 +38,4 @@ Or:
 ```shell
 ./<script-name.sh>
 ```
+#### gawk: a GNU extension of AWK

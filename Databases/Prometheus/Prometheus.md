@@ -206,3 +206,20 @@ Another important issue is that the regular expression must match at level 1 (se
 #### Rules configuration
 #### Alerting configuration
 
+
+## PromQL queries
+Supposing you have these metrics:
+```
+temperature{cpuIndex="1", cpu="Intel", machine="server1", ...} 81
+temperature{cpuIndex="2", cpu="Intel", machine="server2", ...} 57
+temperature{cpuIndex="3", cpu="Intel", machine="database1", ...} 47
+temperature{cpuIndex="4", cpu="AMD", machine="database2", ...} 78
+temperature{cpuIndex="5", cpu="AMD", machine="database3", ...} 80
+processes{cpuIndex="1", ...} 34
+processes{cpuIndex="2", ...} 5
+processes{cpuIndex="3", ...} 380
+processes{cpuIndex="4", ...} 340
+processes{cpuIndex="5", ...} 40
+...
+```
+

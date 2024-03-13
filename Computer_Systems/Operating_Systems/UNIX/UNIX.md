@@ -41,3 +41,16 @@ rmdir <directory_name>
 ```shell
 cat <filename>
 ```
+## awk (Text processing tool)
+Refer to [[AWK]] to know how the scripting language is.
+## | (Pipes)
+You can pipeline two commands by doing a pipe ```|```. Example:
+_You want to list all directories and then take that output and run an awk command such that, for each line, take only the permissions and print them_
+```shell
+la -l | awk -F " " '{print $1}'
+```
+## > (Dump output into a file)
+You can dump any command output to a file with ```>```. For example:
+```shell
+ls -la > output_file.txt
+```

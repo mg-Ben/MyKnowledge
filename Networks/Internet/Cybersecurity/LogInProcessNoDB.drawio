@@ -1,0 +1,50 @@
+<mxfile host="app.diagrams.net" modified="2024-02-21T10:14:15.718Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="o1Y42YAWRujY60MfFE8f" version="23.1.5" type="device">
+  <diagram name="Página-1" id="mMz8CjLTrx1g4O1drdC4">
+    <mxGraphModel dx="792" dy="449" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fXNH3gLhTMMdUVB6ScwV-33" value="2&lt;br&gt;Check whether the user data makes sense&lt;br&gt;by analyzing inter-data coherence" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.507;entryY=0.995;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="fXNH3gLhTMMdUVB6ScwV-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="519.6739" y="329.865" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fXNH3gLhTMMdUVB6ScwV-1" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Server_Desktop.svg;" parent="1" vertex="1">
+          <mxGeometry x="497.55" y="456" width="42.6" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="fXNH3gLhTMMdUVB6ScwV-2" value="User" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#232F3E;fillColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.user;" parent="1" vertex="1">
+          <mxGeometry x="110" y="450" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fXNH3gLhTMMdUVB6ScwV-3" value="1&lt;br&gt;Hello, I&#39;m:&lt;br&gt;- Fingerprint: [101101...]&lt;br&gt;- Username: Bob&lt;br&gt;- Password: ******" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.003;entryY=0.435;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="fXNH3gLhTMMdUVB6ScwV-2" target="fXNH3gLhTMMdUVB6ScwV-1" edge="1">
+          <mxGeometry x="-0.1462" y="40" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fXNH3gLhTMMdUVB6ScwV-42" value="NO&lt;br&gt;The user seems to be a fake user" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="fXNH3gLhTMMdUVB6ScwV-71" target="fXNH3gLhTMMdUVB6ScwV-2" edge="1">
+          <mxGeometry x="-0.3024" y="-20" relative="1" as="geometry">
+            <mxPoint x="-20" y="299.97" as="targetPoint" />
+            <mxPoint x="525" y="269.97" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="519" y="250" />
+              <mxPoint x="140" y="250" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fXNH3gLhTMMdUVB6ScwV-43" value="YES&lt;br&gt;Give access to the service" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" edge="1">
+          <mxGeometry x="0.4245" y="-20" relative="1" as="geometry">
+            <mxPoint x="670" y="300" as="targetPoint" />
+            <mxPoint x="563.85" y="299.71" as="sourcePoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fXNH3gLhTMMdUVB6ScwV-70" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;Coherence-detection of their statement&lt;/font&gt;" style="whiteSpace=wrap;html=1;shape=mxgraph.basic.roundRectCallout;dx=16.57;dy=21;size=5;boundedLbl=1;flipH=0;" parent="1" vertex="1">
+          <mxGeometry x="548.1999999999999" y="430" width="130" height="59" as="geometry" />
+        </mxCell>
+        <mxCell id="fXNH3gLhTMMdUVB6ScwV-71" value="Is a real human?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="473.85" y="270" width="90" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -59,7 +59,7 @@ We can call it ```my_mib``` or whatever. Nonetheless, this name will be importan
 In SNMP, a [[SNMP#SNMP Table]] has got an **index object**. By default, whenever you perform a [[SNMP#GET]] to retrieve an element inside the table, SNMP returns the value without specifying the column name, so It's difficult to infer what SNMP refers to. To solve this, you can use the ```lookups``` section, where you have to specify:
 - The exact object name of the index object (e.g. ```hrDeviceIndex```)
 - The exact column name (e.g. ```hrDeviceDescr```)
-In this way, SNMP will return both the index object name and the metric column name, so  Prometheus will get the metric with both labels.
+In this way, SNMP will return both the index object name and the metric column name, so Prometheus will get the metric with both labels.
 Example: providing you have this table:
 
 | index_object_name | cpu_usage |
