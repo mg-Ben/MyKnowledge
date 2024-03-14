@@ -413,5 +413,10 @@ Result:
 | 5        | AMD   | database3 | 88          |
 
 ##### Time series Visualization
-
-
+Suppose you have a sampling period of 5 minutes. Then, when you select Time Series visualization, remember setting this parameter here, in Query options! (see Min interval option):
+![[SamplingPeriodTimeSeries.png]]
+###### Compute the difference between consequent samples
+Supposing your data is sampled each 5 minutes, you can compute the difference between each sample with its previous one by **shifting** time series using ```offset``` like:
+```
+metric - metric offset 5m
+```

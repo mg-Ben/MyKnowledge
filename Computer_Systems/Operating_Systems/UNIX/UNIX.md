@@ -54,3 +54,4 @@ You can dump any command output to a file with ```>```. For example:
 ```shell
 ls -la > output_file.txt
 ```
+## vi (Visual Editor)
