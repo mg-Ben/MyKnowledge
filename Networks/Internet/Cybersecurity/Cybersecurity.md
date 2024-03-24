@@ -221,3 +221,17 @@ A server cannot provide biometric data to get authenticated, so certificates are
 _Rivest-Shamir-Adleman_
 Provides 
 ### AES
+# Ethical hacking
+# Penetration testing
+## Enumeration
+It involves studying the target victim machine and documenting it.
+To do so, follow these steps:
+1. Discover the ports currently running on remote machine through a [[Useful commands#nmap]] command.
+2. Identify the [[Telnet]] or [[SSH]] service on the remote machine and try to connect to it to get access by terminal.
+# Digital Forensics
+# Reverse Engineering
+# Forensic Analysis
+# Incident Response
+# Common attacks
+## Brute Force
+It involves creating a Script to try with lots of username/password credentials (or other [[#Authentication]]) per second against an authentication server.

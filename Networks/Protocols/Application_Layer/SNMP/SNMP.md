@@ -90,6 +90,10 @@ Here you have a useful command to process through [[AWK]] and [[UNIX#(Pipes)]] t
 ```shell
 snmpwalk [whatever] 1.3.6.1.4.1.9.9 | awk -F '.' '{dict[$4] += 1}END{for(key in dict){print(key";"dict[key])}}'
 ```
+You can also get the number of OIDs which are different than zero, empty string or ```-1``` to know how many OIDs make sense inside a subtree:
+```shell
+snmpwalk [whatever] 1.3.6.1.4.1.9.9.1 (<- subtree OID) -On | awk -F "[=:]" '{if($2 != " \"\"" && $3 != " 0" && $3 != " -1"){count+=1}}END{print(count)}'
+```
 # Good references
 - To explore the [[#OIDs]] tree: [SNMPLink](http://www.snmplink.org/) (Go to Online-MIB Section)
 - To get information of a specific OID (e.g. get the MIB of an OID), refer to:

@@ -31,6 +31,14 @@ A gateway machine actually means:
 ### Peer-to-Peer communication
 
 
+# Transport Layer
+## Port
+A single [[IP#IP address]] machine's interface can run several processes, each one with an assigned **port number**.
+## Socket
+
+# Network Layer
+## Virtual Circuit
+A Virtual Circuit is a way to route the network-layer traffic between origin and destination via dedicated-path configured before the beginning of the communication.
 # Hands on
 ## Interact with running ports
 You can interact with running ports on some [[IP#IP address|IP Address]], including your own machine (```localhost```) by:
@@ -38,5 +46,11 @@ You can interact with running ports on some [[IP#IP address|IP Address]], includ
 - Curl
 # IANA
 _Internet Assigned Numbers Authority_
+# VPN
+_VPN stands for Virtual Private Network_
+It can be considered as a type of [[#Virtual Circuit]], but not exactly the same.
+It is a way to establish a connection inside a private and protected network.
+## VPN Server
+Provides the VPN functionality by allowing the user to browse securely and change their [[IP#IP address|IP address]].
 
 

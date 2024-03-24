@@ -20,6 +20,12 @@ cpuDescr{cpuIndex="2", cpuDescr="Intel Silver 1234 @ 2.4 GHz"} 1
 cpuDescr{cpuIndex="3", cpuDescr="Intel Silver 1234 @ 2.4 GHz"} 1
 cpuDescr{cpuIndex="4", cpuDescr="AMD Ryzen 3700 @ 2.4 GHz"} 1
 cpuDescr{cpuIndex="5", cpuDescr="AMD Ryzen 3800X @ 2.4 GHz"} 1
+# Sometimes, the metric value is inside the label and are NOT constant over time:
+cpuProcessesPer100{cpuIndex="1", cpuProcessesPer100="45"} 1
+cpuProcessesPer100{cpuIndex="2", cpuProcessesPer100="4"} 1
+cpuProcessesPer100{cpuIndex="3", cpuProcessesPer100="23"} 1
+cpuProcessesPer100{cpuIndex="4", cpuProcessesPer100="48"} 1
+cpuProcessesPer100{cpuIndex="5", cpuProcessesPer100="80"} 1
 # Other metrics which are constant over time might not be inside labels:
 cpuCores{cpuIndex="1"} 3
 cpuCores{cpuIndex="2"} 5
@@ -32,6 +38,7 @@ cpuProcesses{cpuIndex="2", cpuDescr="Intel Silver 1234 @ 2.4 GHz"} 443
 cpuProcesses{cpuIndex="3", cpuDescr="Intel Silver 1234 @ 2.4 GHz"} 3003
 cpuProcesses{cpuIndex="4", cpuDescr="AMD Ryzen 3700 @ 2.4 GHz"} 34
 cpuProcesses{cpuIndex="5", cpuDescr="AMD Ryzen 3800X @ 2.4 GHz"} 44
+
 ```
 However, as Prometheus is running periodically, there would be an additional hidden label, _Time_, which represents the timestamp when the metric was taken. This is, although the metrics are like the example above, actually those metrics are for a certain time instant. Therefore, in fact the metrics should look like this:
 ```
@@ -396,6 +403,73 @@ However, as there are separate queries, the common fields in both queries (such 
 | 03-04-2023 13:43:23 | 4        | AMD   | database2 | 80          | 3        |
 | 03-04-2023 13:43:23 | 5        | AMD   | database3 | 88          | 4        |
 You can also apply [[#Filter by some label value|filters]] if you want.
+If this _Join by field_ operation doesn't work, It may be because there are repeated ```cpuIndex``` values for the same timestamp samples, so a single last value cannot be calculated as there are two time series with the same index:
+
+| Time                | cpuIndex | cpu      | machine   | temperature |
+| ------------------- | -------- | -------- | --------- | ----------- |
+| 03-04-2023 13:33:23 | 1        | Intel    | server1   | 81          |
+| 03-04-2023 13:38:23 | 1        | Intel    | server1   | 85          |
+| 03-04-2023 13:43:23 | 1        | Intel    | server1   | 85          |
+| ...                 |          |          |           |             |
+| 03-04-2023 13:33:23 | 2        | Intel    | server2   | 57          |
+| 03-04-2023 13:38:23 | 2        | Intel    | server2   | 56          |
+| 03-04-2023 13:43:23 | 2        | Intel    | server2   | 55          |
+| ...                 |          |          |           |             |
+| 03-04-2023 13:33:23 | 3        | Intel    | database1 | 47          |
+| 03-04-2023 13:38:23 | 3        | Intel    | database1 | 47          |
+| 03-04-2023 13:43:23 | 3        | Intel    | database1 | 45          |
+| ...                 |          |          |           |             |
+| 03-04-2023 13:33:23 | 4        | AMD      | database2 | 78          |
+| 03-04-2023 13:38:23 | 4        | AMD      | database2 | 77          |
+| 03-04-2023 13:43:23 | 4        | AMD      | database2 | 80          |
+| ...                 |          |          |           |             |
+| 03-04-2023 13:33:23 | 5        | AMD      | database3 | 80          |
+| 03-04-2023 13:38:23 | 5        | AMD      | database3 | 81          |
+| 03-04-2023 13:43:23 | 5        | AMD      | database3 | 88          |
+| ...                 |          |          |           |             |
+| 03-04-2023 13:33:23 | 1        | Whatever | Whatever  | 55          |
+| 03-04-2023 13:38:23 | 1        | Whatever | Whatever  | 87          |
+| 03-04-2023 13:43:23 | 1        | Whatever | Whatever  | 88          |
+Or It might be due to the fact that some data was taken at certain timestamp and suddenly stopped. For example, in the following table, the AMV database3 last sample is at 13:38:23 unlike the rest, which were taken until 13:43:32, so a _Join by field_ cannot be calculated:
+
+| Time                    | cpuIndex | cpu   | machine   | temperature |
+| ----------------------- | -------- | ----- | --------- | ----------- |
+| 03-04-2023 13:33:23     | 1        | Intel | server1   | 81          |
+| 03-04-2023 13:38:23     | 1        | Intel | server1   | 85          |
+| 03-04-2023 13:43:23     | 1        | Intel | server1   | 85          |
+| ...                     |          |       |           |             |
+| 03-04-2023 13:33:23     | 2        | Intel | server2   | 57          |
+| 03-04-2023 13:38:23     | 2        | Intel | server2   | 56          |
+| 03-04-2023 13:43:23     | 2        | Intel | server2   | 55          |
+| ...                     |          |       |           |             |
+| 03-04-2023 13:33:23     | 3        | Intel | database1 | 47          |
+| 03-04-2023 13:38:23     | 3        | Intel | database1 | 47          |
+| 03-04-2023 13:43:23     | 3        | Intel | database1 | 45          |
+| ...                     |          |       |           |             |
+| 03-04-2023 13:33:23     | 4        | AMD   | database2 | 78          |
+| 03-04-2023 13:38:23     | 4        | AMD   | database2 | 77          |
+| 03-04-2023 13:43:23     | 4        | AMD   | database2 | 80          |
+| ...                     |          |       |           |             |
+| 03-04-2023 13:33:23     | 5        | AMD   | database3 | 80          |
+| 03-04-2023 **13:38:23** | 5        | AMD   | database3 | 81          |
+| ...                     |          |       |           |             |
+In these cases, we have an alternative: use _Group by_ option. We can _Group by_ ```cpuIndex``` and, for each group, take the _Last_ regardless of when it was sampled. In Grafana panel settings, go to _Transform_ tab and then select _Group by_. Select ```cpuIndex``` and select _Group by_. Then, select the fields you want to show for each ```cpuIndex``` using the _Calculate_ option and choose _Last_. The result would be:
+
+| Time                    | cpuIndex | cpu   | machine   | temperature |
+| ----------------------- | -------- | ----- | --------- | ----------- |
+| 03-04-2023 13:33:23     | 1        | Intel | server1   | 81          |
+| 03-04-2023 13:43:23     | 2        | Intel | server2   | 55          |
+| 03-04-2023 13:43:23     | 3        | Intel | database1 | 45          |
+| 03-04-2023 13:43:23     | 4        | AMD   | database2 | 80          |
+| 03-04-2023 **13:38:23** | 5        | AMD   | database3 | 81          |
+_Sometimes, the JOIN operation works when we have two queries. For example: Query A_
+```
+temperature * on (cpuIndex) group_left(cpuDescr) cpuDescr
+```
+_And Query B:_
+```
+cpuProcesses * on (cpuIndex) group_left(cpuDescr) cpuDescr
+```
 ###### Take the last/max/mean... value
 The only solution is to use Grafana transformations. The operation to compute in this case is a **Reduce**, as you have to convert a timestamped data to a single value.
 Select _Time series_ as Format:
@@ -420,3 +494,43 @@ Supposing your data is sampled each 5 minutes, you can compute the difference be
 ```
 metric - metric offset 5m
 ```
+##### Display time series from label values
+In the case of ```cpuProcessesPer100``` metric, the time series samples are inside the ```cpuProcessesPer100``` label. How can you display the time series?
+1. Select Table Format:
+![[PanelFormatSelectorTable.png]]
+2. To display some value in Grafana Time Series, you need that value to be ```Number Type```. Therefore, go to Grafana > Transform tab and make a _Convert field type transformation_. Then, select the label name (in this case, ```cpuProcessesPer100```) and select _as Number_.
+##### Compute the sum of time series
+If you have several time series, one for each index (e.g. the ```temperature``` metric):
+```
+temperature{cpuIndex="1", cpu="Intel", machine="server1", ...} 81
+temperature{cpuIndex="2", cpu="Intel", machine="server2", ...} 57
+temperature{cpuIndex="3", cpu="Intel", machine="database1", ...} 47
+temperature{cpuIndex="4", cpu="AMD", machine="database2", ...} 78
+temperature{cpuIndex="5", cpu="AMD", machine="database3", ...} 80
+```
+How can you compute the sum of time series to obtain a single time serie? By aggregations using some common field. You can use some common label . For example, if each metric has got a label with the same value on each:
+```
+temperature{cpuIndex="1", cpu="Intel", machine="server1", type="computer"} 81
+temperature{cpuIndex="2", cpu="Intel", machine="server2", type="computer"} 57
+temperature{cpuIndex="3", cpu="Intel", machine="database1", type="computer"} 47
+temperature{cpuIndex="4", cpu="AMD", machine="database2", type="computer"} 78
+temperature{cpuIndex="5", cpu="AMD", machine="database3", type="computer"} 80
+```
+You can group by ```type``` label like this:
+```
+sum(temperature) by (type)
+```
+With this clause, firstly you group by ```type``` and, for each group, you compute the sum. As there is only one group with that label (```type="computer"```), the sum is being computed for all the metrics.
+If there is no common-label value:
+```
+temperature{cpuIndex="1", cpu="Intel", machine="server1"} 81
+temperature{cpuIndex="2", cpu="Intel", machine="server2"} 57
+temperature{cpuIndex="3", cpu="Intel", machine="database1"} 47
+temperature{cpuIndex="4", cpu="AMD", machine="database2"} 78
+temperature{cpuIndex="5", cpu="AMD", machine="database3"} 80
+```
+Then you are forced to group by several terms:
+```
+sum(temperature) by (cpuIndex, cpu, machine)
+```
+With this clause, you are grouping the metrics with different combination of ```(cpuIndex, cpu, machine)``` values, i.e. there are as many groups as metrics, as each metric has its own combination. However, you are computing the sum across those different groups, i.e. you can obtain the same result; a single time series which is the sum of each time serie.
