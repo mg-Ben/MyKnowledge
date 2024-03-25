@@ -74,7 +74,7 @@ services:
 ```
 #### Deploy the Fleet Server on a Virtual Machine
 ##### Deploy Kibana as a container
-
+You will need
 
 # CLOUD: PROVISION, MANAGE AND MONITOR THE ELASTIC STACK
 
