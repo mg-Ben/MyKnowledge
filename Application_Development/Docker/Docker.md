@@ -221,7 +221,7 @@ docker compose up
 ```
 Interesting flags:
 - ```--build```: if you make some changes on your code (e.g., in your python main code), maybe they are not reflected after ```docker compose up``` because of docker cache. Therefore, use this flag for testing purposes to rebuild everything for each test
-#### Remove images and containers defined in docker-compose.yml
+#### Remove images and deployed by docker-compose.yml
 ```
 docker compose down
 ```
@@ -247,6 +247,8 @@ services: #Containers
 		limits: #Only if you want to limit the CPU and RAM resources
 			cpus: '3' #CPU cores to use. 0.0 = Use the same cores as hostOS
 			memory: 4G #RAM to use. '0' = Use the same RAM as hostOS
+		restart: always #This means that this container will try to automatic restart if it stops working (for service continuity and high-availability of the service)
+		user: root #The process inside the container will run as root user
 	server: #The same
 		depends_on:
 			- mongo_db #This container will be created after mongo_db if mongo_db is created successfully

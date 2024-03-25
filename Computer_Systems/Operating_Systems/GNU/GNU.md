@@ -25,6 +25,37 @@ echo "Hello, World!"
 ```shell
 read -p "Enter your name: " <name>
 ```
+##### Read some string and store it in Bash variable
+If you run:
+```shell
+read store_variable
+```
+The Shell will let you write anything. What you write will be stored in ```store_variable```. Then, you can ```echo store_variable``` and see the content.
+You can also run:
+```shell
+read store_variable <<< "example"
+```
+To store a constant value inside ```store_variable```.
+##### String tokenization with read
+Tokenize the string and store the tokens in some variable with name ```tokenized_string_variable_name```:
+```shell
+IFS=<delimiter_char> read -a tokenized_string_variable_name <<< <input_string>
+```
+With ```-a```, you specify the output to be an array.
+Iterate over each token and print them:
+```
+for token in "${tokenized_string_variable_name[@]}"; do
+> command to run
+> done (to finish the loop)
+```
+For instance:
+```shell
+IFS=',' read tokenized_string_variable_name <<< "hello,goodby,hello"
+```
+After running the previous command:
+```shell
+for token in "${tokenized_string_variable_name[@]}"; do echo $token; done
+```
 #### grep (Search for patterns in files)
 
 #### sed (Stream editor for text transformation)
@@ -39,3 +70,6 @@ Or:
 ./<script-name.sh>
 ```
 #### gawk: a GNU extension of AWK
+
+
+
