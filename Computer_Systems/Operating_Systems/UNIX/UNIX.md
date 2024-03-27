@@ -41,6 +41,16 @@ rmdir <directory_name>
 ```shell
 cat <filename>
 ```
+## if condition
+```shell
+if [ condition ]; then (press enter to start writing the if body)
+> command
+> fi (press enter)
+```
+Or, in one line:
+```shell
+if [ condition ]; then command; fi
+```
 ## while loop
 ```shell
 while condition; do (press enter to start writing the loop body)
@@ -61,6 +71,18 @@ Or, in one line:
 ```shell
 for i in ...; do command; done
 ```
+## Useful conditions
+For [[#if condition]], [[#while loop]] or [[#for loop]] (or whenever you need to use conditions), here you have some useful ones.
+_Note: you can negate them setting ! before the condition_
+### Check existance of file
+```
+condition = -f "filename"
+```
+### Check existance of directory
+```
+condition = -d "directory"
+```
+
 ## awk (Text processing tool)
 Refer to [[AWK]] to know how the scripting language is.
 ## | (Pipes)

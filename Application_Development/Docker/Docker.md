@@ -77,7 +77,13 @@ Docker allows you to create a volume managed by Docker itself. For example, you 
 ![[docker-desktop-volumes.png]]
 You just need to attach that volume to some directory inside your container.
 ## Bind-mount approach
-Docker allows you to link some path inside your Host OS to some path inside the container, and they are real-time synchronised by bind-mounting.
+Docker allows you to link some path inside your [[Virtualization#Host Operating System|Host OS]] to some path inside the [[Docker#Docker container|Docker container]], and they are real-time synchronised by bind-mounting.
+For this purpose, you will have to use Docker volume settings:
+### If you are deploying with docker create
+Then use the ```-v``` [[#Create your container|flag]].
+### If you are deploying with docker-compose
+Then use the ```volumes:``` [[#Template example|section]].
+
 # Use case example
 For example, you can run docker with a fixed version of Python libraries, NodeJS, Java, Ruby... And every machine that would execute your application would run it with that version, so Docker avoids conflicts with versioning and conflicts with the underlaying Operating System.
 # Hands on
@@ -111,7 +117,7 @@ docker build <Dockerfile_path>
 ```
 Where ```<Dockerfile_path>``` is the path where your Dockerfile lies (e.g., ```/nowhere/land/```).
 Interesting flags:
-- ```-t <image_name>:<image_tag>```
+- ```-t <image_name>:<image_tag>```: specify image name and image tag
 ##### From DockerHub
 ```shell
 docker pull <image_name>:<image_tag>
@@ -152,6 +158,7 @@ docker stop <container_ID_or_name>
 ```shell
 docker rm <container_ID_or_name>
 ```
+If you cannot remove it, try to [[#Stop your container]] before.
 ### For both Docker images and Docker containers
 #### Download a docker image and start container at once
 ```shell
@@ -176,12 +183,12 @@ Creates a network for inter-container communication (see [[#Docker network#Bridg
 docker network create <network_name>
 ```
 #### Remove network
-```
+```shell
 docker network rm <network_name>
 ```
 ### For Docker volumes
 #### List docker volumes
-```
+```shell
 docker volume ls
 ```
 Example output:
@@ -191,6 +198,11 @@ local     stack_elk_certs
 local     stack_elk_esdata01
 local     stack_elk_esdata02
 ```
+#### Remove docker volume
+```shell
+docker volume rm <volume_name>
+```
+If this error triggers: ```Error response from daemon: remove <volume_name> is in use - [...]``` then you would have to [[#Remove your container|remove the containers that are using that volume]].
 #### Access to docker volume data
 ```
 docker inspect <volume_name>
@@ -220,7 +232,9 @@ In practice, we don't get an image and deploy a container through docker command
 docker compose up
 ```
 Interesting flags:
-- ```--build```: if you make some changes on your code (e.g., in your python main code), maybe they are not reflected after ```docker compose up``` because of docker cache. Therefore, use this flag for testing purposes to rebuild everything for each test
+- ```--build```: Rebuild images before deploy, but not rebuild containers. If you make some changes on your code (e.g., in your python main code), maybe they are not reflected after ```docker compose up``` because of docker cache. Therefore, use this flag for testing purposes to rebuild everything for each test. However, it only rebuilds images, not containers!
+- ```--force-recreate```: Recreate containers before deploy. If you find an error like ```error response from daemon: network <...> not found``` you will need to recreate the network when deploying by ```docker compose up``` with ```--force-recreate``` flag. This would stop and recreate the docker containers, but won't remove the docker volumes!
+_Note: use the two flags ```--build``` and ```--force-recreate``` in conjunction to rebuild images and recreate containers_
 #### Remove images and deployed by docker-compose.yml
 ```
 docker compose down

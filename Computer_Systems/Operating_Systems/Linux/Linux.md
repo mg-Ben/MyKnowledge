@@ -94,7 +94,7 @@ The ```root root``` part means:
 ![[linux-filesystem.png]]
 ### /bin
 _Binaries_
-Contains [[UNIX#UNIX-CLI standard commands]] and [[GNU]] commands.
+Contains [[BinaryFile|Binary files]] such as [[UNIX#UNIX-CLI standard commands]] and [[GNU]] commands, as well as external-downloaded binaries.
 ### /etc
 System configuration files.
 ### /home

@@ -16,7 +16,7 @@ It is a [[Operating System#Shell|CLI Shell]] with its own shell-specific languag
 ![[Bash-shell.png]]
 ### Useful commands
 Some commands that are provided by GNU Bash are the following. However, you can also run [[UNIX#UNIX-CLI standard commands]] (i.e. Bash is not limited to just GNU commands).
-Every command is a binary ```.sh``` file (located in [[Linux#/bin]] directory). Therefore, a [[Bash Scripting#Binary|binary Bash Script]].
+Every command is a binary file (located in [[Linux#/bin]] directory).
 #### echo (Print text to the terminal)
 ```shell
 echo "Hello, World!"

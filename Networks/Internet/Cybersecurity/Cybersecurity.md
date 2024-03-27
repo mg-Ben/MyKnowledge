@@ -35,7 +35,7 @@ In our life, there are statements we can determine with 100% of veracity score, 
 
 _So every statement that you are given must be under test because it might be a lie, and the coherent-detection must be performed so as to determine the veracity score and decide if you trust or not._
 #### Coherence-detection analysis
-It serves for determining the veracity score for a given statement.
+It serves for determining the veracity score for a given statement by computing the inter-correlation between each parameter value.
 ![[Coherence-detection.drawio.png]]
 _It is like a mentalist-liar-detector that asks things to liars_
 ##### Information quality
@@ -78,7 +78,7 @@ The first case involves checking ```a new person == who they claim to be```. To 
 - That he is Bob
 To check the first condition, we need to take as much information as we can from the user, as related as possible to the issue under test (the identity of the user) and as private as possible. The number of data is important in this step because we will use all that information compacted (called biometric template) as an index to the database.
 However, for the second one, **there is no way to check that condition for a server**.
-Well, that's what happens in the **register process** of a new user in a server, for example. The user introduces itself providing as much information as it is forced to give. Server designers decide to request all that information to make the authentication system more robust (remember [[#Information quality]]). For example:
+Well, that's what happens in the **registration process** of a new user in a server, for example. The user introduces itself providing as much information as it is forced to give. Server designers decide to request all that information to make the authentication system more robust (remember [[#Information quality]]). For example:
 - The fingerprint
 - The face features
 - The password or any private key
@@ -142,8 +142,7 @@ This is what happens in **log in process** of an existing user in a server. In t
 In this case, if provided data is private only, but non-unique, the server has no database and the registering process doesn't exist. As a result, there is only log in process, so every user is trusted. To avoid these security risks, at least a coherence-detection can be performed to check if the user is real or not by checking the coherence between provided data.
 
 ![[LogInProcessNoDB.drawio.png]]
-
-_Note that you have to trust that server won't share your private data. There are laws for protecting your data, but you also must ensure that the destination server is trusted. How can a server be authenticated to clients? With biometric data, as humans? No. The response is through [[#Certificates]]_.
+Note that these authentication methods always let users access to the service. Either with database or not, once the user data is successfully coherent-checked, the user has got access to the service. That's why, in these cases, we must grant permissions through [[#Authorization]] methods apart from the Authentication.
 ##### Can I use my private key to authenticate myself?
 _Theoretically you could, but not recommended_
 Your private key is something that meets the [[#Authentication information properties|two requirements]] needed for determining the identity of someone: unique and private. Therefore, it is something you can provide to an authentication system to show your own identity.
@@ -158,12 +157,17 @@ _Short answer: Yes._
 However:
 The problem is the same as [[#Can I use my private key to authenticate myself?]] You would have to [[#Authentication information properties|register]] in server and send your public-private key pair. The server would store your public-**private** data in database. Therefore, the server would have your private key and that threatens your Authentication and Confidentiality.
 In this particular case, there isn't database, just log in process. The coherence-detection involves using the user's public key to decrypt a sample message which has been encrypted with the private key of the user.
+To prevent malicious users from accessing the service, we must grant [[#Authorization]] here.
 ## Integrity
 It means that your data cannot be manipulated by someone during the way. On Internet, hackers can manipulate your packet to change the destination, for example. **However, integrity cannot prevent hackers from manipulating the bit order of the packets you send**.
 integrity can be addressed by [[#Hashing]] and [[#Encryption]].
 ## Confidentiality
-It involves preventing hackers from accessing the network information that you send to others. This is, you can provide **privacy**. However, **It doesn't prevent hackers from sending you information.**
+It involves preventing hackers from accessing the network information that you send to others, but also from accessing to some services (also known as [[#Authorization]]). This is, you can provide **privacy**. However, **It doesn't prevent hackers from sending you information.**
 Confidentiality can be addressed by using [[#Encryption]].
+### Authorization
+It involves preventing hackers from accessing to services they don't have permission. Authorization involves, summarizing, providing mechanism to grant certain permissions to certain users. To do so, we must create a database of **authorized users** or use [[#Certificates]].
+#### Trust
+Authorization is close-related with **trust**. Only trusted users can have access to the service.
 ## Encryption
 ### Asymmetric encryption
 It consists on [[#Public key]]-[[#Private key]] pair.
@@ -212,9 +216,8 @@ Then, anyone with your [[#Public key]] (i.e. anyone on the Internet) might acces
 ## Hashing
 Involves creating a single number that is an operation result applied to the data you send. Therefore, that number should be unique for the binary data you send around Internet. In this way, if a hacker manipulates your network data, the number no longer corresponds to the manipulated data and the recipient of the information would realize.
 ## Certificates
-Whenever there is no registering process in [[#Authentication|authentication side]], the only thing we can do to provide authentication is to check coherence during log in process. However, as there is no registering process, the authentication side does not have memory to check whether the host already exists or not. As a result, some hacker could provide their own coherent data, but claiming that they are a person they aren't. For instance, the hacker would be able to provide a coherent fingerprint, face features or passwords, but the username could be the same as another user, and then the authenticator would be right as the data is coherent and there is no uniqueness check.
+Whenever we want to provide [[#Authorization#Trust]], certificates come into play. Certificates are a way to turn someone into a trusted user or machine. 
 
-A server cannot provide biometric data to get authenticated, so certificates are needed. Besides, the client side doesn't have a database to check uniqueness of server's identities, so there isn't a register process (only log in process). Does this mean that 
 
 ## Example algorithms
 ### RSA
