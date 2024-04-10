@@ -50,6 +50,12 @@ RequiredBy=network.target
 ```shell
 systemctl status
 ```
+### See service logs
+There are several ways:
+- Go to [[Linux#/var|/var]]/log/<service_name> directory
+- Run `journalctl -xeu <service_name>`
+_To see logs in real-time, you can use `tail` command (refer to [[UNIX#tail (see the last lines of some file)]]_
+Some services have their own `log` files location, such as [[ElasticSearch]]. In this case, you can also use [[UNIX#tail (see the last lines of some file)]] command.
 ### Daemonize Bash command
 You can daemonize a [[GNU#Bash#Useful commands|GNU or UNIX-standard command]] (i.e. turn the command process into a background process) with systemd. To do so, you will need to follow these steps:
 1. Define the [[#Unit file]] for the Script specifying the command to daemonize.

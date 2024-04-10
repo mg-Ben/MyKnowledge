@@ -15,6 +15,9 @@ One network device (e.g. your computer) on Internet has got several IP addresses
 Each Network Interface represents a way to reach your machine on Internet.
 
 For instance, if you are wired-connected to Internet, you will have one interface to reach your machine through Ethernet. If you also have a WiFi antenna, you will be reachable through the interface that represents the antenna, and so on. Besides, you might be running a [[Virtualization#Guest Operating System|Guest Operating System]] inside your [[Virtualization#Host Operating System|Host Operating System]]. In that case, you can assign a network interface to the [[Virtualization#Guest Operating System|Guest Operating System]] to make it directly reachable from outside Internet. You can also have [[Docker#Docker container|Docker containers]] running on your system, and each one can have their own network interface (i.e. IP address).
+There are some standard IP address values with their own meaning. For example:
+- `0.0.0.0` means "All network interfaces"
+- `127.0.0.1` means "localhost"
 #### Format
 ##### IPv4
 It consists of four [[Binary numeral system#Byte|Bytes]] separated by ```.```:

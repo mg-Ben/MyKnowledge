@@ -13,6 +13,8 @@ There are some standard commands that are present in every UNIX-like OS. Here yo
 ```shell
 ls
 ```
+Interesting flags:
+- `-la`: list all ([[Linux#File type and permissions]], as well as File size and last changed date.
 ## touch (Create new file)
 ```shell
 touch <filename>
@@ -41,6 +43,13 @@ rmdir <directory_name>
 ```shell
 cat <filename>
 ```
+## tail (see the last lines of some file)
+```shell
+tail <file>
+```
+Interesting flags:
+- `-f`: to keep the file opened (useful to see logs)
+`
 ## if condition
 ```shell
 if [ condition ]; then (press enter to start writing the if body)

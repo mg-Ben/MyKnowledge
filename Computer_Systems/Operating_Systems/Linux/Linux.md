@@ -29,6 +29,11 @@ Example output:
 ```shell
 su - <username>
 ```
+### Run some command as another user
+```shell
+sudo -u <another_user> <command>
+```
+This is very useful for users who don't have their own [[Linux#/home]] directory, such as system users (`elasticsearch` or `kibana` users).
 #### Switch to root user
 You, as a user, must be registered in [[#Sudoers]] group to switch to root user. Then, run this command and enter your user password:
 ```shell
@@ -126,3 +131,32 @@ Represents the current directory.
 ### ..
 Represents the previous directory.
 ![[previous-dir-example.png]]
+
+# APT
+_(Only for Debian-based Linux Systems, such as Debian or Ubuntu), stands for Advanced Packaging Tool_
+It is a tool for managing software packages in Debian-based Linux Systems. For example, you can install [[ElasticSearch]] software through APT.
+## Debian package .deb
+It is a file with `.deb` extension and represents the software you want to install.
+## Hands on
+### Install a Debian package
+#### Manually downloading .deb package
+Download [[#Debian package .deb]] and run:
+```shell
+sudo apt install ./<package.deb>
+```
+You might need to set `644` permissions to package (`chmod 644 <package.deb>`): refer to [[GNU#chmod (Change file or directory permissions)]].
+#### Automatically downloading .deb package
+You can also download your Debian package automatically specifying the URL of the repository where to download from. A [[GNU#GPG public and private keys]] might be needed.
+For this purpose, go to [[#/etc]]/apt/sources.list.d directory, then create a `.list` file and add a line with this format:
+```
+deb [signed-by=<path_to_gpg_key.gpg>] <repository_URL> stable main
+```
+Then, update package lists:
+```shell
+sudo apt update
+```
+And install the package:
+```shell
+sudo apt install <package>
+```
+

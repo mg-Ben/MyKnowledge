@@ -189,7 +189,6 @@ Therefore, the encrypted message must be something such that, applying the inver
 But now, the destination must be able to decrypt it, and in this case they can't. Therefore, the second condition is that the function uses some additional parameter that must be only known by origin and destination.
 For example: _f(x, n) = n*x_. If Bob encrypts the message using _n = 45_ for example, a hacker couldn't decrypt it as they don't know _n_, but the destination could if they know _n_. In this example, _n_ is the key information. This is the case of symmetric keys, as _n_ is a shared information secret which is the same in destination and origin. This implies security risks, as the destination might betray you sharing the value of _n_ to others. By this reason, asymmetric keys are recommended.
 Asymmetric keys imply using different values for encryption and decryption: _k<sup>+</sup>_ and _k<sup>-</sup>_, respectively (remember that we encrypt the message with the destination's public key). The public key is _k<sup>+</sup>_ and the private is _k<sup>-</sup>_. In this case, we must find an encrypting function _f(x, k<sup>+</sup>)_ and its inverse function _f<sup> -1</sup>(x, k<sup>-</sup>)_ such that _f<sup> -1</sup>{ f(x, k<sup>+</sup>), k<sup>-</sup> } = x_. The value of _k<sup>+</sup>_, the public key, cannot determine the value of _k<sup>-</sup>_, as the purpose is to prevent anyone from knowing the private key. Ideally, _k<sup>-</sup>_ shouldn't be related to _k<sup>+</sup>_. Unfortunately, it is, because of the condition: _f<sup> -1</sup>{ f(x, k<sup>+</sup>), k<sup>-</sup> } = x_.
-
 - However, the encryption function _f(x, k<sup>+</sup>)_ shouldn't be invertible because, otherwise, anyone could decrypt it analytically.
 - But, if _f(x, k<sup>+</sup>)_ is not invertible, the recipient couldn't decrypt it.
 The response is: the function _f(x, k<sup>+</sup>)_ must be hardly-invertible, in the sense that it must be invertible, but the expression of the inverse function must be such that it depends on some non-explicit parameters. For example, the function _f(x)_ needs to depend on some product _n = pq_, but the inverse one must depend somehow on _p_ or _q_ independently. Thus, the function is indeed invertible for everyone, but you would need to find the exact values of _p_ or _q_ to invert it. A hacker could find the _(p, q)_ combination, but it would take a lot of time to find them. We can denote as:
@@ -213,11 +212,19 @@ _The private key is a value that is used as an input in a algorithm whose output
 Then the hacker will be able to send you messages, but it is not a serious security risk.
 #### What would happen if you used your private key to encrypt your data?
 Then, anyone with your [[#Public key]] (i.e. anyone on the Internet) might access to the information you send, such as credit card, passwords or whatever, so don't do it.
+#### Examples
+##### GPG Keys
+Refer to [[GNU#GPG public and private keys]].
+##### SSH Keys
+Refer to [[SSH#SSH public and private keys]].
 ## Hashing
 Involves creating a single number that is an operation result applied to the data you send. Therefore, that number should be unique for the binary data you send around Internet. In this way, if a hacker manipulates your network data, the number no longer corresponds to the manipulated data and the recipient of the information would realize.
 ## Certificates
 Whenever we want to provide [[#Authorization#Trust]], certificates come into play. Certificates are a way to turn someone into a trusted user or machine. 
-
+In practice, certificates can be for example:
+- `.p12` files
+- `.pem` files
+- `.key` and `.crt` files
 
 ## Example algorithms
 ### RSA

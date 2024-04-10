@@ -154,6 +154,11 @@ Interesting flags:
 ```shell
 docker stop <container_ID_or_name>
 ```
+#### Restart your container
+It is equivalent to [[#Stop your container]] and then [[#Start your container]].
+```shell
+docker restart <container_ID_or_name>
+```
 #### Remove your container
 ```shell
 docker rm <container_ID_or_name>
@@ -238,6 +243,14 @@ _Note: use the two flags ```--build``` and ```--force-recreate``` in conjunction
 #### Remove images and deployed by docker-compose.yml
 ```
 docker compose down
+```
+#### Restart docker containers defined in docker-compose.yml
+```
+docker compose restart
+```
+#### Show logs of docker containers defined in docker-compose.yml
+```
+docker compose logs
 ```
 #### Template example
 Here you have the main settings to deploy your containers:

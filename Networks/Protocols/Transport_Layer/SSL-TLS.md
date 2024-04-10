@@ -18,5 +18,14 @@ They provide [[Cybersecurity#Authentication]] and [[Cybersecurity#Confidentialit
 # Implementations
 ## OpenSSL
 It is the open-source implementation as a toolkit (basically, a software library) to provide SSL/TLS services.
+### Convert from .p12 to .key + .crt
+```shell
+openssl pkcs12 -in <certificate.p12> -out <output.crt> -clcerts -nokeys
+openssl pkcs12 -in <certificate.p12> -out <output.key> -nocerts -nodes
+```
+### Get Fingerprint from .crt
+```shell
+openssl x509 -noout -fingerprint -sha256 -in <certificate.crt>
+```
 ## elasticsearch-certutil
 The tool for managing certificates in a Elastic Stack.
