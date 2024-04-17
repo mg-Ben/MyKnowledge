@@ -5,3 +5,5 @@ tags:
 ---
 # Core principles
 It is a [[UNIX|UNIX-like]] [[Operating System]] developed by IBM.
+# Hands on
+

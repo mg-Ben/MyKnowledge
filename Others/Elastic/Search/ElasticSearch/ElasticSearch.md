@@ -9,8 +9,12 @@ When to use Elasticsearch:
 - Log and event storing
 - Machine Learning
 Refer to [[#References | References > Elastic Products - Entry Point of Documentation]] to know more about how this documentation has been structured.
+## Indices
+To-Do
 ## Document
 The data that ElasticSearch stores are called _documents_ and can be specified in [[JSON|JSON format]].
+## Shards
+
 ## Configuration Files
 Where are they located? Inside [[#Configuration Files Path]].
 ### Main Configuration Files
@@ -43,16 +47,20 @@ You will find the ElasticSearch files in the following path:
 ### Important configurations for a ElasticSearch Node
 #### 0. General configurations
 _Node names, cluster name..._
-
 #### 1. Linux Users: kibana and elasticsearch
 By default, when you install ElasticSearch or Kibana in your system (and for Debian installations), you will find that two new [[Linux#Users]] have been implemented: `elasticsearch` and `kibana`. These users are **Linux Operating System users** and are not the same as the [[#1. Kibana and Elastic user]]. The first ones serve for managing ElasticSearch and Kibana files inside Linux.
 Whenever you need to run some command which requires `elasticsearch` or `kibana` user, you can either [[Linux#Switch user]] or [[Linux#Run some command as another user|Run the command as kibana or elasticsearch user]]. For example, `elasticsearch` user is needed to manage [[#elasticsearch.keystore file]].
 #### 2. Exposing ElasticSearch outside
-If you want to expose ElasticSearch so that other users can connect from outside, you must set `network.host` to the [[IP#Network Interfaces#IP address|Network Interface IP address]] that you want to use to receive data in `elasticsearch.yml` configuration file. For example, if you want to use all the network interfaces of the host machine where ElasticSearch cluster is running to reach the cluster:
+If you want to expose ElasticSearch so that other users can connect from outside, you must set `network.host` to the [[IP#Network Interfaces#IP address|Network Interface IP address]] that you want to use to receive data and `http.port` where the ElasticSearch will be running on your machine in `elasticsearch.yml` configuration file. For example, if you want to use all the network interfaces of the host machine where ElasticSearch cluster is running to reach the cluster:
 ```elasticsearch.yml
 network.host: 0.0.0.0
+http.port: <port>
 ```
-You might need to set `discovery.type` too.
+##### 2.1. discovery.type
+If you are deploying a single node cluster:
+```elasticsearch.yml
+discovery.type: "single-node"
+```
 #### 3. Application users: kibana_system and elastic
 _By default, there exists a user inside ElasticSearch configuration which is the **kibana_system** user. This is to allow kibana access ElasticSearch.
 On the other hand, there is another user inside ElasticSearch configuration which is **elastic** user. You can use this user to log in to ElasticSearch._
@@ -74,19 +82,20 @@ However, once this setting has been made, this doesn't imply that you can access
 ##### Test user authentication
 If you want to test the applied configuration, you can perform a `curl`:
 ```shell
-curl -X GET https://<ES_IP:ES_PORT>
+curl -X GET https://<ES_IP:ES_PORT> --cacert <path_to_CA.crt> -u username:password
 ```
-#### 5. Security
+- If you set `anonymous` user, you shouldn't need to specify `-u username:password`
+#### 4. Security
 Before continuing, set this line in `elasticsearch.yml`:
 ```elasticsearch.yml
 xpack.security.enabled: true
 ```
 ##### HTTPS (TLS/SSL for HTTP) with xpack.security
 ###### TLS/SSL - Transport Layer Security
-Generate the Transport-Layer `.p12` [[Cybersecurity#Certificates]]. To do so, use the [[#elasticsearch-certutil]] tool and:
+Generate the Transport-Layer [[Cybersecurity#Certificates|certificate]]. To do so, use the [[#elasticsearch-certutil]] tool and:
 - [[#Generate Certification Authority]]
 - [[#elasticsearch-certutil#Generate the Transport-Layer certificate for the node|Generate the Transport-Layer certificate]]
-- Configure `elasticsearch.yml` to use this certificate:
+- Configure `elasticsearch.yml` to use this Transport-Layer certificate:
 ```elasticsearch.yml
 xpack.security.transport.ssl:
   enabled: true
@@ -97,8 +106,11 @@ xpack.security.transport.ssl:
 - [[#Add password to keystore|Store the node password in elasticsearch.keystore]]. For this purpose, run it twice (for both, enter the node password you chose when you generated the Transport-Layer certificate):
 1. Specifying as ```configuration_name = xpack.security.transport.ssl.keystore.secure_password``` 
 2. Specifying as ```configuration_name = xpack.security.transport.ssl.truststore.secure_password```
+
+Now your ElasticSearch node is secured with TLS/SSL!
+
 ###### HTTPS - Application Layer Security
-Generate the Application-Layer `.p12` [[Cybersecurity#Certificates]]. To do so, use the [[#elasticsearch-certutil]] tool and:
+Generate the Application-Layer [[Cybersecurity#Certificates|certificate]]. To do so, use the [[#elasticsearch-certutil]] tool and:
 - [[#Generate the Application-Layer certificate for the node]]. The result will also contain the ```.pem``` file for [[Kibana]] so that Kibana trusts this ElasticSearch `.p12` certificate.
 - Configure `elasticsearch.yml` to use this certificate:
 ```elasticsearch.yml
@@ -107,110 +119,14 @@ xpack.security.http.ssl:
   keystore.path: <path to your .p12 HTTP certificate file>
 ```
 - [[#Add password to keystore|Store the node password in elasticsearch.keystore]]. For this purpose, run it once (enter the password you chose for the node when generated the Application-Layer certificate):
-1. Specify as ```configuration_name = xpack.security.http.ssl.keystore.secure_password``` 
-2. Enter the password
+	1. Specify as ```configuration_name = xpack.security.http.ssl.keystore.secure_password``` 
+	2. Enter the password
 - Move the `.pem` file to [[Kibana#Configuration Files Path|kibana config directory]].
-# SEARCH
-# OBSERVABILITY
-# SECURITY
-# ELASTIC STACK
-# INGEST: ADD YOUR DATA
-## Beats
-### AuditBeat
-### FileBeat
-### FunctionBeat
-### HeartBeat
-### MetricBeat
-### PacketBeat
-### WinlogBeat
-## Elastic Agent + Fleet Server
-It servers for monitoring mainly application **logs** and **metrics**.
-It is an alternative to [Elastic Beats](https://www.elastic.co/guide/en/beats/libbeat/current/beats-reference.html), that have the same purpose. However, whereas [[#Beats]] are lightweight, you will have to install separate agents for each type of data you want to monitor (one for Metrics, another one for logs, another one for files...).
-See [Elastic Agent or Beats?](https://www.elastic.co/guide/en/fleet/current/beats-agent-comparison.html) to know which option is better.
-### Elastic Agent
-Similarly to [[SNMP#Core principles|SNMP Agent]], the Elastic Agent is a process that runs on the target machine [[Internet#Terminal systems|host]] that we want to monitor.
-Unlike [[SNMP]], the agent communicates directly to the database (ElasticSearch) as depicted here; there is no an analogous to [[SNMP#Core principles|SNMP Manager]]:
-![[ElasticAgentCorePrinciples.png]]
-_Elastic Agent can monitor the host where it’s deployed, and it can collect and forward data from remote services and hardware where direct deployment is not possible_
-However, not every service can be exposed by the Elastic Agent: that service must be an [[#Integration]].
-##### Integration
-_Integration = What we want to monitor (e.g. The "System" integration is for monitoring system data such as CPU load)_
-For example, here you can see some integrations. They are like "plugins" you can implement to monitor the target services:
-
-![[integration-examples.png]]
-
-There is a **Fleet Server** integration to manage Fleet Servers.
-Therefore, integrations provide the bridge to manage different services:
-![[ElasticAgentCorePrinciplesIntegrations.png]]
-Use **Elastic Package Registry** to download Integrations packages.
-#### Policy
-Consists of N [[#Integration|Integrations]].
-![[1_policy_N_integrations.png]]
-
-To specify which [[#Integration|integrations]] you want to run and on which hosts. This means that you might have more than one host and each host may need different services to monitor:
-![[ElasticAgentCorePrinciplesPolicies.png]]
-You can even apply the same 1 policy to N Agents.
-##### Fleet mode
-You configure the policies through [[#Fleet]] User Interface (easy way).
-##### Standalone mode
-You specify the policies in a [[YAML]] file (more advanced).
-### Fleet Server
-It is an [[#Elastic Agent]] but configured as a **Fleet Server** (i.e. enrolled in a [[#Policy]] called **Fleet Server**).
-
-![[FleetServer_Agents.png]]
-
-#### Fleet
-It is available in [[Kibana]]. It involves an UI (User Interface) to explore agents.
-### Hands on
-You have to follow these steps, in this order:
-1. [[#Deploy the Fleet Server]]
-2. [[#Deploy the Elastic Agent]]
-#### Deploy the Fleet Server
-##### On-premises (self-managed)
-Refer to [Deploy on-premises and self-managed | Fleet and Elastic Agent Guide [8.12] | Elastic](https://www.elastic.co/guide/en/fleet/8.12/add-fleet-server-on-prem.html)
-1. Get a SSL-TLS certificate
-This is needed to guarantee the Authentication and Confidentiality of [[SSL-TLS]].
-##### Cloud-managed
-
-#### Deploy the Elastic Agent
-##### Install Elastic Agent
-###### Windows
-Run 
-##### Uninstall Elastic Agent
-###### Windows
-Run `C:\"Program Files"\Elastic\Agent\elastic-agent.exe uninstall`. You must be on the [[Windows#CMD]] as Administrator (otherwise the command won't be recognized by cmdlet) and outside the `C:\"Program Files"\Elastic` directory (i.e. in `C:\"Program Files"`).
-- If `elastic-agent.exe` file is missing, you will have to [[#Install Elastic Agent#Windows]] again and let the process create the `.exe` file.
-###### Linux
-`sudo ./usr/bin/elastic-agent uninstall`
-If the command output is:
-`Error: can only be uninstalled by executing the installed Elastic Agent at: /usr/bin/elastic-agent`
-Then it means that the Elastic-Agent is partially installed and broken. To solve this issue:
-1. Stop the current `elastic-agent.service` with `sudo systemctl stop elastic-agent.service`
-2. Disable the current `elastic-agent.service` with `sudo systemctl disable elastic-agent.service`
-3. Remove the `elastic-agent.service` file with `sudo rm /etc/systemd/system/elastic-agent.service`
-4. Remove the `/opt/Elastic/Agent` directory with `sudo rm -r /opt/Elastic/Agent`
-##### Local
-
-##### Docker
-Refer to [Run Elastic Agent in a container | Fleet and Elastic Agent Guide [8.12] | Elastic](https://www.elastic.co/guide/en/fleet/current/elastic-agent-container.html).
-You can run the Elastic Agent as a [[Docker|Docker container]]. In the configuration file, you have to set that the agent will enroll to the [[#Fleet Server]] (i.e. will subscribe to it) so that the Fleet Server communicate with it, specifying the Fleet Server URL.
-Here you can see the template [[Docker#3. The reality docker-compose.yml|docker-compose.yml]] to deploy the Elastic Agent:
-```yaml
-version: "0.0.0"
-services:
-  elastic-agent:
-    image: docker.elastic.co/beats/elastic-agent:8.12.2
-    container_name: elastic-agent
-    restart: always
-    user: root # note, synthetic browser monitors require this set to `elastic-agent`
-    environment:
-      - FLEET_ENROLLMENT_TOKEN=<enrollment-token>
-      - FLEET_ENROLL=1
-      - FLEET_URL=<fleet-server-url>
+#### 5. Check cluster health
+Sometimes it takes a lot of time to prepare [[#Shards]], so you can find errors related to `missing shards` while ElasticSearch is starting. To check cluster health and know the percentage of total shards which are ready, run the following command:
+```shell
+curl -X GET "https://<ES_IP:ES_PORT>/_cluster/health?pretty" --cacert <path_to_CA.crt> -u username:password
 ```
-
-# CLOUD: PROVISION, MANAGE AND MONITOR THE ELASTIC STACK
-
 # Hands on
 _The best way to learn ElasticSearch is firstly [[#ElasticSearch Locally|work locally]] (without docker containers). Once everything is configured, you can [[#ElasticSearch on Docker Container|dockerize it]]._
 ## ElasticSearch Locally
@@ -229,25 +145,27 @@ For resetting passwords for users, such as Kibana user.
 1. Disable all the configurations made for [[#2. Security|Security]] if you had. This implies:
 	1. Disable all the [[#2. Security|Security]] settings inside ```elasticsearch.yml``` and remove all passwords inside the [[#elasticsearch-keystore]].
 	2. [[#Run ElasticSearch = Run one ElasticSearch node|Run again your ES node]].
-	3. While running, run the restart password tool: `./elasticsearch-reset-password -u <username>`
+	3. While running, run the restart password tool: `./elasticsearch-reset-password -u <username>`. If your cluster is in RED state and cannot be started, you can pass the `-f` flag to force reset password.
 #### elasticsearch-certutil
 For generating [[SSL-TLS#elasticsearch-certutil|SSL/TLS certificates]] and encrypt inter-node communication.
 ##### Generate Certification Authority
+_Theory: [[Cybersecurity#Certificate Authorities (CA)]]_
 ```shell
 ./elasticsearch-certutil ca
 ```
 - Enter the certificate output file. Please, in this step specify also the extension (e.g.: ```output.p12```).
-- Enter a password for the CA
+- Enter a password for the [[Cybersecurity#Certificate Authorities (CA)|CA]]
 The output will be a ```.p12``` file with the public-private key of Certification Authority.
 Interesting flags:
 - ```--pem```: the output will be a ```.zip``` with the certificate in ```pem``` format inside (i.e. one ```.key``` file and one ```.crt``` file)
 ##### Generate the Transport-Layer certificate for the node
+_Theory: [[Cybersecurity#Certificate Authorities (CA)]]_
 ```shell
 ./elasticsearch-certutil cert --ca <CA-public-private-keys.p12>
 ```
-- Enter the CA path and password
+- Enter the [[Cybersecurity#Certificate Authorities (CA)|CA]] path and password
 - Enter the certificate output file. Please, in this step specify also the extension (e.g.: ```output.p12```)
-The output will be a file named ```elastic-certificates.p12``` by default which is the certificate for one node. That certificate contains the key of the node and both the CA certificate and the node certificate.
+The output will be a file named ```elastic-certificates.p12``` by default which is the certificate for one node. That certificate contains the key of the node and both the [[Cybersecurity#Certificate Authorities (CA)|CA]] certificate and the node certificate.
 Interesting flags:
 - ```--pem```: the output will be a ```.zip``` with the certificate in ```pem``` format inside (i.e. one ```.key``` file and one ```.crt``` file)
 You can repeat these steps for each node so that each one has got its own password.
@@ -307,8 +225,13 @@ volumes:
 	- path_in_host_OS/elasticsearch.keystore:/usr/share/elasticsearch/config/elasticsearch.keystore
 ```
 ### Run ElasticSearch
-Delete this: this is for dockerized section:
 
 
+
+## Explore data
+Retrieve ElasticSearch [[#Indices]]:
+```shell
+curl -X GET https://ES_IP:ES_PORT/_cat/indices [other_options]
+```
 # References
 - [Elastic Products - Entry Point of Documentation](https://www.elastic.co/guide/index.html)

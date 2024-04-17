@@ -22,14 +22,17 @@ All network resources must be available for all users.
 
 ![[spiderman-authentication-meme.png]]
 
-The authentication is a complex and philosophical definition about the reality. The definition of authentication is **double**; either one or the other are valid:
-- _The process of verification that someone **we don't know before** is who they claim to be_
-- _The process of verification that someone **we know before** is who they claim to be_
-It's important to take into account both of them, because they are opposed as we will see [[#Philosophical definition|later]]. In both cases, we have to detect a lie about the identity of the person and determine if they are saying the truth about themselves.
-_Spoiler:_
-- **Bad news**: you will never trust anyone on the Internet, as you can **never** know for 100% certain who the user behind the computer really is
-- **Good news**: at least you can make more difficult to the user to lie by forcing them to send you as much information about their identity as you can
-The authentication can be solved by the use of [[#Encryption]]. Summarizing, with any data that can show the identity of the user.
+The definition of authentication is:
+- The process of verification that `user/machine == who they claim to be`
+So we have two parts in this condition:
+- What the user/machine is
+- What the user/machine claims to be
+As we can **never** know for 100% certain who the user/machine behind the computer really is, the first part of the statement is impossible to determine. To make a human simile, It's as if we were talking with someone who is behind the door and we have to imagine how that person looks just by the description they are giving to us.
+
+Therefore, how is this problem addressed in computer networking? The procedure is checking this new condition:
+- `user/machine != who they don't claim to be`
+And this condition is very wide and uncertain. We should iterate over each thing in this reality and see whether `what user claims to be == that thing`!
+The key here is that computers have a notion of the reality that is very small (as humans). They just know a slice of the overall information of reality: the user names, the user passwords, some biometric data... Therefore, they iterate over each thing inside their reality: each user data, which is not as much information.
 ### Philosophical definition
 In our life, there are statements we can determine with 100% of veracity score, but some others not. The statements are conditions under test (e.g. whether the sky is blue: ```sky == blue```) and, to check their veracity score, a coherent-detection algorithm must be performed. For instance, if someone tells you that they saw yesterday a blue dog, the only way to believe it is seeing it by your own, but that's impossible. Well, the truth is that even if you see it, it can be false, as the dog might have dyed hair, or maybe the dog is not a dog... (Here there would be a more-depth philosophical discussion about reality, but that's another thing). The truth is that only in mathematics field the statements can be 100% true, but not in reality: what you see, smell, feel, touch... Might not be real with 100% certain in a rigorous sense.
 
@@ -224,8 +227,11 @@ Whenever we want to provide [[#Authorization#Trust]], certificates come into pla
 In practice, certificates can be for example:
 - `.p12` files
 - `.pem` files
-- `.key` and `.crt` files
-
+- `.key` --- `.crt` pair files. Both represents 1 certificate
+### Certificate Authorities (CA)
+The entities that signs certificates. That entity might be an organization or yourself.
+A certificate authority has got its own certificate.
+- If some server uses HTTP**S**, the way to connect to it is providing the CA certificate.
 ## Example algorithms
 ### RSA
 _Rivest-Shamir-Adleman_

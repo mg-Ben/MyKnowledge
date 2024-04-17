@@ -58,8 +58,11 @@ The value of ```<destination>``` can be:
 - The destination [[IP#IP address|IP address]] or [[DNS]]
 - The username + the destination [[IP#IP address|IP address]] or [[DNS|domain name]], separated by ```@``` (e.g. ```bmartin@1.2.3.4```)
 Flags:
+- `-v`: for debugging (show verbose)
 - ```-p <PORT>```: specify destination port
 - ```-i <keyfile>```: specify the name of the [[#keyfile]].
+- `-o`: to specify additional configurations. For example:
+	- `-o KexAlgorithms`: to specify Key Exchange Algorithm. When you need to connect to some corporative SSH server, you might need to set this parameter, specially when you find some errors like `debug1: expecting SSH2_MSG_KEX_ECDH_REPLY` when showing verbose
 ##### scp (Secure Copy)
 You can copy files from one machine to a remote machine securely with:
 ```shell

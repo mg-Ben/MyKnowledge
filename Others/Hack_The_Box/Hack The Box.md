@@ -17,4 +17,4 @@ Once you have connected to Hack The Boss VPN, you have to spawn a machine (this 
 ## Connect to the remote box
 
 # References
-- [[https://app.hackthebox.com/|Hack The Box webpage]]
+- [Hack The Box webpage](https://app.hackthebox.com/)

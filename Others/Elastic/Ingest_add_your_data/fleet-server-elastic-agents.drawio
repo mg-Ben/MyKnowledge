@@ -1,0 +1,48 @@
+<mxfile host="app.diagrams.net" modified="2024-04-17T09:31:46.663Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0" etag="GBtLGR9oZyq_G9fEwz3R" version="24.2.3" type="device">
+  <diagram name="Página-1" id="N51lIz6SM3mKDa3Fnw8Z">
+    <mxGraphModel dx="1002" dy="569" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="McLCSUHy8EXOlEv86t-H-2" value="Host" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="710" y="310" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-3" value="ElasticSearch running on port 9200" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="621" y="190" width="80" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-4" value="Fleet Server Agent" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="207.5" width="90" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-5" value="Elastic Agent" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="207.5" width="90" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-6" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="410" y="180" width="300" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-7" value="localhost:9200" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#ff0000;" edge="1" parent="1" source="McLCSUHy8EXOlEv86t-H-4" target="McLCSUHy8EXOlEv86t-H-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-9" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="15" y="180" width="300" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-10" value="Remote host" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="315" y="310" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-11" value="1.2.3.4:9200" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.84;entryY=1.002;entryDx=0;entryDy=0;entryPerimeter=0;textShadow=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#142CFF;" edge="1" parent="1" source="McLCSUHy8EXOlEv86t-H-5" target="McLCSUHy8EXOlEv86t-H-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="165" y="400" />
+              <mxPoint x="662" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-15" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="656" y="280" width="10" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="McLCSUHy8EXOlEv86t-H-16" value="1.2.3.4" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="656" y="340" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

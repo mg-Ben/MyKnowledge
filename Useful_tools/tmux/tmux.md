@@ -44,6 +44,10 @@ tmux new -s <session_name>
 ```shell
 tmux ls
 ```
+#### Attach to an existing session
+```shell
+tmux attach-session -t <session_name>
+```
 #### Delete all sessions
 ```shell
 tmux kill-server

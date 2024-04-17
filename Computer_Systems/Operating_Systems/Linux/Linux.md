@@ -115,7 +115,7 @@ Contains logs files and system databases. It is called ```/var``` because they c
 ### /boot
 Boot loader files and kernel images needed to start the system.
 ### /dev
-Device files that represents internal hardware devices of the system: printers, terminals (```/dev/tty```), hard disks (```/dev/sda```)...
+Device files that represents internal hardware devices of the system: printers, terminals (`/dev/tty`), hard disks (```/dev/sda```)...
 ### /lib
 Shared library files that are shared between programs.
 ### /media
