@@ -23,3 +23,10 @@ Connect your keyboard to a [[Internet#Socket]]:
 telnet <targetIP>
 ```
 We can log into a remote machine by telnet and get access to its [[Operating System#Shell]].
+# curl
+Make requests to [[HTTP|HTTP endpoints]]:
+```shell
+curl -X <HTTP_method> <HTTP_endpoint>
+```
+Flags and options:
+- `--cacert=<path_to_CA_cetificate>`: specify a [[Cybersecurity#Certificate Authorities (CA)|CA certificate file]] to trust in

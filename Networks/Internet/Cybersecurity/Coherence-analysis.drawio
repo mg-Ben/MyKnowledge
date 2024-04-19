@@ -1,0 +1,200 @@
+<mxfile host="app.diagrams.net" modified="2024-04-18T11:50:03.049Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0" etag="4aYJ3itjKOnkUo2HU53L" version="24.2.5" type="device">
+  <diagram name="Página-1" id="SIqjKfejWi7WiZmYnlRi">
+    <mxGraphModel dx="1113" dy="632" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-37" value="Coherence analysis of some statement" style="swimlane;html=1;startSize=20;horizontal=0;childLayout=flowLayout;flowOrientation=west;resizable=0;interRankCellSpacing=50;containerType=tree;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="440" width="1140" height="530" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-38" value="Javier says &quot;I have a new motorbike&quot;" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="40" y="254" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-39" value="&lt;br&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;He might have looked for motorbikes on Internet recently&lt;/span&gt;&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="230" y="122.99999999999987" width="230" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-40" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" parent="pEUtG_7qVESQpKWPOdhN-37" source="pEUtG_7qVESQpKWPOdhN-38" target="pEUtG_7qVESQpKWPOdhN-39">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="192" y="262.75" />
+              <mxPoint x="218" y="148" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-41" value="He might have spent some money" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="270.25" y="219.00000000000003" width="149.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-42" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" parent="pEUtG_7qVESQpKWPOdhN-37" source="pEUtG_7qVESQpKWPOdhN-38" target="pEUtG_7qVESQpKWPOdhN-41">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="194" y="270.25" />
+              <mxPoint x="218" y="239.00000000000003" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-46" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" edge="1" source="pEUtG_7qVESQpKWPOdhN-38" target="pEUtG_7qVESQpKWPOdhN-47" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="194" y="277.75" />
+              <mxPoint x="218" y="309" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-47" value="He might have poured petrol in some gas station" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="265.25" y="289" width="159.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-48" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" edge="1" source="pEUtG_7qVESQpKWPOdhN-38" target="pEUtG_7qVESQpKWPOdhN-49" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="192" y="285.25" />
+              <mxPoint x="218" y="382" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-49" value="He must have the motorbike somewhere" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="277.5" y="362" width="135" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-51" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-52" source="pEUtG_7qVESQpKWPOdhN-39" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1760" y="1265.999999999999" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="472" y="136" />
+              <mxPoint x="498" y="45" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-52" value="His Internet historial might have some search appearances about motorbikes" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="510" y="20" width="230" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-53" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-54" source="pEUtG_7qVESQpKWPOdhN-39" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1680" y="1233.9999999999993" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="472" y="160" />
+              <mxPoint x="498" y="125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-54" value="His user cookies might be stored in some websites" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="510" y="100" width="230" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-55" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-56" source="pEUtG_7qVESQpKWPOdhN-41" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1520" y="1176.9999999999998" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="472" y="231.50000000000003" />
+              <mxPoint x="498" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-56" value="He might have less cash money" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="550.25" y="180" width="149.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-57" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-58" source="pEUtG_7qVESQpKWPOdhN-47" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1440" y="1183" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="472" y="301.5" />
+              <mxPoint x="498" y="340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-58" value="The gas station salesperson might remember him" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="545.25" y="320" width="159.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-59" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-60" source="pEUtG_7qVESQpKWPOdhN-47" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1360" y="1148" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="472" y="316.5" />
+              <mxPoint x="498" y="415" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;noEdgeStyle=1;orthogonal=1;" edge="1" parent="pEUtG_7qVESQpKWPOdhN-37" source="pEUtG_7qVESQpKWPOdhN-60" target="pEUtG_7qVESQpKWPOdhN-74">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="752" y="415" />
+              <mxPoint x="778" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-60" value="There might be some money&amp;nbsp; transactions history in gas station" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="542.625" y="390" width="164.75" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-61" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-62" source="pEUtG_7qVESQpKWPOdhN-49" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1160" y="1099" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="472" y="382" />
+              <mxPoint x="498" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-62" value="He might have a garage space" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="557.5" y="470" width="135" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-63" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-64" source="pEUtG_7qVESQpKWPOdhN-52" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1360" y="953" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="752" y="45" />
+              <mxPoint x="778" y="46.171875" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-64" value="He might have used a web browser" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="794.75" y="21.171875" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-67" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-68" source="pEUtG_7qVESQpKWPOdhN-64" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1560" y="845" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="951.5" y="46.171875" />
+              <mxPoint x="977.5" y="46.171875" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-68" value="He might have used a computer" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="989.5" y="21.171875" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-69" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-70" source="pEUtG_7qVESQpKWPOdhN-41" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="875" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="472" y="246.50000000000003" />
+              <mxPoint x="498" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-70" value="He might have less money in bank account" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="550.25" y="250" width="149.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-71" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-72" source="pEUtG_7qVESQpKWPOdhN-56" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="840" y="832" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="752" y="200" />
+              <mxPoint x="778" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-72" value="He might have less cash money in the moneybox" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="790" y="180" width="149.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-73" value="" style="html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;noEdgeStyle=1;orthogonal=1;" edge="1" target="pEUtG_7qVESQpKWPOdhN-74" source="pEUtG_7qVESQpKWPOdhN-70" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="720" y="787" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="752" y="270" />
+              <mxPoint x="778" y="335" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pEUtG_7qVESQpKWPOdhN-74" value="The bank might have some transactions online history" style="whiteSpace=wrap;html=1;" vertex="1" parent="pEUtG_7qVESQpKWPOdhN-37">
+          <mxGeometry x="790" y="322.5" width="149.5" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

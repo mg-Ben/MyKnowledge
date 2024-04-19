@@ -11,9 +11,9 @@ In the [[OSI Model]], SSL/TLS belongs to the **Transport Layer**. However, it ca
 
 ![[SSL-TLS_OSI_Layer.png]]
 
-They provide [[Cybersecurity#Authentication]] and [[Cybersecurity#Confidentiality]] through [[Cybersecurity#Encryption#Asymmetric encryption]] public-private key pair. However, in this case, we use **certificates**, which are analogous to those public-private key pairs.
+They provide [[Cybersecurity#Authentication]] and [[Cybersecurity#Confidentiality]] through [[Cybersecurity#Encryption#Asymmetric encryption]] public-private key pair. However, in this case, we use [[Cybersecurity#Certificates]], which are analogous to those public-private key pairs.
 
-- The [[HTTP]] + SSL/TLS combo is also called [[HTTP#HTTPS]].
+- The [[HTTP]] + SSL/TLS combo is called [[HTTP#HTTPS|HTTPS]].
 
 # Implementations
 ## OpenSSL

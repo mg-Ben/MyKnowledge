@@ -62,7 +62,7 @@ For example, you will use this approach to manually install [[#Fleet Server]] in
 	3. [[#Install Agent#Fleet Server Agent|Install Fleet Server Agent]]
 #### Install Fleet Server
 _Go to https://www.elastic.co/downloads/elastic-agent and download the software package.
-Installing a Fleet Server is the same as installing any Elastic Agent, but in the installation command It is needed to specify different flags_
+Installing a Fleet Server is the same as installing any Elastic Agent, but in the installation command It is needed to specify different flags than those for generic Elastic Agents_
 ##### Windows
 Once you have downloaded the [Elastic Agent software-package](https://www.elastic.co/downloads/elastic-agent) and unzipped it (if needed), go inside the downloaded folder (typically `C:\Users\<username>\elastic-agent...`) and look for `elastic-agent` executable file. Then, run this command in [[Windows#PowerShell]] as Administrator:
 ```powershell

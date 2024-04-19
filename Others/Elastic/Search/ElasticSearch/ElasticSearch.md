@@ -51,11 +51,21 @@ _Node names, cluster name..._
 By default, when you install ElasticSearch or Kibana in your system (and for Debian installations), you will find that two new [[Linux#Users]] have been implemented: `elasticsearch` and `kibana`. These users are **Linux Operating System users** and are not the same as the [[#1. Kibana and Elastic user]]. The first ones serve for managing ElasticSearch and Kibana files inside Linux.
 Whenever you need to run some command which requires `elasticsearch` or `kibana` user, you can either [[Linux#Switch user]] or [[Linux#Run some command as another user|Run the command as kibana or elasticsearch user]]. For example, `elasticsearch` user is needed to manage [[#elasticsearch.keystore file]].
 #### 2. Exposing ElasticSearch outside
-If you want to expose ElasticSearch so that other users can connect from outside, you must set `network.host` to the [[IP#Network Interfaces#IP address|Network Interface IP address]] that you want to use to receive data and `http.port` where the ElasticSearch will be running on your machine in `elasticsearch.yml` configuration file. For example, if you want to use all the network interfaces of the host machine where ElasticSearch cluster is running to reach the cluster:
+_By default, ElasticSearch is not available from outside; only in localhost_
+If you want to expose ElasticSearch so that other users can connect from outside, you must set `network.host` to the [[IP#Network Interfaces#IP address|Network Interface IP address]] that you want to use to receive data and `http.port` where the ElasticSearch will be running on your machine in `elasticsearch.yml` configuration file.
+For example, if you want to use all the network interfaces of the host machine where ElasticSearch cluster is running to reach the cluster, set the host to `0.0.0.0`:
 ```elasticsearch.yml
 network.host: 0.0.0.0
-http.port: <port>
+http.port: <ES_PORT>
 ```
+##### Example
+```elasticsearch.yml
+network.host: 1.2.3.4
+http.port: 9200
+```
+Then ElasticSearch would be available in `1.2.3.4:9200` from outside:
+
+![[public_ESIP_ESPORT.png]]
 ##### 2.1. discovery.type
 If you are deploying a single node cluster:
 ```elasticsearch.yml

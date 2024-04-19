@@ -23,25 +23,30 @@ All network resources must be available for all users.
 ![[spiderman-authentication-meme.png]]
 
 The definition of authentication is:
-- The process of verification that `user/machine == who they claim to be`
-So we have two parts in this condition:
-- What the user/machine is
-- What the user/machine claims to be
-As we can **never** know for 100% certain who the user/machine behind the computer really is, the first part of the statement is impossible to determine. To make a human simile, It's as if we were talking with someone who is behind the door and we have to imagine how that person looks just by the description they are giving to us.
+- The process of verification that `user/machine is == who they claim to be`
+Whenever some user/machine wants to authenticate to us, they claim something about them (they say `hello, my name is X`). We then have to [[#Coherence-detection analysis|show that that statement is true]] and decide if we trust them or not.
+- If we trust them, the user/machine becomes trusted ([[#Authorization]]), which is the second step of authentication
+Summarized:
+- **Authentication** comes into play in [[#Registration process]]
+- **Authorization** comes into play in [[#Login process]]
+### Coherence analysis
+It serves for determining the veracity score for a given statement.
+- In mathematics, some statements can be shown with 100% veracity score (e.g. `show that x = 3` by a mathematic development)
+- In mathematics and other fields in life, there are statements that can't be known for 100% certain. In these cases, we proceed to make a step-by-step **coherence analysis** studying the consequences that there should be if the statement was true (see [[#Coherence analysis#example|example]] below)
+The output of coherence analysis is a **veracity score** (a value between 0 and 1) which represents the probability to trust the statement. If `>0.5`, we can decide to trust. Otherwise, we don't trust.
+The output **veracity score** is more reliable if a more exhaustive analysis has been performed (this means an analysis with better [[#Information quality]]).
 
-Therefore, how is this problem addressed in computer networking? The procedure is checking this new condition:
-- `user/machine != who they don't claim to be`
-And this condition is very wide and uncertain. We should iterate over each thing in this reality and see whether `what user claims to be == that thing`!
-The key here is that computers have a notion of the reality that is very small (as humans). They just know a slice of the overall information of reality: the user names, the user passwords, some biometric data... Therefore, they iterate over each thing inside their reality: each user data, which is not as much information.
-### Philosophical definition
-In our life, there are statements we can determine with 100% of veracity score, but some others not. The statements are conditions under test (e.g. whether the sky is blue: ```sky == blue```) and, to check their veracity score, a coherent-detection algorithm must be performed. For instance, if someone tells you that they saw yesterday a blue dog, the only way to believe it is seeing it by your own, but that's impossible. Well, the truth is that even if you see it, it can be false, as the dog might have dyed hair, or maybe the dog is not a dog... (Here there would be a more-depth philosophical discussion about reality, but that's another thing). The truth is that only in mathematics field the statements can be 100% true, but not in reality: what you see, smell, feel, touch... Might not be real with 100% certain in a rigorous sense.
-
-_So every statement that you are given must be under test because it might be a lie, and the coherent-detection must be performed so as to determine the veracity score and decide if you trust or not._
-#### Coherence-detection analysis
-It serves for determining the veracity score for a given statement by computing the inter-correlation between each parameter value.
 ![[Coherence-detection.drawio.png]]
-_It is like a mentalist-liar-detector that asks things to liars_
-##### Information quality
+#### Example
+Javier says "I have a new motorbike", but you cannot know it for certain because Javier lives very far from you. You want to show that in fact he has bought a new motorbike, so you perform a coherence analysis like this:
+
+![[Coherence-analysis.png]]
+
+- The statement under test (`Javier has got a new motorbike`) is an event that implies some events as a consequence (`to have spent money, to have looked for motorbikes on the Internet, to have poured petrol...`), and those events imply other sub-events as a consequence and so on
+- Each event has got a weight that is the **correlation** with its parent event. For example, `buying a new motorbike` is an event that has got a lot of correlation with the event `having looked for motorbikes on the Internet recently`. We will try to analyze those events which are more correlated to the parent event. For instance, `pouring petrol in some gas station` is not so correlated, but we can consider it in the analysis
+- The further one event is from another in the tree structure, the less correlated they are. For example; `having used a computer` is not as correlated with `having a new motorbike` as with `having used a web browser`
+- At the end, this is a [[Random events#Random event tree|random event tree]]
+#### Information quality
 Now, we will define:
 ```ìnformation quality = number of data*information distance to the lie issue*privacy of data```
 This value determines if the coherence-detection system is accurate or not with its output: the veracity score. The more information quality, the more accurate the veracity score is (e.g. a coherence detector with a low information quality is not reliable and if the output veracity is equal to ```0.75```, that measure is not reliable).
@@ -51,28 +56,7 @@ This value determines if the coherence-detection system is accurate or not with 
 To make a very accurate coherence detector (i.e. a detector that is very accurate with veracity measure, i.e. a good lie-detector), you now know that you must obtain as much information as you can and not only that, but also information the most related to the statement under test as possible, and private.
 The coherence-detector is like a mentalist who ask questions to liars to determine whether they say the truth or not. A good mentalist would ask a lot of accurate questions. Liars try to create new realities from our existing reality (i.e. liars play God), but we have to check whether their reality is coherent with our one, so we have to assume that there only exists one reality: our one.
 _Well, note that coherence-detection systems are biased by our reality, because they detect the coherence between data according to our reality laws, but... There might be other realities with their own laws which are also coherent as this world? That's another discussion that we are not considering here :D_
-##### Example
-Someone may lie you saying that "They work for Google company". Here, the statement under test is that ```job == Google```.
-You run your inner coherence-detection system. Therefore, you ask as many questions as you can, related to the job and as private as possible, such as:
-- Where they live
-- The wage. As this is private information, if they were a liar, they wouldn't know what is the average wage to say
-- The job card ID. As this is private information, if they were a liar, they wouldn't know the ID number
-The more conditions you assess (the more data you get), the more rigorous you are to trust someone.
-```
-# Check if the person works for Google = Check all of these sub-conditions:
-if(works_in_country_with_google_offices(suspicious_person.country) == True && has_good_wage(suspicious_person.wage) == True && ...){
-	I believe them
-} else{
-	I don't believe them
-}
-```
-##### Authentication information properties
-When we are talking about authentication, there are two statements under test:
-- _The process of verification that someone **we don't know before** is who they claim to be
-- _The process of verification that someone **we know before** is who they claim to be_
-This means: authentication involves checking either ```a new person == who they claim to be``` or ```a known person == who they claim to be```. As they are different statements under test with different coherence-detection procedure, we have considered separately. Although authentication is both definitions, in practice both definitions are separate conditions under test (i.e. separate lies we have to verify) that come from the user.
-_Note that the user explicitly says "Hello, I want to register" when wants to get registered or "Hello, I'm ..." when wants to log in, so there are two different statements to check. The authentication cannot be defined as the process of verification that someone is who claims to be, as the user doesn't send only his information, but needs to explicitly say whether he is new or not for us, and consequently we have to check two separate conditions_
-###### Registration process
+#### Registration process
 
 ![[RegistrationProcess.drawio.png]]
 
@@ -134,7 +118,11 @@ Then, if we have a data that is, for example, non-unique and private (```01```) 
 
 Other examples are: fingerprints, voice features or face features, which are both unique and private. You can make an authentication system based only on fingerprints, for example, but remember the more data you ask for the user the more accurate the liar-detector is.
 Now, maybe you have noted that, to introduce yourself on the Internet, you have to provide something that is **private**. Unless you encrypt it, anyone can steal it! That's why authentication is something that implicitly must go-in-hand with [[#Confidentiality]].
-###### Login process
+### Authorization
+Once a user/machine has been authenticated, it is authorized.
+Authorization involves, summarizing, providing mechanism to grant certain permissions to certain users.
+To do so, we must create a database of **authorized users** or use [[#Certificates]].
+#### Login process
 
 ![[LogInProcess.drawio.png]]
 
@@ -167,10 +155,6 @@ integrity can be addressed by [[#Hashing]] and [[#Encryption]].
 ## Confidentiality
 It involves preventing hackers from accessing the network information that you send to others, but also from accessing to some services (also known as [[#Authorization]]). This is, you can provide **privacy**. However, **It doesn't prevent hackers from sending you information.**
 Confidentiality can be addressed by using [[#Encryption]].
-### Authorization
-It involves preventing hackers from accessing to services they don't have permission. Authorization involves, summarizing, providing mechanism to grant certain permissions to certain users. To do so, we must create a database of **authorized users** or use [[#Certificates]].
-#### Trust
-Authorization is close-related with **trust**. Only trusted users can have access to the service.
 ## Encryption
 ### Asymmetric encryption
 It consists on [[#Public key]]-[[#Private key]] pair.
@@ -223,15 +207,20 @@ Refer to [[SSH#SSH public and private keys]].
 ## Hashing
 Involves creating a single number that is an operation result applied to the data you send. Therefore, that number should be unique for the binary data you send around Internet. In this way, if a hacker manipulates your network data, the number no longer corresponds to the manipulated data and the recipient of the information would realize.
 ## Certificates
-Whenever we want to provide [[#Authorization#Trust]], certificates come into play. Certificates are a way to turn someone into a trusted user or machine. 
+Whenever we want to provide [[#Authorization#Trust]], certificates come into play. Certificates are a way to turn someone into a trusted user or machine.
 In practice, certificates can be for example:
 - `.p12` files
 - `.pem` files
-- `.key` --- `.crt` pair files. Both represents 1 certificate
+- `.key <-> .crt` pair files. Both represents 1 certificate
 ### Certificate Authorities (CA)
 The entities that signs certificates. That entity might be an organization or yourself.
 A certificate authority has got its own certificate.
-- If some server uses HTTP**S**, the way to connect to it is providing the CA certificate.
+- **For example**: If some server uses [[HTTP#HTTPS|HTTPS]], they present a [[SSL-TLS]] certificate to client (us) to that client (us) can trust the server. However, the certificate might be fake, so we need the client to trust the CA.
+
+The client side has got a list of trusted CAs.
+- **For example**, in [[Internet#Interact with running ports|web browsers]], you can go to Settings > Certificates and see the certificates trusted by the web browser:
+	![[trustedCAs.png]]
+- In [[Internet#Interact with running ports|curl command]], the `--cacert` flag makes the client (us) trust some CA by specifying its certificate file.
 ## Example algorithms
 ### RSA
 _Rivest-Shamir-Adleman_
