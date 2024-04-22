@@ -43,7 +43,7 @@ A Virtual Circuit is a way to route the network-layer traffic between origin and
 ## Interact with running ports
 You can interact with running ports on some [[IP#IP address|IP Address]], including your own machine (```localhost```) by:
 - A web browser
-- Curl
+- [[Useful commands#curl|curl command]]
 # IANA
 _Internet Assigned Numbers Authority_
 # VPN

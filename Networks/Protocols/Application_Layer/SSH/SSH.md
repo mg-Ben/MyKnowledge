@@ -8,6 +8,7 @@ tags:
 # Core principles
 _SSH stands for Secure SHell, but it is considered a protocol_
 Is a cryptographic network [[OSI Model|Application Layer]] protocol based on [[Internet#Client-Server communication|Client-Server communication]] that allows us to access to a remote machine through a [[Operating System#Shell|Shell]] to run commands inside it, as long as that machine is running a SSH server to accept connections.
+It is an alternative to [[Telnet]].
 # Implementations
 SSH protocol is implemented on different programs and [[Operating System|Operating Systems]].
 ## PuTTY
@@ -21,7 +22,8 @@ Whenever you want to connect to a target SSH server, you need to create a **SSH 
 ssh-keygen -t <encryption_algorithm> -C "usermail"
 ```
 The encryption algorithm can be one of the following: [[Cybersecurity#Example algorithms]].
-The output of this command is both the public key and the private key as files (the public key one would have the ```.pub``` extension, whereas the private has no visible extension).
+The output of this command is both the public key and the private key as files (the public key one would have the ```.pub``` extension, whereas the private has no visible extension). Refer to [[Cybersecurity#Authorization]] to know more.
+As in SSH there is no registering process (only log in) in a rigorous sense, permissions must be granted to certain users to prevent anyone from accessing the SSH server. Because of that, in server side we must define the ```./ssh/authorized_keys``` list, where we set which public keys have access and which not.
 #### Configuration
 You will find the ```~/.ssh/config``` file, where all SSH configurations are set. If the file does not exist, you can [[UNIX#touch (Create new file)|create it]]. This configuration file help you not specify all the flags in [[#ssh (Connect remotely to the SSH server)|ssh command]] when connecting to the remote server, but configure them in a single configuration file.
 ##### Hostname
@@ -56,8 +58,11 @@ The value of ```<destination>``` can be:
 - The destination [[IP#IP address|IP address]] or [[DNS]]
 - The username + the destination [[IP#IP address|IP address]] or [[DNS|domain name]], separated by ```@``` (e.g. ```bmartin@1.2.3.4```)
 Flags:
+- `-v`: for debugging (show verbose)
 - ```-p <PORT>```: specify destination port
 - ```-i <keyfile>```: specify the name of the [[#keyfile]].
+- `-o`: to specify additional configurations. For example:
+	- `-o KexAlgorithms`: to specify Key Exchange Algorithm. When you need to connect to some corporative SSH server, you might need to set this parameter, specially when you find some errors like `debug1: expecting SSH2_MSG_KEX_ECDH_REPLY` when showing verbose
 ##### scp (Secure Copy)
 You can copy files from one machine to a remote machine securely with:
 ```shell

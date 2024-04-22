@@ -13,6 +13,8 @@ There are some standard commands that are present in every UNIX-like OS. Here yo
 ```shell
 ls
 ```
+Interesting flags:
+- `-la`: list all ([[Linux#File type and permissions]], as well as File size and last changed date.
 ## touch (Create new file)
 ```shell
 touch <filename>
@@ -41,14 +43,76 @@ rmdir <directory_name>
 ```shell
 cat <filename>
 ```
+## tail (see the last lines of some file)
+```shell
+tail <file>
+```
+Interesting flags:
+- `-f`: to keep the file opened (useful to see logs)
+`
+## if condition
+```shell
+if [ condition ]; then (press enter to start writing the if body)
+> command
+> fi (press enter)
+```
+Or, in one line:
+```shell
+if [ condition ]; then command; fi
+```
+## while loop
+```shell
+while condition; do (press enter to start writing the loop body)
+> command
+> done (press enter)
+```
+Or, in one line:
+```shell
+while condition; do command; done
+```
+## for loop
+```shell
+for i in ...; do (press enter to start writing the loop body)
+> command
+> done (press enter)
+```
+Or, in one line:
+```shell
+for i in ...; do command; done
+```
+## Useful conditions
+For [[#if condition]], [[#while loop]] or [[#for loop]] (or whenever you need to use conditions), here you have some useful ones.
+_Note: you can negate them setting ! before the condition_
+### Check existance of file
+```
+condition = -f "filename"
+```
+### Check existance of directory
+```
+condition = -d "directory"
+```
+
 ## awk (Text processing tool)
 Refer to [[AWK]] to know how the scripting language is.
 ## | (Pipes)
-You can pipeline two commands by doing a pipe ```|```. Example:
+You can pipeline two commands by doing a pipe ```|```.
+### Example with AWK
 _You want to list all directories and then take that output and run an awk command such that, for each line, take only the permissions and print them_
 ```shell
 la -l | awk -F " " '{print $1}'
 ```
+### Example with while loop
+You can use [[#(Pipes)]] to process each output line (like [[#Example with AWK]]) of some previous command but, for each line, run another command:
+```shell
+<some command> | while read -r line; do (here, press enter to write the loop code)
+> echo $line
+> done (to finish the loop and run it, press enter again)
+```
+Or, in one line:
+```shell
+<some_command> | while read -r line; do echo $line; done
+```
+In this case, the ```while``` syntax construct is not like the traditional ```while``` syntax construct, where we have ```while condition; do...```. This is just an exception where we combine pipes and while loops!
 ## > (Dump output into a file)
 You can dump any command output to a file with ```>```. For example:
 ```shell

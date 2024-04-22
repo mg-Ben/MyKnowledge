@@ -22,23 +22,31 @@ All network resources must be available for all users.
 
 ![[spiderman-authentication-meme.png]]
 
-The authentication is a complex and philosophical definition about the reality. The definition of authentication is **double**; either one or the other are valid:
-- _The process of verification that someone **we don't know before** is who they claim to be_
-- _The process of verification that someone **we know before** is who they claim to be_
-It's important to take into account both of them, because they are opposed as we will see [[#Philosophical definition|later]]. In both cases, we have to detect a lie about the identity of the person and determine if they are saying the truth about themselves.
-_Spoiler:_
-- **Bad news**: you will never trust anyone on the Internet, as you can **never** know for 100% certain who the user behind the computer really is
-- **Good news**: at least you can make more difficult to the user to lie by forcing them to send you as much information about their identity as you can
-The authentication can be solved by the use of [[#Encryption]]. Summarizing, with any data that can show the identity of the user.
-### Philosophical definition
-In our life, there are statements we can determine with 100% of veracity score, but some others not. The statements are conditions under test (e.g. whether the sky is blue: ```sky == blue```) and, to check their veracity score, a coherent-detection algorithm must be performed. For instance, if someone tells you that they saw yesterday a blue dog, the only way to believe it is seeing it by your own, but that's impossible. Well, the truth is that even if you see it, it can be false, as the dog might have dyed hair, or maybe the dog is not a dog... (Here there would be a more-depth philosophical discussion about reality, but that's another thing). The truth is that only in mathematics field the statements can be 100% true, but not in reality: what you see, smell, feel, touch... Might not be real with 100% certain in a rigorous sense.
-
-_So every statement that you are given must be under test because it might be a lie, and the coherent-detection must be performed so as to determine the veracity score and decide if you trust or not._
-#### Coherence-detection analysis
+The definition of authentication is:
+- The process of verification that `user/machine is == who they claim to be`
+Whenever some user/machine wants to authenticate to us, they claim something about them (they say `hello, my name is X`). We then have to [[#Coherence-detection analysis|show that that statement is true]] and decide if we trust them or not.
+- If we trust them, the user/machine becomes trusted ([[#Authorization]]), which is the second step of authentication
+Summarized:
+- **Authentication** comes into play in [[#Registration process]]
+- **Authorization** comes into play in [[#Login process]]
+### Coherence analysis
 It serves for determining the veracity score for a given statement.
+- In mathematics, some statements can be shown with 100% veracity score (e.g. `show that x = 3` by a mathematic development)
+- In mathematics and other fields in life, there are statements that can't be known for 100% certain. In these cases, we proceed to make a step-by-step **coherence analysis** studying the consequences that there should be if the statement was true (see [[#Coherence analysis#example|example]] below)
+The output of coherence analysis is a **veracity score** (a value between 0 and 1) which represents the probability to trust the statement. If `>0.5`, we can decide to trust. Otherwise, we don't trust.
+The output **veracity score** is more reliable if a more exhaustive analysis has been performed (this means an analysis with better [[#Information quality]]).
+
 ![[Coherence-detection.drawio.png]]
-_It is like a mentalist-liar-detector that asks things to liars_
-##### Information quality
+#### Example
+Javier says "I have a new motorbike", but you cannot know it for certain because Javier lives very far from you. You want to show that in fact he has bought a new motorbike, so you perform a coherence analysis like this:
+
+![[Coherence-analysis.png]]
+
+- The statement under test (`Javier has got a new motorbike`) is an event that implies some events as a consequence (`to have spent money, to have looked for motorbikes on the Internet, to have poured petrol...`), and those events imply other sub-events as a consequence and so on
+- Each event has got a weight that is the **correlation** with its parent event. For example, `buying a new motorbike` is an event that has got a lot of correlation with the event `having looked for motorbikes on the Internet recently`. We will try to analyze those events which are more correlated to the parent event. For instance, `pouring petrol in some gas station` is not so correlated, but we can consider it in the analysis
+- The further one event is from another in the tree structure, the less correlated they are. For example; `having used a computer` is not as correlated with `having a new motorbike` as with `having used a web browser`
+- At the end, this is a [[Random events#Random event tree|random event tree]]
+#### Information quality
 Now, we will define:
 ```ìnformation quality = number of data*information distance to the lie issue*privacy of data```
 This value determines if the coherence-detection system is accurate or not with its output: the veracity score. The more information quality, the more accurate the veracity score is (e.g. a coherence detector with a low information quality is not reliable and if the output veracity is equal to ```0.75```, that measure is not reliable).
@@ -48,28 +56,7 @@ This value determines if the coherence-detection system is accurate or not with 
 To make a very accurate coherence detector (i.e. a detector that is very accurate with veracity measure, i.e. a good lie-detector), you now know that you must obtain as much information as you can and not only that, but also information the most related to the statement under test as possible, and private.
 The coherence-detector is like a mentalist who ask questions to liars to determine whether they say the truth or not. A good mentalist would ask a lot of accurate questions. Liars try to create new realities from our existing reality (i.e. liars play God), but we have to check whether their reality is coherent with our one, so we have to assume that there only exists one reality: our one.
 _Well, note that coherence-detection systems are biased by our reality, because they detect the coherence between data according to our reality laws, but... There might be other realities with their own laws which are also coherent as this world? That's another discussion that we are not considering here :D_
-##### Example
-Someone may lie you saying that "They work for Google company". Here, the statement under test is that ```job == Google```.
-You run your inner coherence-detection system. Therefore, you ask as many questions as you can, related to the job and as private as possible, such as:
-- Where they live
-- The wage. As this is private information, if they were a liar, they wouldn't know what is the average wage to say
-- The job card ID. As this is private information, if they were a liar, they wouldn't know the ID number
-The more conditions you assess (the more data you get), the more rigorous you are to trust someone.
-```
-# Check if the person works for Google = Check all of these sub-conditions:
-if(works_in_country_with_google_offices(suspicious_person.country) == True && has_good_wage(suspicious_person.wage) == True && ...){
-	I believe them
-} else{
-	I don't believe them
-}
-```
-##### Authentication information properties
-When we are talking about authentication, there are two statements under test:
-- _The process of verification that someone **we don't know before** is who they claim to be
-- _The process of verification that someone **we know before** is who they claim to be_
-This means: authentication involves checking either ```a new person == who they claim to be``` or ```a known person == who they claim to be```. As they are different statements under test with different coherence-detection procedure, we have considered separately. Although authentication is both definitions, in practice both definitions are separate conditions under test (i.e. separate lies we have to verify) that come from the user.
-_Note that the user explicitly says "Hello, I want to register" when wants to get registered or "Hello, I'm ..." when wants to log in, so there are two different statements to check. The authentication cannot be defined as the process of verification that someone is who claims to be, as the user doesn't send only his information, but needs to explicitly say whether he is new or not for us, and consequently we have to check two separate conditions_
-###### Registration process
+#### Registration process
 
 ![[RegistrationProcess.drawio.png]]
 
@@ -78,7 +65,7 @@ The first case involves checking ```a new person == who they claim to be```. To 
 - That he is Bob
 To check the first condition, we need to take as much information as we can from the user, as related as possible to the issue under test (the identity of the user) and as private as possible. The number of data is important in this step because we will use all that information compacted (called biometric template) as an index to the database.
 However, for the second one, **there is no way to check that condition for a server**.
-Well, that's what happens in the **register process** of a new user in a server, for example. The user introduces itself providing as much information as it is forced to give. Server designers decide to request all that information to make the authentication system more robust (remember [[#Information quality]]). For example:
+Well, that's what happens in the **registration process** of a new user in a server, for example. The user introduces itself providing as much information as it is forced to give. Server designers decide to request all that information to make the authentication system more robust (remember [[#Information quality]]). For example:
 - The fingerprint
 - The face features
 - The password or any private key
@@ -131,7 +118,11 @@ Then, if we have a data that is, for example, non-unique and private (```01```) 
 
 Other examples are: fingerprints, voice features or face features, which are both unique and private. You can make an authentication system based only on fingerprints, for example, but remember the more data you ask for the user the more accurate the liar-detector is.
 Now, maybe you have noted that, to introduce yourself on the Internet, you have to provide something that is **private**. Unless you encrypt it, anyone can steal it! That's why authentication is something that implicitly must go-in-hand with [[#Confidentiality]].
-###### Login process
+### Authorization
+Once a user/machine has been authenticated, it is authorized.
+Authorization involves, summarizing, providing mechanism to grant certain permissions to certain users.
+To do so, we must create a database of **authorized users** or use [[#Certificates]].
+#### Login process
 
 ![[LogInProcess.drawio.png]]
 
@@ -142,8 +133,7 @@ This is what happens in **log in process** of an existing user in a server. In t
 In this case, if provided data is private only, but non-unique, the server has no database and the registering process doesn't exist. As a result, there is only log in process, so every user is trusted. To avoid these security risks, at least a coherence-detection can be performed to check if the user is real or not by checking the coherence between provided data.
 
 ![[LogInProcessNoDB.drawio.png]]
-
-_Note that you have to trust that server won't share your private data. There are laws for protecting your data, but you also must ensure that the destination server is trusted. How can a server be authenticated to clients? With biometric data, as humans? No. The response is through [[#Certificates]]_.
+Note that these authentication methods always let users access to the service. Either with database or not, once the user data is successfully coherent-checked, the user has got access to the service. That's why, in these cases, we must grant permissions through [[#Authorization]] methods apart from the Authentication.
 ##### Can I use my private key to authenticate myself?
 _Theoretically you could, but not recommended_
 Your private key is something that meets the [[#Authentication information properties|two requirements]] needed for determining the identity of someone: unique and private. Therefore, it is something you can provide to an authentication system to show your own identity.
@@ -158,11 +148,12 @@ _Short answer: Yes._
 However:
 The problem is the same as [[#Can I use my private key to authenticate myself?]] You would have to [[#Authentication information properties|register]] in server and send your public-private key pair. The server would store your public-**private** data in database. Therefore, the server would have your private key and that threatens your Authentication and Confidentiality.
 In this particular case, there isn't database, just log in process. The coherence-detection involves using the user's public key to decrypt a sample message which has been encrypted with the private key of the user.
+To prevent malicious users from accessing the service, we must grant [[#Authorization]] here.
 ## Integrity
 It means that your data cannot be manipulated by someone during the way. On Internet, hackers can manipulate your packet to change the destination, for example. **However, integrity cannot prevent hackers from manipulating the bit order of the packets you send**.
 integrity can be addressed by [[#Hashing]] and [[#Encryption]].
 ## Confidentiality
-It involves preventing hackers from accessing the network information that you send to others. This is, you can provide **privacy**. However, **It doesn't prevent hackers from sending you information.**
+It involves preventing hackers from accessing the network information that you send to others, but also from accessing to some services (also known as [[#Authorization]]). This is, you can provide **privacy**. However, **It doesn't prevent hackers from sending you information.**
 Confidentiality can be addressed by using [[#Encryption]].
 ## Encryption
 ### Asymmetric encryption
@@ -185,7 +176,6 @@ Therefore, the encrypted message must be something such that, applying the inver
 But now, the destination must be able to decrypt it, and in this case they can't. Therefore, the second condition is that the function uses some additional parameter that must be only known by origin and destination.
 For example: _f(x, n) = n*x_. If Bob encrypts the message using _n = 45_ for example, a hacker couldn't decrypt it as they don't know _n_, but the destination could if they know _n_. In this example, _n_ is the key information. This is the case of symmetric keys, as _n_ is a shared information secret which is the same in destination and origin. This implies security risks, as the destination might betray you sharing the value of _n_ to others. By this reason, asymmetric keys are recommended.
 Asymmetric keys imply using different values for encryption and decryption: _k<sup>+</sup>_ and _k<sup>-</sup>_, respectively (remember that we encrypt the message with the destination's public key). The public key is _k<sup>+</sup>_ and the private is _k<sup>-</sup>_. In this case, we must find an encrypting function _f(x, k<sup>+</sup>)_ and its inverse function _f<sup> -1</sup>(x, k<sup>-</sup>)_ such that _f<sup> -1</sup>{ f(x, k<sup>+</sup>), k<sup>-</sup> } = x_. The value of _k<sup>+</sup>_, the public key, cannot determine the value of _k<sup>-</sup>_, as the purpose is to prevent anyone from knowing the private key. Ideally, _k<sup>-</sup>_ shouldn't be related to _k<sup>+</sup>_. Unfortunately, it is, because of the condition: _f<sup> -1</sup>{ f(x, k<sup>+</sup>), k<sup>-</sup> } = x_.
-
 - However, the encryption function _f(x, k<sup>+</sup>)_ shouldn't be invertible because, otherwise, anyone could decrypt it analytically.
 - But, if _f(x, k<sup>+</sup>)_ is not invertible, the recipient couldn't decrypt it.
 The response is: the function _f(x, k<sup>+</sup>)_ must be hardly-invertible, in the sense that it must be invertible, but the expression of the inverse function must be such that it depends on some non-explicit parameters. For example, the function _f(x)_ needs to depend on some product _n = pq_, but the inverse one must depend somehow on _p_ or _q_ independently. Thus, the function is indeed invertible for everyone, but you would need to find the exact values of _p_ or _q_ to invert it. A hacker could find the _(p, q)_ combination, but it would take a lot of time to find them. We can denote as:
@@ -209,13 +199,28 @@ _The private key is a value that is used as an input in a algorithm whose output
 Then the hacker will be able to send you messages, but it is not a serious security risk.
 #### What would happen if you used your private key to encrypt your data?
 Then, anyone with your [[#Public key]] (i.e. anyone on the Internet) might access to the information you send, such as credit card, passwords or whatever, so don't do it.
+#### Examples
+##### GPG Keys
+Refer to [[GNU#GPG public and private keys]].
+##### SSH Keys
+Refer to [[SSH#SSH public and private keys]].
 ## Hashing
 Involves creating a single number that is an operation result applied to the data you send. Therefore, that number should be unique for the binary data you send around Internet. In this way, if a hacker manipulates your network data, the number no longer corresponds to the manipulated data and the recipient of the information would realize.
 ## Certificates
-Whenever there is no registering process in [[#Authentication|authentication side]], the only thing we can do to provide authentication is to check coherence during log in process. However, as there is no registering process, the authentication side does not have memory to check whether the host already exists or not. As a result, some hacker could provide their own coherent data, but claiming that they are a person they aren't. For instance, the hacker would be able to provide a coherent fingerprint, face features or passwords, but the username could be the same as another user, and then the authenticator would be right as the data is coherent and there is no uniqueness check.
+Whenever we want to provide [[#Authorization#Trust]], certificates come into play. Certificates are a way to turn someone into a trusted user or machine.
+In practice, certificates can be for example:
+- `.p12` files
+- `.pem` files
+- `.key <-> .crt` pair files. Both represents 1 certificate
+### Certificate Authorities (CA)
+The entities that signs certificates. That entity might be an organization or yourself.
+A certificate authority has got its own certificate.
+- **For example**: If some server uses [[HTTP#HTTPS|HTTPS]], they present a [[SSL-TLS]] certificate to client (us) to that client (us) can trust the server. However, the certificate might be fake, so we need the client to trust the CA.
 
-A server cannot provide biometric data to get authenticated, so certificates are needed. Besides, the client side doesn't have a database to check uniqueness of server's identities, so there isn't a register process (only log in process). Does this mean that 
-
+The client side has got a list of trusted CAs.
+- **For example**, in [[Internet#Interact with running ports|web browsers]], you can go to Settings > Certificates and see the certificates trusted by the web browser:
+	![[trustedCAs.png]]
+- In [[Internet#Interact with running ports|curl command]], the `--cacert` flag makes the client (us) trust some CA by specifying its certificate file.
 ## Example algorithms
 ### RSA
 _Rivest-Shamir-Adleman_
