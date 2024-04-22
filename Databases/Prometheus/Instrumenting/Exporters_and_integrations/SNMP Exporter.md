@@ -63,12 +63,12 @@ In this way, SNMP will return both the index object name and the metric column n
 Example: providing you have this table:
 
 | index_object_name | cpu_usage |
-|:-----------------:|:---------:|
-| 0 | 0.34 |
-| 1 | 0.28 |
-| 2 | 0.56 |
-| 3 | 0.11 |
-| 4 | 0.78 |
+| :---------------: | :-------: |
+|         0         |   0.34    |
+|         1         |   0.28    |
+|         2         |   0.56    |
+|         3         |   0.11    |
+|         4         |   0.78    |
 
 After running SNMP walk over the parent table OID to get all entries, if you don't specify any lookup, the result will be:
 ```
