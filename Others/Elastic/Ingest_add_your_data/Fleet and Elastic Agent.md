@@ -139,3 +139,7 @@ _Example: if you set this configuration to `1.2.3.4:8220`, the Fleet Server Agen
 ![[fleet-server-elastic-agents-corrected-fleetserverhostIP.png]]
 
 Remember that the `0.0.0.0` [[IP#IP address]] is equivalent to "All network interfaces", so if you set the public IP address to `0.0.0.0` the Fleet Server will be hearing on all network interfaces inside the host it is running.
+
+
+## Output indexes
+Once the Elastic Agents are deployed and outputting data, you can [[ElasticSearch#Explore data|explore the Elastic Agent Data in ElasticSearch]]. The Elastic Agent output data is in data stream format

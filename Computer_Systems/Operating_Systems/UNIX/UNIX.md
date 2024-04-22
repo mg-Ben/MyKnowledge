@@ -28,8 +28,13 @@ cp <filename_src> <filename_dst>
 mv <filename_src> <directory_name_dst>
 ```
 ## rm (Remove files or directories)
+Remove file:
 ```shell
 rm <filename>
+```
+Remove directory:
+```shell
+rm -r <directory>
 ```
 ## mkdir (Create a directory)
 ```shell

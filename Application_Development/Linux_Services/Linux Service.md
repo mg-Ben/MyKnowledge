@@ -50,11 +50,32 @@ RequiredBy=network.target
 ```shell
 systemctl status
 ```
+### Start service
+```shell
+systemctl start <service_name.service>
+```
+### Get service status
+```shell
+systemctl status <service_name.service>
+```
+### Stop service
+```shell
+systemctl stop <service_name.service>
+```
+### Restart service
+```shell
+systemctl restart <service_name.service>
+```
+### Kill service
+Get the Main Process ID from [[#Get service status|service status]] and run:
+```shell
+sudo kill <Process_ID>
+```
 ### See service logs
 There are several ways:
 - Go to [[Linux#/var|/var]]/log/<service_name> directory
 - Run `journalctl -xeu <service_name>`
-_To see logs in real-time, you can use `tail` command (refer to [[UNIX#tail (see the last lines of some file)]]_
+_To see logs in real-time, you can use `tail` command with the `-f` flag (refer to [[UNIX#tail (see the last lines of some file)]]_
 Some services have their own `log` files location, such as [[ElasticSearch]]. In this case, you can also use [[UNIX#tail (see the last lines of some file)]] command.
 ### Daemonize Bash command
 You can daemonize a [[GNU#Bash#Useful commands|GNU or UNIX-standard command]] (i.e. turn the command process into a background process) with systemd. To do so, you will need to follow these steps:

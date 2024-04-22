@@ -82,6 +82,7 @@ You can hold ```Shift``` to enter terminal mode on tmux. In other words, this me
 For instance, while you are pressing ```Shift```, you can select the text inside tmux and then press right click and Copy the content. Similarly, you can hold ```Shift```, then right click and press Paste to paste content from system clipboard into tmux.
 ## Configuration
 You can make general settings of tmux on ```~/.tmux.conf``` configuration file. If It doesn't exist, [[UNIX#touch (Create new file)|create it]] manually.
+_Note: If changes are not being applied, it might be due to another active sessions (of another users). You can force reload the configuration file in your tmux session with `Ctrl+B + : -> source-file <path_to_.tmux.conf>`_
 ### Enable mouse scrolling on tmux panes
 A very useful setting is enabling the mouse scrolling over tmux panes. To do so, add this line to ```~/.tmux.conf```:
 ```conf

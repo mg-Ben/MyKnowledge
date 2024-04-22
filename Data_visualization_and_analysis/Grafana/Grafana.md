@@ -534,3 +534,8 @@ Then you are forced to group by several terms:
 sum(temperature) by (cpuIndex, cpu, machine)
 ```
 With this clause, you are grouping the metrics with different combination of ```(cpuIndex, cpu, machine)``` values, i.e. there are as many groups as metrics, as each metric has its own combination. However, you are computing the sum across those different groups, i.e. you can obtain the same result; a single time series which is the sum of each time serie.
+## Adding datasources
+### ElasticSearch Datasource
+_Refer to [[ElasticSearch]]_
+ElasticSearch is based on [[ElasticSearch#Indices|indices]], each one containing several documents.
+You can add to Grafana 

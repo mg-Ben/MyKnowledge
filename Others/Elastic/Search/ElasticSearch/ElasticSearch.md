@@ -10,11 +10,14 @@ When to use Elasticsearch:
 - Machine Learning
 Refer to [[#References | References > Elastic Products - Entry Point of Documentation]] to know more about how this documentation has been structured.
 ## Indices
-To-Do
+It contains several [[#Document|documents]].
 ## Document
 The data that ElasticSearch stores are called _documents_ and can be specified in [[JSON|JSON format]].
 ## Shards
 
+## Data path
+For Debian-based installations:
+- [[Linux#/var|/var]]/lib/elasticsearch
 ## Configuration Files
 Where are they located? Inside [[#Configuration Files Path]].
 ### Main Configuration Files
@@ -100,6 +103,7 @@ Before continuing, set this line in `elasticsearch.yml`:
 ```elasticsearch.yml
 xpack.security.enabled: true
 ```
+In the current versions of ElasticSearch, this parameter is set to `true` by default even if you have commented it out in `elasticsearch.yml`. If you want to disable it, set it explicitly to `false`.
 ##### HTTPS (TLS/SSL for HTTP) with xpack.security
 ###### TLS/SSL - Transport Layer Security
 Generate the Transport-Layer [[Cybersecurity#Certificates|certificate]]. To do so, use the [[#elasticsearch-certutil]] tool and:
@@ -141,15 +145,46 @@ curl -X GET "https://<ES_IP:ES_PORT>/_cluster/health?pretty" --cacert <path_to_C
 _The best way to learn ElasticSearch is firstly [[#ElasticSearch Locally|work locally]] (without docker containers). Once everything is configured, you can [[#ElasticSearch on Docker Container|dockerize it]]._
 ## ElasticSearch Locally
 ### Download ElasticSearch
-- You can download ElasticSearch [[BinaryFile|Binary Files]] from [here](https://www.elastic.co/downloads/elasticsearch). Extract the ```.tar.gz``` file, look for ```/bin``` directory.
-- However, it's recommended to install ElasticSearch with Debian Package (refer to [Install Elasticsearch with Debian Package | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html)), as the configuration files will be automatically placed where they should be. Remember the [[Linux#APT|steps]] for installing Debian packages.
+- You can download ElasticSearch [[BinaryFile|Binary Files]] from [here](https://www.elastic.co/downloads/elasticsearch). Extract the ```.tar.gz``` file, look for ```/bin``` directory
+- However, it's recommended to install ElasticSearch with Debian Package (refer to [Install Elasticsearch with Debian Package | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html)), as the configuration files will be automatically placed where they should be. Remember the [[Linux#APT|steps]] for installing Debian packages
 ### Configure ElasticSearch
 Go to [[#Configuration Files Path]].
 There are some [[#Important configurations for a ElasticSearch Node]] you can do before deploying ElasticSearch.
 ### Run ElasticSearch = Run one ElasticSearch node
-[[BinaryFile#How to run|Run elasticsearch binary file]]. Remember: [[BinaryFile#As a command| you can turn any binary file into a command on your Bash]] and you can even [[Linux Service#Daemonize Bash command|Daemonize it]].
-After running it, it will take the configuration from ```/config``` directory inside the [[#Download ElasticSearch|extracted folder]].
-Inside the ```/bin``` directory, you will also find some useful elasticsearch tools. For Debian-based installation, the `/bin` is in `/usr/share/elasticsearch/bin`. These tools are:
+Depending on how you installed ElasticSearch:
+- If you installed it as a binary file, [[BinaryFile#How to run|Run elasticsearch binary file]]. After running it, it will take the configuration from ```/config``` directory inside the [[#Download ElasticSearch|extracted folder]]
+- If you installed it as a service (with Debian Package), [[Linux Service#Start service|start elasticsearch.service]]. If you find some error logs related to ElasticSearch upgrade:
+
+	_org.elasticsearch.gateway.CorruptStateException: Format version is not supported. Upgrading to [8.12.2] is only supported from version [7.17.0]_
+
+	You will need to [[UNIX#rm (Remove files or directories)|remove]] the [[#Data path|elasticsearch data]], [[Linux#APT#Uninstall package|purge the elasticsearch package]] and [[Linux#APT#Install a Debian package|install elasticsearch again]]
+## ElasticSearch on Docker Container
+### Create or download the ElasticSearch Image
+You can either create a custom image through [[Docker#Dockerfile Example|Dockerfile]] from the ElasticSearch official image (setting ```FROM elasticsearch...```) or directly use the ElasticSearch official image by [[Docker#Interesting commands#Get docker image#From DockerHub|pulling it]].
+Remember that it is better to define a [[Docker#3. The reality docker-compose.yml|docker-compose.yml]] where the pull is automatically done.
+### Configure ElasticSearch
+To configure ElasticSearch, you have several ways:
+- **Through environment variables**: Leave the default configurations for [[ElasticSearch#Configuration Files]] and only override some of them or add new configurations. For this purpose, you can pass environment variables when [[Docker#Create your container|creating your container]] or directly in the ```environment``` section in [[Docker#Template example|docker-compose.yml]]. For instance, if you want to add some [[ElasticSearch#xpack]] configurations to the ```elasticsearch.yml``` inside the container, you can pass the corresponding environment variables like
+```yaml
+environment:
+	- cluster.name=es-cluster
+	- xpack.security.transport.ssl.enabled=true
+	- xpack.security.transport.verification_mode=true
+```
+- **Through Bind-mount**: you can create your entire and own [[ElasticSearch#Configuration Files]] (such as ```elasticsearch.yml``` file) in your [[Virtualization#Host Operating System|Host OS]] and [[Docker#Bind-mount approach|Bind-mount it]] from the directory where you have your [[ElasticSearch#Configuration Files]] to the [[ElasticSearch#Configuration Files Path#For Docker-deployed ElasticSearch|Configuration Files Path inside Docker container]]. The changes you make to the configuration files will be real-time synced with the internal bind-mounted configuration files in the container. Once you have modified those configuration files, you must [[Docker#Restart your container]] so that those changes make effect. If you defined your containers in a `docker-compose.yml` file, remember that you can [[Docker#Restart docker containers defined in docker-compose.yml]].
+If you want to make some security configurations such as add a certificate to a node, bind mount is a good option. In this case, you have to follow the [[#ElasticSearch Locally#elasticsearch-certutil]] steps and then bind mount these files:
+```yaml
+volumes:
+	- path_in_host_OS/node-certificate.p12:/usr/share/elasticsearch/config/node-certificate.p12
+	- path_in_host_OS/elasticsearch.keystore:/usr/share/elasticsearch/config/elasticsearch.keystore
+```
+### Run ElasticSearch
+
+
+## ElasticSearch Tools
+ElasticSearch installation comes with several additional tools. They are located in `/bin`:
+- For `.tar`, `.gz` or `.zip` installation, the `/bin` is inside the extracted folder
+- For Debian-based installation, the `/bin` is in `/usr/share/elasticsearch/bin`
 #### elasticsearch-reset-password
 For resetting passwords for users, such as Kibana user.
 1. Disable all the configurations made for [[#2. Security|Security]] if you had. This implies:
@@ -214,34 +249,29 @@ You will be prompted to add the password value.
 ```shell
 ./elasticsearch-keystore list
 ```
-## ElasticSearch on Docker Container
-### Create or download the ElasticSearch Image
-You can either create a custom image through [[Docker#Dockerfile Example|Dockerfile]] from the ElasticSearch official image (setting ```FROM elasticsearch...```) or directly use the ElasticSearch official image by [[Docker#Interesting commands#Get docker image#From DockerHub|pulling it]].
-Remember that it is better to define a [[Docker#3. The reality docker-compose.yml|docker-compose.yml]] where the pull is automatically done.
-### Configure ElasticSearch
-To configure ElasticSearch, you have several ways:
-- **Through environment variables**: Leave the default configurations for [[ElasticSearch#Configuration Files]] and only override some of them or add new configurations. For this purpose, you can pass environment variables when [[Docker#Create your container|creating your container]] or directly in the ```environment``` section in [[Docker#Template example|docker-compose.yml]]. For instance, if you want to add some [[ElasticSearch#xpack]] configurations to the ```elasticsearch.yml``` inside the container, you can pass the corresponding environment variables like
-```yaml
-environment:
-	- cluster.name=es-cluster
-	- xpack.security.transport.ssl.enabled=true
-	- xpack.security.transport.verification_mode=true
-```
-- **Through Bind-mount**: you can create your entire and own [[ElasticSearch#Configuration Files]] (such as ```elasticsearch.yml``` file) in your [[Virtualization#Host Operating System|Host OS]] and [[Docker#Bind-mount approach|Bind-mount it]] from the directory where you have your [[ElasticSearch#Configuration Files]] to the [[ElasticSearch#Configuration Files Path#For Docker-deployed ElasticSearch|Configuration Files Path inside Docker container]]. The changes you make to the configuration files will be real-time synced with the internal bind-mounted configuration files in the container. Once you have modified those configuration files, you must [[Docker#Restart your container]] so that those changes make effect. If you defined your containers in a `docker-compose.yml` file, remember that you can [[Docker#Restart docker containers defined in docker-compose.yml]].
-If you want to make some security configurations such as add a certificate to a node, bind mount is a good option. In this case, you have to follow the [[#ElasticSearch Locally#elasticsearch-certutil]] steps and then bind mount these files:
-```yaml
-volumes:
-	- path_in_host_OS/node-certificate.p12:/usr/share/elasticsearch/config/node-certificate.p12
-	- path_in_host_OS/elasticsearch.keystore:/usr/share/elasticsearch/config/elasticsearch.keystore
-```
-### Run ElasticSearch
-
-
-
 ## Explore data
+### Get all indices
 Retrieve ElasticSearch [[#Indices]]:
 ```shell
-curl -X GET https://ES_IP:ES_PORT/_cat/indices [other_options]
+curl -X GET http(s)://ES_IP:ES_PORT/_cat/indices [other_curl_options]
 ```
+### Get data inside an index
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search [other_curl_options]
+```
+### Handy commands
+- Iterate over all the ElasticSearch indices and, for each one, see if there is something related to some string:
+```shell
+sudo curl -s http(s)://ES_IP:ES_PORT/_cat/indices [other_curl_options] |
+while read -r line; \
+do \
+	read -a array <<< $line; echo ${array[2]}:\;
+	sudo curl -s http(s)://ES_IP:ES_PORT/${array[2]}/_search?pretty [other_curl_options] |
+	grep <some_string>;
+done
+```
+### Index notation
+- If the index begins with `.`, it is a self-managed index (managed by ElasticSearch itself).
+- `ds = data stream`
 # References
 - [Elastic Products - Entry Point of Documentation](https://www.elastic.co/guide/index.html)

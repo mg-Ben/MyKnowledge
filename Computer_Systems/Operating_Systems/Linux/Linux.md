@@ -159,4 +159,18 @@ And install the package:
 ```shell
 sudo apt install <package>
 ```
+#### List packages
+```shell
+sudo dpkg --list | grep <package_name>
+```
+#### Uninstall package
+Remove everything, configuration files included:
+```shell
+sudo apt purge <package_name>
+```
+Remove only the package, but not configuration files:
+```shell
+sudo apt remove <package_name>
+```
+
 

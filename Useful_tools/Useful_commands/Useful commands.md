@@ -30,3 +30,9 @@ curl -X <HTTP_method> <HTTP_endpoint>
 ```
 Flags and options:
 - `--cacert=<path_to_CA_cetificate>`: specify a [[Cybersecurity#Certificate Authorities (CA)|CA certificate file]] to trust in
+- `-s or --silent`: silent mode. Used to prevent the command output from displaying additional data like this:
+```
+ % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 10792    0 10792    0     0  96603      0 --:--:-- --:--:-- --:--:-- 97225
+```
