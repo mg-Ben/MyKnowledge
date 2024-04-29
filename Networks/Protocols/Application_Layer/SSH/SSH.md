@@ -40,6 +40,10 @@ Once you are connected to a remote SSH server, you can mirror your [[Internet#In
 ![[LocalForwardIdea.png]]
 
 You can also configure which port on your local corresponds to which port on the remote (e.g. ```localhost:A``` to ```localhost:B``` on remote).
+Example:
+`LocalForward <A>:<B> <C>:<D>`
+Would bind `<A>:<B>` in your machine with `<C>:<D>` in the remote machine. Therefore, if you want to link some port inside your machine (let's say `8080`) to some port inside the remote host (let's say `80`):
+`LocalForward localhost:8080 localhost:80`
 ##### DynamicForward
 When you connect to a remote SSH server, sometimes you need to connect to a certain port in that server. In that case, you could use [[#LocalForward]], but sometimes you need to use your own local ports. In that case, you could directly connect to ```IP_remote:Port_remote```. However, your [[Internet#Interact with running ports|interaction with that port]] might require the use of a web browser, which doesn't typically allow the connection to SSH servers directly. Therefore, a [[Proxies#SOCKS5|Proxy SOCKS]] must be configured on your local machine to connect to the SSH server through an intermediate proxy by a web browser, but also on your configuration SSH file. The Proxy SOCKS is just a process running on your localhost which acts as a proxy.
 With DynamicForward, you can set which port to launch the proxy SOCKS on. Once set, the proxy SOCKS is executed when running ```ssh``` command. Then, you can configure your web browser so as to use that proxy. You can now connect to any port on remote SSH server.
