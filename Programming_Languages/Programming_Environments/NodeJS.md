@@ -17,7 +17,57 @@ _nvm stands for Node Version Manager_
 _fnm stands for Fast and simple NodeJS version Manager_
 It is an alternative to [[#nvm]].
 It requires to download [[Rust]].
+## package.json
+Very important file: it contains data about the project in [[JSON]] format. With this file we can manage most things about the project.
+### Example
+```JSON
+{
+  "name": "mi-project",
+  
+  "version": "1.0.0",
+  
+  "description": "My best project!",
+  
+  "main": "index.js",
+  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  
+  "repository": {
+    "type": "git",
+    "url": "my-awesome-github-repository"
+  },
+  
+  "keywords": [
+    "javascript-programming-lang",
+    "my-incredible-ai-project",
+    "automation"
+  ],
 
+  "author": "Lucy In The Sky With Diamonds",
+
+  "license": "ISC",
+  "bugs": {
+    "url": "my-awesome-github-repository/issues"
+  },
+
+  "homepage": "my-awesome-github-repository#readme",
+
+  "dependencies": {
+    "package1": "^2.0.1",
+    "package2": "1.0.0"
+  },
+
+  "devDependencies": {
+    "package1": "17.1.0"
+  },
+
+  "eslintConfig": {
+    "extends": "standard"
+  }
+}
+```
 # Hands on
 ## NodeJS
 ### Download and install NodeJS
@@ -40,7 +90,57 @@ node <script.(m|c)js>
 ## nvm
 
 ## npm
+### Get npm version
+```shell
+npm --version
+```
+Or:
+```shell
+npm -v
+```
+### Install a package
+```shell
+npm i <package_name>
+```
+Or:
+```shell
+npm install <package_name>
+```
+After running this command, we will see the installed package in [[#package.json]]. Specifically, it will appear in [[#package.json]] - `dependencies` section.
+As the `dependencies` section refers to the packages used in production mode, we should use the minimum number of packages in production to reduce the application load when user uses it. For development mode, we must [[#Install a package in development mode]].
+To avoid auto-updates of packages, we must **remove** the `^` character in `package.json`:
 
+```JSON
+"dependencies": {
+    "package1": "^2.0.1", <---- REMOVE ^ character!
+    "package2": "1.0.0"
+}
+```
+#### Install a package in development mode
+```shell
+npm i -D <package_name>
+```
+Or:
+```shell
+npm install -D <package_name>
+```
+We can use `--development` flag instead of  `-D`.
+After running this command, we will see the installed package in [[#package.json]]. Specifically, it will appear in [[#package.json]] - `devDependencies` section.
+
+### Uninstall a package
+```shell
+npm uninstall <package_name>
+```
+### Create a new NodeJS project
+It creates a main file `index.js`, project description, its dependencies, author, version...
+```shell
+npm init
+```
+After running this command, we will be prompted to enter the project description, author, version... However, we can enter default values automatically with:
+```shell
+npm init -y
+```
+_The -y flag means "response with defaults"_
 ## fnm
 ### Download fnm
 _Refer to [[#References|Schniz/fnm: 🚀 Fast and simple Node.js version manager, built in Rust (github.com)]]_
