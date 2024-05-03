@@ -134,7 +134,10 @@ Represents the previous directory.
 
 # APT
 _(Only for Debian-based Linux Systems, such as Debian or Ubuntu), stands for Advanced Packaging Tool_
-It is a tool for managing software packages in Debian-based Linux Systems. For example, you can install [[ElasticSearch]] software through APT.
+Like [[#RPM]], It is a tool for managing software packages, but in **Debian-based** Linux Systems. For example, you can install [[ElasticSearch]] software through APT.
+- It manages package dependencies automatically
+- It uses [[#Automatically downloading .deb package|APT repositories]]
+- It allows user to automatically [[#Automatically downloading .deb package|download packages with just the package name]]
 ## Debian package .deb
 It is a file with `.deb` extension and represents the software you want to install.
 ## Hands on
@@ -157,7 +160,7 @@ sudo apt update
 ```
 And install the package:
 ```shell
-sudo apt install <package>
+sudo apt install <package_name>
 ```
 #### List packages
 ```shell
@@ -172,5 +175,18 @@ Remove only the package, but not configuration files:
 ```shell
 sudo apt remove <package_name>
 ```
-
-
+# RPM
+_RPM stands for Red Hat Package Manager_
+Like [[#APT]], It is a tool for managing software packages, but in **Red Hat-based** Linux Systems, like [[Distributions#Fedora|Fedora]] and [[Distributions#Red Hat Enterprise Linux (RHEL)|RHEL]].
+## RPM file
+It is a file with `.rpm` extension and represents the software you want to install.
+- It does NOT manage package dependencies automatically
+- It uses RPM repositories
+- It does NOT allow user to automatically download a package: you must specify the `.rpm` file to install the software
+## Hands on
+### Install a rpm package
+#### Manually downloading .rpm file
+Download the `.rpm` file from the software official website and then run:
+```shell
+npm -i <file.rpm>
+```
