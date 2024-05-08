@@ -128,8 +128,11 @@ Then it means that the Elastic-Agent is partially installed and broken. To solve
 2. Disable the current `elastic-agent.service` with `sudo systemctl disable elastic-agent.service`
 3. Remove the `elastic-agent.service` file with `sudo rm /etc/systemd/system/elastic-agent.service`
 4. Remove the `/opt/Elastic/Agent` directory with `sudo rm -r /opt/Elastic/Agent`
-### Local
-
+### See Elastic Agent logs
+#### Windows
+Go to `C:\\"Program Files"\\Elastic\\Agent\\data\\elastic-agent-*\\logs` and look for `.ndjson` files.
+#### Linux
+Go to `/opt/Elastic/Agent` and look for `.ndjson` files.
 ### Docker
 Refer to [Run Elastic Agent in a container | Fleet and Elastic Agent Guide [8.12] | Elastic](https://www.elastic.co/guide/en/fleet/current/elastic-agent-container.html).
 You can run the Elastic Agent as a [[Docker|Docker container]]. In the configuration file, you have to set that the agent will enroll to the [[#Fleet Server]] (i.e. will subscribe to it) so that the Fleet Server communicate with it, specifying the Fleet Server URL.
