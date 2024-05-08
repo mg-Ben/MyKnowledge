@@ -27,6 +27,11 @@ cp <filename_src> <filename_dst>
 ```shell
 mv <filename_src> <directory_name_dst>
 ```
+To rename some file or directory:
+```shell
+mv <previous_filename> <new_filename>
+```
+_You don't need to create `<new_filename>` before running this command_.
 ## rm (Remove files or directories)
 Remove file:
 ```shell

@@ -215,7 +215,7 @@ In practice, certificates can be for example:
 ### Certificate Authorities (CA)
 The entities that signs certificates. That entity might be an organization or yourself.
 A certificate authority has got its own certificate.
-- **For example**: If some server uses [[HTTP#HTTPS|HTTPS]], they present a [[SSL-TLS]] certificate to client (us) to that client (us) can trust the server. However, the certificate might be fake, so we need the client to trust the CA.
+- **For example**: If some server uses [[HTTP#HTTPS|HTTPS]], they present a [[SSL-TLS]] certificate to client (us) so that the client (us) can trust the server. However, the certificate might be fake, so we need the client to trust the CA.
 
 The client side has got a list of trusted CAs.
 - **For example**, in [[Internet#Interact with running ports|web browsers]], you can go to Settings > Certificates and see the certificates trusted by the web browser:

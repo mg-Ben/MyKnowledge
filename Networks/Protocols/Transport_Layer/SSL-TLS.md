@@ -27,5 +27,9 @@ openssl pkcs12 -in <certificate.p12> -out <output.key> -nocerts -nodes
 ```shell
 openssl x509 -noout -fingerprint -sha256 -in <certificate.crt>
 ```
+### Convert from .key to .pkcs8.key
+```shell
+openssl pkcs8 -inform PEM -in <certificate.key> -topk8 -nocrypt -outform PEM -out <output.pkcs8.key>
+```
 ## elasticsearch-certutil
 The tool for managing certificates in a Elastic Stack.

@@ -105,9 +105,12 @@ xpack.security.enabled: true
 ```
 In the current versions of ElasticSearch, this parameter is set to `true` by default even if you have commented it out in `elasticsearch.yml`. If you want to disable it, set it explicitly to `false`.
 ##### HTTPS (TLS/SSL for HTTP) with xpack.security
+Remember that, with [[Cybersecurity#Certificates]], we can provide trust in communication. In this case, ElasticSearch will act as a remote server, so we must provide the mechanisms so that clients that will connect to our ElasticSearch instance trust it.
+- Therefore, we need to [[#TLS/SSL - Transport Layer Security|generate a TLS/SSL certificate]] that will be sent from ElasticSearch to others so that others can trust ElasticSearch
+- As the **TLS/SSL certificate** may have been generated from any Certificate Authority, we must ensure that those to whom we are sending that TLS/SSL certificate from ElasticSearch really trust our Certificate Authority
 ###### TLS/SSL - Transport Layer Security
 Generate the Transport-Layer [[Cybersecurity#Certificates|certificate]]. To do so, use the [[#elasticsearch-certutil]] tool and:
-- [[#Generate Certification Authority]]
+- [[#Generate Certification Authority|Generate Certification Authority for ElasticSearch]]
 - [[#elasticsearch-certutil#Generate the Transport-Layer certificate for the node|Generate the Transport-Layer certificate]]
 - Configure `elasticsearch.yml` to use this Transport-Layer certificate:
 ```elasticsearch.yml
@@ -204,15 +207,16 @@ The output will be a ```.p12``` file with the public-private key of Certificatio
 Interesting flags:
 - ```--pem```: the output will be a ```.zip``` with the certificate in ```pem``` format inside (i.e. one ```.key``` file and one ```.crt``` file)
 ##### Generate the Transport-Layer certificate for the node
-_Theory: [[Cybersecurity#Certificate Authorities (CA)]]_
+_Theory: [[Cybersecurity#Certificate Authorities (CA)]]. This Transport-Layer certificate will be sent form ElasticSearch to the clients so that they can trust ElasticSearch_
 ```shell
-./elasticsearch-certutil cert --ca <CA-public-private-keys.p12>
+./elasticsearch-certutil cert --ca <CA.p12>
 ```
 - Enter the [[Cybersecurity#Certificate Authorities (CA)|CA]] path and password
 - Enter the certificate output file. Please, in this step specify also the extension (e.g.: ```output.p12```)
 The output will be a file named ```elastic-certificates.p12``` by default which is the certificate for one node. That certificate contains the key of the node and both the [[Cybersecurity#Certificate Authorities (CA)|CA]] certificate and the node certificate.
 Interesting flags:
 - ```--pem```: the output will be a ```.zip``` with the certificate in ```pem``` format inside (i.e. one ```.key``` file and one ```.crt``` file)
+- `--dns <DNS (or hostname)>`
 You can repeat these steps for each node so that each one has got its own password.
 ##### Generate the Application-Layer certificate for the node
 ```shell
