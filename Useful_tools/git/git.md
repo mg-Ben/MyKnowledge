@@ -9,6 +9,7 @@ tags:
 MAJOR.MINOR.PATCH
 ```
 ### MAJOR version
+_If you upgrade `MAJOR` version, the current values `MINOR` and `PATH` are reset to zero (e.g. if you upgrade the major version of `2.4.7`, the resulting version would be `3.0.0`_
 Significant changes that may not be compatible with previous versions.
 - Breaking changes
 - Major enhancement to the software's functionalities
@@ -16,6 +17,7 @@ Significant changes that may not be compatible with previous versions.
 Examples:
 Removal of features, API changes, significant architectural changes.
 ### MINOR version
+_If you upgrade `MINOR` version, the current value `PATH` is reset to zero (e.g. if you upgrade the minor version of `2.4.7`, the resulting version would be `2.5.0`_
 Smaller changes compatible with previous versions.
 - New features added in
 - The existing functionality is not broken
