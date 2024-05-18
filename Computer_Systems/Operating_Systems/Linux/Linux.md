@@ -5,6 +5,12 @@ tags:
 ---
 # Core principles
 It is a [[UNIX|UNIX-like]] [[Operating System]].
+## Concepts
+### cgroups
+A Linux Kernel feature that allows us to allocate resources such as CPU time, memory, network bandwith... For a group of processes. It prevents processes from interfering one another and consuming excessive resources by limiting them.
+To do so, cgroups organizes the processes using some hierarchy (like tree structures). Each hierarchy group has got its own constraint of resources. Each cgroup would be a node in the tree structure, and the resources limit applied to some node is applied automatically to its children cgroups.
+The directory to control the cgroup is `/sys/fs/cgroup`.
+[[Linux Service#systemd]] can be used to manage cgroups easily. For example, you can limit the CPU usage of some [[Linux Service]] adding a setting inside its [[Linux Service#Unit file#Example template|unit file]] (such as `CPUQuota=50%` to limit the CPU usage to 50%).
 # Users
 The [[Operating System]] is shared between several users. Each user has got its own password, and belongs to one or more group. However, one of those groups is considered the primary group.
 ## User types
@@ -188,8 +194,12 @@ It is a file with `.rpm` extension and represents the software you want to insta
 - It uses RPM repositories
 - It does NOT allow user to automatically download a package: you must specify the `.rpm` file to install the software
 ## Hands on
+### List rpm packages
+```shell
+rpm -qa
+```
 ### Install a rpm package
-#### Manually downloading .rpm file
+#### After manually downloading .rpm file
 Download the `.rpm` file from the software official website and then run:
 ```shell
 rpm -i <file.rpm>
@@ -206,9 +216,7 @@ It is a **high-level** software management tool that resolves dependencies autom
 # DNF
 _Reference: [Managing software with the DNF tool Red Hat Enterprise Linux 9 | Red Hat Customer Portal](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/managing_software_with_the_dnf_tool/index#proc_setting-yum-repository-options_assembly_managing-custom-software-repositories)_
 _DNF stands for DaNdified YUM_
-It is an evolution of [[Binary numeral system#]]
-Like [[#RPM]], DNF is a management tool for managing software in **Red Hat-based** Linux Systems such as [[Distributions#Fedora|Fedora]] and [[Distributions#Red Hat Enterprise Linux (RHEL)|RHEL]].
-The difference is that DNF manages software at n **high-level**.
+Like [[#RPM]], DNF is a management tool for managing software in **Red Hat-based** Linux Systems such as [[Distributions#Fedora|Fedora]] and [[Distributions#Red Hat Enterprise Linux (RHEL)|RHEL]]. The difference is that DNF manages software at **high-level**.
 ## Hands on
 ### Configure a repository
 Go to either:
@@ -225,6 +233,17 @@ dnf repoquery --requires <package-name>
 ```
 Would return the package dependencies of `<package-name>`.
 ### Download packages but not installing
+You can get the `.rpm` package by:
 ```shell
-dnf install --downloadonly <package_name1> <package_name2>...
+dnf install --downloadonly --downloaddir /path <package_name1> <package_name2>...
 ```
+### Redownload installed packages but not installing
+You can get the `.rpm` package by:
+```shell
+dnf reinstall --downloadonly --downloaddir /path <package_name1> <package_name2>...
+```
+#### Example: get metricbeat .rpm package
+```shell
+dnf reinstall --downloadonly --downloaddir /tmp metricbeat --releasever 7.5.2
+```
+The installed `.rpm` packages will be inside `/tmp` folder.

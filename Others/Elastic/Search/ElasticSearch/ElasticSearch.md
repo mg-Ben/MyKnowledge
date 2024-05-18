@@ -11,8 +11,29 @@ When to use Elasticsearch:
 Refer to [[#References | References > Elastic Products - Entry Point of Documentation]] to know more about how this documentation has been structured.
 ## Indices
 It contains several [[#Document|documents]].
+### Index template
+An index template is a way to tell Elasticsearch how to configure an index when it is created. For example, you can create a template where you specify:
+- The number of **index replicas**
+- The number of **shards**
+- The document fields and data types
+- Before creating an index, you must create the template
+- Index templates can be specified as [[JSON]] objects
+#### Example
+```JSON
+"template": {
+    "mappings": {
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        }
+      }
+    }
+  }
+```
+
 ## Document
 The data that ElasticSearch stores are called _documents_ and can be specified in [[JSON|JSON format]].
+
 ## Shards
 
 ## Data path
@@ -263,8 +284,27 @@ curl -X GET http(s)://ES_IP:ES_PORT/_cat/indices [other_curl_options]
 ```shell
 curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search [other_curl_options]
 ```
+### Query data
+_Refer to [The search API | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-your-data.html)_
+To query ElasticSearch data, you will need to use a [[HTTP#REST|REST]] [[Internet#API|API]] towards `ES_IP:ES_PORT` through [[HTTP]]. The structure of the query is the following:
+```
+GET http(s)://ES_IP:ES_PORT/<index>/_search
+{
+	<QueryDSL-Body>
+}
+```
+Queries can be performed in two contexts:
+- **Query context**: We write the query and ElasticSearch will calculate how well each document matches the query, sorted in descending order by some score value
+- **Filter context**: We write the query and ElasticSearch will return only the documents that fulfill the query
+#### Query DSL
+_Refer to [Query DSL | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html)_
+The query is [[DSL]] and it is based on [[JSON]].
+
+
+
+
 ### Handy commands
-- Iterate over all the ElasticSearch indices and, for each one, see if there is something related to some string:
+- Iterate over all the ElasticSearch indices and, for each one, see if there is something inside the index that is related to some string:
 ```shell
 sudo curl -s http(s)://ES_IP:ES_PORT/_cat/indices [other_curl_options] |
 while read -r line; \

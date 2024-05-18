@@ -10,7 +10,7 @@ Docker is a kind of **virtualization**, but with Docker we virtualize applicatio
 - The **Guest system** is the container
 - We **Host System** is your Operative System itself
 ## Image example
-In the following image example, we have created two containers inside the Host OS: one is the server container (which might be python-based) and the other one is the DataBase container (e.g., MongoDB).
+In the following image example, we have created two containers inside the Host OS: one is the server container (which might be [[Python]]-based) and the other one is the DataBase container (e.g., MongoDB).
 - The server receives requests, process them and communicate with Database container. Therefore, every network packet that is received in Host OS must be forwarded to the internal Server container. There are several ways to get this (see [[#Docker network]]): in this example, we have bound 5566 port of Host OS machine to 1228 container machine. Thus, so as to connect to server, a remote machine must communicate to port 5566 and the Host Machine OS would redirect the network packets to Server container:1228.
 - The Database container has not direct reachability from Host OS. We are forced to communicate with Server container as an intermediary. To enable the inter-container communication, we must define a Docker network too (see [[#Docker network]]).
 ![[docker-containers.png]]

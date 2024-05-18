@@ -44,12 +44,21 @@ Configure the following input in your `.conf`:
 ```.conf
 input {
 	elastic_agent {
-		port => 5044
+		port => 5044 # This is the Logstash server listening port
 		enrich => none
 		ssl_enabled => true
 		ssl_certificate_authorities => ["<path/to/logstash/CA.crt>"] #To trust the 
 		ssl_certificate => "<path/to/logstash/SSL-TLS.crt>"
 		ssl_key => "<path/to/logstash/SSL-TLS.pkcs8.key>"
+	}
+}
+```
+### Run Logstash Server for Elastic Beats
+Configure the following input in your `.conf`:
+```
+input {
+	beats {
+		port => 5044 # This is the Logstash server listening port
 	}
 }
 ```

@@ -93,5 +93,17 @@ A system with only 1 CPU.
 ### Multi-processor system
 A system with > 1 CPU.  It can be either with one IC with several CPUs inside, with several ICs with one CPU inside or with several ICs with several CPUs inside each one.
 All the CPUs share the same [[#Main memory (RAM)]].
+### CPU Architectures
+#### AArch64 or ARMv8-A
+Developed by ARM Holdings. Used in:
+- Mobile devices: smartphones, tablets, wearables (low power consumption devices).
+- Embedded systems: IoT devices, smart TVs.
+#### x86_64 or AMD64/Intel64
+Developed by Intel and AMD. Used in:
+- Desktop computers and laptops
+- Gaming consoles
+- Servers and datacenters
+#### PowerPC
+Used in [[AIX]] OS.
 ## Shell
 A computer program that exposes to the user the Operating System's services through a **CLI** (Command Line Interface) or a **GUI** (Graphical User Interface). In CLI cases, the shell has got a **shell-specific language**.

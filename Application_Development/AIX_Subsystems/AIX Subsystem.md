@@ -49,6 +49,6 @@ Then, [[#Restart a subsystem|refresh]] `syslog.conf` by refreshing `syslogd` sub
 ```shell
 refresh -s syslogd
 ```
-
+Ensure that the path where you dump the logs has got the necessary permissions.
 # References
 - [AIX and daemon service - Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/563404/aix-and-daemon-service)
