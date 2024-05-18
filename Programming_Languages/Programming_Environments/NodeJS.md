@@ -116,6 +116,8 @@ To avoid auto-updates of packages, we must **remove** the `^` character in `pack
     "package2": "1.0.0"
 }
 ```
+
+To automatically download the package without the `^` character, we can use the `-E` flag in `npm install` command.
 #### Install a package in development mode
 ```shell
 npm i -D <package_name>
