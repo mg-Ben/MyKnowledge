@@ -29,6 +29,10 @@ Example output:
 ```shell
 su - <username>
 ```
+You may be prompted to enter a password. In that case, you can try with:
+```shell
+sudo -su <username>
+```
 ### Run some command as another user
 ```shell
 sudo -u <another_user> <command>
@@ -177,7 +181,7 @@ sudo apt remove <package_name>
 ```
 # RPM
 _RPM stands for Red Hat Package Manager_
-Like [[#APT]], It is a tool for managing software packages, but in **Red Hat-based** Linux Systems, like [[Distributions#Fedora|Fedora]] and [[Distributions#Red Hat Enterprise Linux (RHEL)|RHEL]].
+Like [[#APT]], It is a tool for managing software packages in **low-level**, but in **Red Hat-based** Linux Systems, like [[Distributions#Fedora|Fedora]] and [[Distributions#Red Hat Enterprise Linux (RHEL)|RHEL]].
 ## RPM file
 It is a file with `.rpm` extension and represents the software you want to install.
 - It does NOT manage package dependencies automatically
@@ -188,5 +192,39 @@ It is a file with `.rpm` extension and represents the software you want to insta
 #### Manually downloading .rpm file
 Download the `.rpm` file from the software official website and then run:
 ```shell
-npm -i <file.rpm>
+rpm -i <file.rpm>
+```
+### Get rpm package information
+_Whenever you want to get package information, use `-qp` flag (which stands for `query-package`)_
+#### Extract .rpm scripts
+```shell
+rpm -qp --scripts <file.rpm>
+```
+# YUM
+_YUM stands for Yellowdog Updater, Modified_
+It is a **high-level** software management tool that resolves dependencies automatically.
+# DNF
+_Reference: [Managing software with the DNF tool Red Hat Enterprise Linux 9 | Red Hat Customer Portal](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/managing_software_with_the_dnf_tool/index#proc_setting-yum-repository-options_assembly_managing-custom-software-repositories)_
+_DNF stands for DaNdified YUM_
+It is an evolution of [[Binary numeral system#]]
+Like [[#RPM]], DNF is a management tool for managing software in **Red Hat-based** Linux Systems such as [[Distributions#Fedora|Fedora]] and [[Distributions#Red Hat Enterprise Linux (RHEL)|RHEL]].
+The difference is that DNF manages software at n **high-level**.
+## Hands on
+### Configure a repository
+Go to either:
+- `/etc/yum.repos.d/<file.repo>`
+- `/etc/dnf/dnf.conf`
+
+### List installed packages
+```shell
+dnf list --installed
+```
+### Get package dependencies
+```shell
+dnf repoquery --requires <package-name>
+```
+Would return the package dependencies of `<package-name>`.
+### Download packages but not installing
+```shell
+dnf install --downloadonly <package_name1> <package_name2>...
 ```

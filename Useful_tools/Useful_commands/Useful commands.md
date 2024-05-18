@@ -36,3 +36,8 @@ Flags and options:
                                  Dload  Upload   Total   Spent    Left  Speed
 100 10792    0 10792    0     0  96603      0 --:--:-- --:--:-- --:--:-- 97225
 ```
+# ack
+Search inside all the plain-text file contents (such as logs, configuration files, text files, code files...) of some directory (you can search recursively, i.e. inside all the subdirectories) and find all ocurrences of some word or regular expression:
+```shell
+ack <regexp>
+```

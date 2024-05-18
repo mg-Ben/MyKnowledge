@@ -18,6 +18,10 @@ Example of `<user_id>`: `root` (it can be whatever we want).
 ```shell
 startsrc -s <service_name>
 ```
+## Get subsystem status
+```shell
+lssrc -s <service_name>
+```
 ## Restart a subsystem
 ```shell
 refresh -s <service_name>
@@ -45,8 +49,6 @@ Then, [[#Restart a subsystem|refresh]] `syslog.conf` by refreshing `syslogd` sub
 ```shell
 refresh -s syslogd
 ```
-
-
 
 # References
 - [AIX and daemon service - Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/563404/aix-and-daemon-service)

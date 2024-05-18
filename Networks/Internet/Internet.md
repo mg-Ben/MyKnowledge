@@ -9,6 +9,41 @@ Internet has two main definitions:
 - Network infrastructure which provides **services to distributed applications** - It's like an subjective approach
 
 The first one is the objective view of Internet. The second one is more subjective: what we can do with those components.
+## Router
+It is a packet switcher that receives packets through some input links and sends the received packets to some output links.
+It is the same as [[#Switch|switches]], but they differ in the [[OSI Model|Internet layer]] they work. While switches operate in [[#Link Layer]], routers operate in [[#Network Layer]].
+## Switch
+It is the same as [[#Router|routers]], but they differ in the [[OSI Model|Internet layer]] they work. While routers operate in [[#Network Layer]], switches operate in [[#Link Layer]].
+## ISP
+_ISP stands for Internet Services Provider_
+The [[#Router|routers]] and [[#Switch|switches]] that we all use on the Internet don't belong to the Internet users, but to **Internet Services Providers**. Summarized, the ISPs can be viewed as an interconnection of routers, and thanks to ISPs we have Internet connectivity from our homes.
+There are different hierarchy levels:
+- University ISPs
+- Corporative ISPs
+- Regional ISPs
+- Global ISPs
+_Examples: coffee shops Internet, hotel Internet or any public and free Internet_
+
+![[ISPs.png]]
+## Links
+The way to interconnect two Internet devices (such as router-router, router-host, switch-router...).
+### Coaxial cable
+### Copper wire
+### Optical fiber
+### Radio spectrum
+## LAN
+_LAN stands for Local Area Network_
+It is a concept that represents a network of interconnected Internet Devices in a local range (such as offices, universities, coffee shops...).
+We can have:
+- **WLAN**: Wireless LAN
+- **VLAN**: Virtual LAN
+## WAN
+_WAN stands for Wide Area Network_
+It is a concept that represents a network of interconnected Internet Devices in a wide range.
+## API
+_API stands for Application Programming Interface_
+When we understand Internet like [[#Core principles|a infrastructure that provides services to distributed applications]], we must consider the concept of **API**. 
+API is a set of rules, protocols, and tools that allows different software applications to communicate with each other. APIs define the methods and data formats that developers can use to interact with a service or platform, abstracting away the underlying implementation details.
 # The Internet boundary
 ## Terminal systems
 Internet can be depicted as a huge network of interconnected devices. In the Internet slang, we call **Terminal Systems** (also known as **Hosts**) to the end to end communication between two parts, because that communication takes place on the boundaries of Internet.
@@ -23,14 +58,20 @@ A gateway machine actually means:
 - A [[Proxies|Proxy]]
 - A [[Firewalls|Firewall]]
 - A [[Balancers]]
-- A router
+- A [[#Router]]
 - A NAT
 ### Client-Server communication
-- **Server**: a running process which is usually indefinitely awaiting for connections and which provides a service to the client (e.g. a webpage)
-- **Client**: the process that wants to be served and sends requests to the server (e.g. our web browser-background process, when we are surfing the internet)
+#### Server
+A running process which is usually indefinitely awaiting for connections and which provides a service to the client (e.g. a webpage).
+#### Client
+The process that wants to be served and sends requests to the server (e.g. our web browser-background process, when we are surfing the internet).
+- The client is the communication side that starts the communication.
 ### Peer-to-Peer communication
-
-
+Both the [[#Client]] and [[#Server]] awaits for connections or starts the communication. Therefore, there are not dedicated servers.
+For example:
+- bitTorrent
+- OS updates
+- Skype
 # Transport Layer
 ## Port
 A single [[IP#IP address]] machine's interface can run several processes, each one with an assigned **port number**.

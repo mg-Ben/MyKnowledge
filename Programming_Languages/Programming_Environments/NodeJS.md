@@ -99,6 +99,7 @@ Or:
 npm -v
 ```
 ### Install a package
+#### From command
 ```shell
 npm i <package_name>
 ```
@@ -116,9 +117,25 @@ To avoid auto-updates of packages, we must **remove** the `^` character in `pack
     "package2": "1.0.0"
 }
 ```
-
-To automatically download the package without the `^` character, we can use the `-E` flag in `npm install` command.
-#### Install a package in development mode
+#### From package.json
+You can also install a package in a reverse way: firstly, you set the packages you want in `package.json`:
+```JSON
+"dependencies": {
+    "package1": "21.8.0",
+    "package2": "13.0.1",
+    "package3": "3.0.3"
+}
+```
+Then, run:
+```shell
+npm i
+```
+Or:
+```shell
+npm install
+```
+### Install a package in development mode
+#### From command
 ```shell
 npm i -D <package_name>
 ```
@@ -128,11 +145,46 @@ npm install -D <package_name>
 ```
 We can use `--development` flag instead of  `-D`.
 After running this command, we will see the installed package in [[#package.json]]. Specifically, it will appear in [[#package.json]] - `devDependencies` section.
-
+#### From package.json
+Firstly, you set the packages you want in `package.json` (`devDependencies`):
+```JSON
+"devDependencies": {
+    "package1": "21.8.0",
+    "package2": "13.0.1",
+    "package3": "3.0.3"
+}
+```
+And then:
+```shell
+npm i
+```
+Or:
+```shell
+npm install
+```
 ### Uninstall a package
+#### From command
 ```shell
 npm uninstall <package_name>
 ```
+#### From package.json
+You can remove the packages you want from `package.json`:
+```JSON
+"devDependencies": {
+    "package1": "21.8.0", <--- Remove This one, for example
+    "package2": "13.0.1",
+    "package3": "3.0.3"
+}
+```
+And then:
+```shell
+npm i
+```
+Or:
+```shell
+npm install
+```
+The removed packages will be automatically detected and removed when running this command.
 ### Create a new NodeJS project
 It creates a main file `index.js`, project description, its dependencies, author, version...
 ```shell
@@ -143,6 +195,7 @@ After running this command, we will be prompted to enter the project description
 npm init -y
 ```
 _The -y flag means "response with defaults"_
+This command will create the [[#package.json]] file.
 ## fnm
 ### Download fnm
 _Refer to [[#References|Schniz/fnm: 🚀 Fast and simple Node.js version manager, built in Rust (github.com)]]_
