@@ -85,11 +85,11 @@ This sub-statement can be coherent-detected by extracting some inter-data inform
 To meet these conditions, the provided data must have at least one data with uniqueness and another data (or the same) with privacy. For example, if the provided data has some column which is a unique value, the entire entry combination will be unique. If the provided data has some column which is a private value, the entire entry combination will be private:
 
 | username: unique | password: private | (username, password): unique and private |
-| :--: | :--: | ---- |
-| john | *** | (john, ***) |
-| paul | ** | (paul, **) |
-| george | ******** | (george, ****) |
-| ringo | ********** | (ringo, **) |
+| :--------------: | :---------------: | ---------------------------------------- |
+|       john       |        ***        | (john, ***)                              |
+|       paul       |        **         | (paul, **)                               |
+|      george      |     ********      | (george, ****)                           |
+|      ringo       |    **********     | (ringo, **)                              |
 
 But in this case:
 
