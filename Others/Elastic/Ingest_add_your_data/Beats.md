@@ -5,10 +5,12 @@ tags:
   - Ingest_add_your_data
 ---
 # Core principles
-
+# Release notes
+_Refer to [Release notes | Beats Platform Reference [8.13] | Elastic](https://www.elastic.co/guide/en/beats/libbeat/current/release-notes.html)_
+In the Release notes there are all the available versions for Beats products.
+For each version in Release notes, you can see the compatibility of Beats with different [[Operating System|Operating Systems]] in [[Elastic Products#Support Matrix]].
 # AuditBeat
 Used for 
-
 # FileBeat
 Used for collecting, grouping and dumping **logs** from some input path inside the machine it is installed to different outputs.
 ## filebeat.yml
@@ -66,6 +68,7 @@ output.file:
 	path: '/path/to/output/file'
 	filename: '<output_filename>'
 ```
+For Windows, ensure that the path is written with `\\` (e.g. `"C:\\"`, `C:\\Users\\me` etc).
 #### ElasticSearch
 ```YAML
 output.elasticsearch:
@@ -82,7 +85,19 @@ Modules to be monitored are configured as [[YAML]] files under the following pat
 - For [[Linux]] OS, `/etc/metricbeat/modules.d/`
 - For [[AIX]], `/opt/freeware/etc/metricbeat/modules.d/`
 ## Hands on
+### Download MetricBeat package
+_Refer to `https://www.elastic.co/es/downloads/past-releases/metricbeat-MAJOR-MINOR-PATCH`_
+For example, to install MetricBeat 6.5.4: `https://www.elastic.co/es/downloads/past-releases/metricbeat-6-5-4`.
+### Compatibility check
+If you want to check whether the installed MetricBeat package is compatible with your OS, you can perform a compatibility check.
+#### On Windows
+Go to the downloaded `.zip` package and unzip it. Look for `metricbeat.exe` and move to the folder where it is located. Then, run:
+```cmd
+metricbeat test config
+```
 ### Install
+#### On Windows
+Go to the downloaded `.zip` package and unzip it. Look for `metricbeat.exe` and [[Windows#Useful commands#CMD|run it]].
 #### On Linux
 It is recommended to install MetricBeat as [[Linux#APT#Debian package .deb|Debian package]] following these steps: [[Linux#Install a Debian package]] to automatically place the MetricBeat files where they should be.
 #### On AIX
