@@ -54,3 +54,16 @@ type <filename>
 ```cmd
 Get-Content -Path path\\to\\file -Wait
 ```
+
+## Configuring Internet connectivity
+### Virtualized Windows Server 2003
+[[Virtualization#Bridge mode|Configure Virtual Machine in bridge mode]].
+Assign an [[IP|IP address]] to your Windows Server 2003 VM; inside Windows Server 2003:
+1. Press _Windows_ icon
+2. Go to _Show all connections_
+![[show-all-connections-menu.png]]
+3. Right click on _LAN or High-Speed Internet_ and choose _Properties_
+![[network-connections-menu.png]]
+4. Select _Internet Protocol (TCP/IP)_ and click on _Properties_
+![[LAN-properties.png]]
+5. Assign an IP inside your [[Virtualization#Hyper-V LAN]] and set the Hyper-V LAN subnet mask

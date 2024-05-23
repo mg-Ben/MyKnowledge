@@ -30,3 +30,23 @@ weight:       128     64     32     16     8     4     2     1
 result:       128*0 + 64*1 + 32*1 + 16*0 + 8*1 + 4*1 + 2*0 + 1*0 = 108
 ```
 
+# Operations
+# AND
+It is like a product.
+
+| Bit 1 | Bit 2 | Result |
+| ----- | ----- | ------ |
+| 0     | 0     | 0      |
+| 0     | 1     | 0      |
+| 1     | 0     | 0      |
+| 1     | 1     | 1      |
+
+## Bitwise
+_Bitwise = Bit per bit_
+Example:
+```
+    11001001
+AND 00101101
+------------
+    00001001
+```

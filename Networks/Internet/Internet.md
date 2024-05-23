@@ -37,6 +37,17 @@ It is a concept that represents a network of interconnected Internet Devices in 
 We can have:
 - **WLAN**: Wireless LAN
 - **VLAN**: Virtual LAN
+- **LAN**: Traditional physical LAN
+### LAN portion
+A LAN may contain sub-LANs, called **LAN portions**.
+Each (sub-)LAN has got:
+- Its own [[IP#IP address range|IP address range]]
+- One [[IP#IP address range|broadcast address]]. When we communicate with it, that packet will be sent to all devices attached to that LAN portion
+Each [[IP#Network Interfaces|Network interface]] in your machine has got its own LAN portion. For example:
+- The LAN (WLAN) to which your computer antenna is attached to
+- The LAN to which your computer Ethernet cable is attached to
+- The [[Virtualization#Hyper-V LAN]] that allows you to connect to a [[Virtualization#Bridge mode|bridged Virtual Machine]]
+![[interfaces-lans.drawio.png]]
 ## WAN
 _WAN stands for Wide Area Network_
 It is a concept that represents a network of interconnected Internet Devices in a wide range.
