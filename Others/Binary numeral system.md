@@ -16,7 +16,25 @@ A group of 8 [[#Bit|bits]]. For instance:
 ```
 01101111
 ```
-
+## Hexadecimal representation
+You can represent any group of 4 bits in HEX code using this translation:
+```
+1010 => A
+1011 => B
+1100 => C
+1101 => D
+1110 => E
+1111 => F
+```
+### Example
+```
+0111 0101 1001 0001 1110 1101
+```
+Would be the same as:
+```
+0x7591ED
+```
+_Typically, if some binary sequence is represented in HEX code, we write `0x` at the beginning_
 # Unsigned integer values
 ## Translation
 To translate unsigned ```integer``` values into binary and vice versa, multiply each [[#Bit]] by its weight. The weight is generically 2<sup>i</sup>, where ```i``` is the [[#Bit]] position. The index goes from ```0``` backwards:

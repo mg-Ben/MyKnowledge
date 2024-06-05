@@ -27,13 +27,13 @@ _Refer to [Aggregate filter plugin | Logstash Reference [8.13] | Elastic](https:
 > [!NOTE] **Before start...**
 > _You should be very careful to [[#pipeline.workers|set Logstash filter workers to 1]] (`-w 1` flag) for this filter to work correctly otherwise events may be processed out of sequence and unexpected results will occur._
 
-Imagine that your incoming logs have a **common field value**. You can aggregate them into a single one as they are arriving. The operation to do with all the logs belonging to the same group is defined inside `code => ""` section. Generically, the `aggregate{}` plugin looks like this:
+Imagine that your incoming logs have a **common field value**. You can aggregate them into a single one as they are arriving. The operation to do with all the logs belonging to the same group is defined inside `code => ""` section, in [[Ruby]]. Generically, the `aggregate{}` plugin looks like this:
 ```JSON
 filter{
 	aggregate{
 		task_id => "%{fieldName}"
 		code => "
-			#Code-to-run
+			#Code-to-run-in-Ruby
 		"
 		#Other-options
 	}
@@ -212,11 +212,221 @@ And would result in:
 ```JSON
 {"message": "7477: hello"}
 ```
+###### grok{}
+_To practice, refer to [Grok Debugger | Autocomplete and Live Match Highlghting](https://grokdebugger.com/)_
+If you have some log and want to create a structured variable (such as [[JSON]]) whose content represents that log, you must use **grok{}**.
+It serves for the same purpose as [[#dissect{}]], with the main difference that **grok{}** is used when your logs vary from line to line thanks to the ability to define an **array of patterns**.
+For example:
+```
+127.0.0.1 - frank [10/Oct/2024:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
+ERROR: Something went wrong at /path/to/file.rb:42
+```
+You can convert it into:
+```JSON
+{
+	"client_ip": "127.0.0.1",
+	"auth": "frank",
+	"timestamp": "10/Oct/2024:13:55:36 -0700",
+	"method": "GET",
+	"request": "/apache_pb.gif",
+	"http_version": "1.0",
+	"response_code": "200",
+	"bytes": "2326"
+}
+```
+And:
+```JSON
+{
+	"error_message": "Something went wrong",
+	"file": "/path/to/file.rb",
+	"line": "42"
+}
+```
+To do so:
+```JSON
+filter{
+	grok{
+		match => { "message" => ["pattern1", "pattern2", "patttern3"...]}
+		# Where "message" is the input field for grok{}, but may be another field
+	}
+}
+```
+When a log enters the pipeline, it is encapsulated in a [[JSON]] structure where the `message` field contains the log text; that's why we set `message` as the input field for the grok{} plugin. However, we can perform a grok{} with any other field.
+For the example above, the log would be:
+```JSON
+{
+...
+"message": "127.0.0.1 - frank [10/Oct/2024:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326"
+...
+}
+
+
+{
+...
+"message": "ERROR: Something went wrong at /path/to/file.rb:42"
+...
+}
+```
+**Patterns**:
+`pattern` have got this syntax:
+`%{<data_type>:<variable_name>} %{<data_type>:<variable_name>} %{<data_type>:<variable_name>}...`.
+The datatypes can be:
+- `IP`
+- `WORD`
+- `USER`
+- `HTTPDATE`
+- `NUMBER`
+- `GREEDYDATA`
+- `PATH`
+- `DAY`: Matches a day of the week (e.g., "Monday").
+- `MONTH`: Matches a month (e.g., "January").
+- `MONTHDAY`: Matches a day of the month (e.g., "10").
+- `TIME`: Matches a time in HH:mm:ss format.
+- `YEAR`: Matches a year (e.g., "2024").
+- ... (There are libraries with these datatypes defined).
+Each datatype is really a [[Regular Expressions|regex]]; thus, for instance, `IP` is a regular expression that matches IP addresses inside a log. You can even define your own datatypes.To do so, you have to define its corresponding [[Regular Expressions|regex]]. For example, you can create a regex to match an [[Binary numeral system#Hexadecimal representation|HEX code]] and call it `MY_HEX_DATATYPE`:
+1. Create a file with name `pattern`, without extension, and with this content:
+```
+MY_HEX_DATATYPE <regex>
+```
+2. Reference that file in **grok{}** plugin:
+```
+grok {
+	patterns_dir => ["path/to/patterns-file"]
+	match => { "...%{MY_HEX_DATATYPE:<variable_name>}..." }
+}
+```
+You can also define the [[Regular Expressions|regex]] in the same line with **Oniguruma regex**:
+```
+grok {
+	match => { "...(?<<variable_name>>pattern)..." }
+}
+```
+For example:
+```
+grok {
+	match => { "...(?<mac_address>[0-9A-F]{10,11})..." }
+}
+```
+In these cases, the pattern can even contain a **grok{}** pattern with the traditional datatypes of **grok{}** (`IP`, `USER`, `DAY`...):
+```
+grok {
+	match => { "...(?<timestamp>%{DAY} %{MONTH} %{MONTHDAY} %{TIME} %{YEAR})..." }
+}
+```
+You can also make a type conversion like:
+`%{<data_type>:<variable_name>:<new_data_type>}`
+
+*For example, for the first log line:*
+```
+127.0.0.1 - frank [10/Oct/2024:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
+```
+We have this pattern:
+`"%{IP:client_ip} - %{USER:auth} \\[%{HTTPDATE:timestamp}\\] \"%{WORD:method} %{DATA:request} HTTP/%{NUMBER:http_version}\" %{NUMBER:response_code} %{NUMBER:bytes}"`
+Then, we would create a [[JSON]] with the defined fields (`client_ip`, `auth`, `timestamp`...).
+*And for the second log line:*
+```
+ERROR: Something went wrong at /path/to/file.rb:42
+```
+We would have this other pattern:
+`"ERROR: %{GREEDYDATA:error_message} at %{PATH:file}:%{NUMBER:line}"`
+###### dissect{}
+It serves for the same purpose as [[#grok{}]], but **dissect{}** cannot parse logs which are different from one line to another. However, the main differences are:
+- Faster than [[#grok{}]], because it doesn't use [[Regular Expressions]]
+- In **dissect{}** plugin, we don't specify the datatype: only variable name
+Dissect is simpler and faster.
+For example, you can convert:
+```
+127.0.0.1 - frank [10/Oct/2024:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
+```
+Into:
+```JSON
+{
+	"client_ip": "127.0.0.1",
+	"ident": "-",
+	"auth": "frank",
+	"timestamp": "10/Oct/2024:13:55:36 -0700",
+	"method": "GET",
+	"request": "/apache_pb.gif",
+	"http_version": "1.0",
+	"response_code": "200",
+	"bytes": "2326"
+}
+```
+To do so:
+```JSON
+filter{
+	dissect{
+		mapping => { "message" => "pattern" }
+		# Where "message" is the input field for grok{}, but may be another field
+	}
+}
+```
+For the example above, the `pattern` would be:
+`%{client_ip} - %{auth} [%{timestamp}] \"%{method} %{request} HTTP/%{http_version}\" %{response_code} %{bytes}`
+
+When a log enters the pipeline, it is encapsulated in a [[JSON]] structure where the `message` field contains the log text; that's why we set `message` as the input field for the dissect{} plugin. However, we can perform a dissect{} with any other field.
+For the example above, the log would be:
+```JSON
+{
+...
+"message": "127.0.0.1 - frank [10/Oct/2024:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326"
+...
+}
+```
+###### dissect{} - grok{} Hybrid case
+Example:
+We have these logs:
+```
+[5/13/24 15:54:07:813 CST] 00000843 SystemErr     R com.banrural.exceptions.Exception: NO SE ENCONTRO INFORMACION DE CUENTAS
+[5/13/24 15:50:57:172 CST] 00000841 SystemErr     R 	at work2.ValidationInterceptor.doIntercept(ValidationInterceptor.java:263)
+```
+As we can see, the global structure of the log is fixed, but the log content is not:
+The fixed structure is:
+```
+[timestamp] code SystemErr     R <log_content>
+```
+But the log content varies:
+```
+com.banrural.exceptions.Exception: NO SE ENCONTRO INFORMACION DE CUENTAS
+at work2.ValidationInterceptor.doIntercept(ValidationInterceptor.java:263)
+```
+_The first message does not begin with "at" and does not specify the code line that threw the error, so, in case we want to parse the error line for instance, a grok{} will be needed here_
+
+Therefore, an hybrid case **dissect{} - grok{}** is suitable here:
+- [[#dissect{}]] will parse the fixed structured data and will save inside a variable called `log_content` the content of the log, which is not fixed
+- [[#grok{}]] will handle the `log_content` processing. Hence, grok{} input will be `log_content`
+
+```JSON
+filter {
+	dissect{
+		mapping => { "message"  => "[%{log_timestamp}] %{log_process_id} %{log_type} %{} %{log_content}" }
+		remove_field => ["message"]
+	}
+	if "_dissectfailure" in [tags] {
+		drop {}
+	}
+	else{
+		grok{
+			match => { "log_content" => [...]}
+		}
+	}
+}
+```
 ##### output{}
 _To see where you can dump data into, refer to [available output{} plugins](https://www.elastic.co/guide/en/logstash/current/output-plugins.html)_
 Here we will define where to dump data. There can be more than one output. In that case, the processed data would be dumped sequentially in the order they are defined.
 ###### file{}
-If you want to output data into a file, use `file{}` plugin. You can also set `codec => multiline` if you want to merge several logs into a single one by a regular expression.
+If you want to output data into a file, use `file{}` plugin.
+Example:
+```JSON
+output{
+	file{
+		path => "/tmp/output.log"
+	}
+}
+```
+You can also set `codec => multiline` if you want to merge several logs into a single one by a regular expression.
 ##### codec => ... {}
 Serves for changing data representation.
 
@@ -475,4 +685,8 @@ output {
 		cacert => '<path/to/elasticsearch-ca.crt>'
 	}
 }
+```
+### See pipeline logs
+```shell
+tail -f /var/log/logstash/logstash-plain.log | grep <pipeline_name>
 ```

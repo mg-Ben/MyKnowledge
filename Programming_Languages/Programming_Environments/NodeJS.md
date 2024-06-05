@@ -10,7 +10,11 @@ When you [[#Download and install NodeJS]], it is bundled with [[#npm]], but not 
 _npm stands for Node Package Manager_
 _Refer to [[#References|npmjs.org]]_
 - It is a package library
-- But it is also a command line
+- But it is also a **command line**
+### pnpm
+_pnpm stands for Plug'n'play Node Package Manager_
+An alternative package manager for NodeJS.
+- More efficient in terms of space than npm
 ## nvm
 _nvm stands for Node Version Manager_
 ## fnm
@@ -117,6 +121,8 @@ To avoid auto-updates of packages, we must **remove** the `^` character in `pack
     "package2": "1.0.0"
 }
 ```
+Interesting flags:
+- `-E` (e.g. `npm install -E <package>`): prevent npm from installing `<package>` with auto-update enable (i.e. the `^` will be automatically removed)
 #### From package.json
 You can also install a package in a reverse way: firstly, you set the packages you want in `package.json`:
 ```JSON
@@ -199,6 +205,11 @@ This command will create the [[#package.json]] file.
 ## fnm
 ### Download fnm
 _Refer to [[#References|Schniz/fnm: 🚀 Fast and simple Node.js version manager, built in Rust (github.com)]]_
+#### Windows
+```PowerShell
+winget install Schniz.fnm
+```
+And re-load the [[Windows#PowerShell]].
 ### Configure fnm
 #### Set up shell profile
 ##### Windows PowerShell

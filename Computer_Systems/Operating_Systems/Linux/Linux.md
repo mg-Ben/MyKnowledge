@@ -113,7 +113,10 @@ Contains [[BinaryFile|Binary files]] such as [[UNIX#UNIX-CLI standard commands]]
 ### /etc
 System configuration files.
 ### /home
-The home directory for each [[#Users|User]]. For example: ```/home/bmartin```. Generically, ```/home/<username> = ~```
+The home directory for each [[#Users|User]].
+#### /home/username
+The user home.
+For example: `/home/bmartin`. Generically, ```/home/<username> = ~```
 ### /opt
 Additional software that is not part of the core system.
 ### /tmp
@@ -159,7 +162,7 @@ sudo apt install ./<package.deb>
 ```
 You might need to set `644` permissions to package (`chmod 644 <package.deb>`): refer to [[GNU#chmod (Change file or directory permissions)]].
 #### Automatically downloading .deb package
-You can also download your Debian package automatically specifying the URL of the repository where to download from. A [[GNU#GPG public and private keys]] might be needed.
+You can also download your Debian package automatically specifying the URL of the repository where to download from. A [[GNU#GPG public and private keys]] might be needed. That `.gpg` key is often downloaded from the official website of the software and the path where to save it is usually `/etc/apt/keyrings`.
 For this purpose, go to [[#/etc]]/apt/sources.list.d directory, then create a `.list` file and add a line with this format:
 ```
 deb [signed-by=<path_to_gpg_key.gpg>] <repository_URL> stable main
@@ -172,6 +175,7 @@ And install the package:
 ```shell
 sudo apt install <package_name>
 ```
+Some packages don't require setting the repository URL and can be download just by `sudo apt install <package_name>`.
 #### List packages
 ```shell
 sudo dpkg --list | grep <package_name>

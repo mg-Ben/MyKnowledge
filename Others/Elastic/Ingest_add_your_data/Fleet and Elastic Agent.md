@@ -120,7 +120,9 @@ See [[#Interesting flags for Elastic Agent Installation]].
 Run `C:\"Program Files"\Elastic\Agent\elastic-agent.exe uninstall` in [[Windows#PowerShell]]. You must be on the **PowerShell** as Administrator (otherwise the command won't be recognized by cmdlet) and outside the `C:\"Program Files"\Elastic` directory (i.e. in `C:\"Program Files"`).
 - If `elastic-agent.exe` file is missing, you will have to [[#Install Elastic Agent#Windows]] again and let the process create the `.exe` file
 #### Linux
-`sudo ./usr/bin/elastic-agent uninstall`
+```shell
+sudo ./usr/bin/elastic-agent uninstall
+```
 If the command output is:
 `Error: can only be uninstalled by executing the installed Elastic Agent at: /usr/bin/elastic-agent`
 Then it means that the Elastic-Agent is partially installed and broken. To solve this issue:
@@ -150,6 +152,12 @@ services:
       - FLEET_ENROLL=1
       - FLEET_URL=<fleet-server-url>
 ```
+## Stop the Fleet Server
+##### Linux
+```shell
+systemctl stop elastic-agent.service
+```
+
 ## Common settings
 #### Agent output
 Here you will configure the `IP:port` where the [[#Elastic Agent|Elastic Agents]] will dump data (specifically, you configure the HTTP URL, and HTTP**S** is mandatory). Remember that [[#Fleet Server]] is also an Elastic Agent, so this configuration applies to both: Fleet Server Agent and Agents.

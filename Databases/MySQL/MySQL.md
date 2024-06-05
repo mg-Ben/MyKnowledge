@@ -4,11 +4,12 @@ tags:
 ---
 # Core principles
 # Hands on
-## Show databases
+## Commands
+### Show databases
 ```MySQL
 SHOW DATABASES
 ```
-## Show tables
+### Show tables
 ```MySQL
 SHOW TABLES
 ```

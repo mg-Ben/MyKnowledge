@@ -3,7 +3,38 @@ tags:
   - Data_visualization_and_analysis
 ---
 # Core principles
+## Configuration files
+Grafana can be configured from `grafana.ini` file.
+### Location
+#### Debian or Ubuntu
+`/etc/grafana/grafana.ini`
 # Hands on
+## Install Grafana
+### Debian or Ubuntu
+Install the prerequisite packages:
+```shell
+sudo apt-get install -y apt-transport-https software-properties-common wget
+```
+Download the [[GNU#GPG public and private keys|GPG Key]] and place it in `/etc/apt/keyrings`:
+```shell
+wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null
+```
+Add `grafana.list` in `/etc/apt/sources.list.d/` and add the repository (see [[Linux#APT#Automatically downloading .deb package]]):
+```shell
+echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+```
+Update package lists (`sudo apt update`) and install grafana (`sudo apt install grafana`).
+Grafana will install as a [[Linux Service]] with the name `grafana-server.service`.
+To check if Grafana has been successfully installed:
+```shell
+sudo systemctl status grafana-server.service
+```
+## Configure Grafana
+You can configure Grafana from [[#Configuration files|grafana.ini]] file. For example:
+- `http.port`: set the port where you can access to Grafana
+## Start Grafana
+You must [[Internet#Interact with running ports|interact with running Grafana port]] through a Web browser, for example.
+Use `username = admin` and `password = admin` to enter Grafana.
 ## Exploring data
 ### Prometheus database
 #### PromQL queries

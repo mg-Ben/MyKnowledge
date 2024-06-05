@@ -10,13 +10,13 @@ It is a **project** with the purpose of turning **Open-Source** [[UNIX|UNIX-like
 
 The term _GNU_ stands for _GNU is Not Unix_ because It differs from UNIX by being **free software**.
 Therefore, GNU can be mixed in conjunction with a UNIX-like Operating System: e.g. **GNU/[[Linux]]**, providing the classic [[#Bash]] shell.
+## GPG public and private keys
+_GPG stands for GNU Privacy Guard_
+It uses the **PGP Standard**.
 ## Bash
 _Bash stands for Bourne Again SHell_
 It is a [[Operating System#Shell|CLI Shell]] with its own shell-specific language. It is the classic shell you can find inside [[Linux]]:
 ![[Bash-shell.png]]
-## GPG public and private keys
-_GPG stands for GNU Privacy Guard_
-It uses the **PGP Standard**.
 ### Useful commands
 Some commands that are provided by GNU Bash are the following. However, you can also run [[UNIX#UNIX-CLI standard commands]] (i.e. Bash is not limited to just GNU commands).
 Every command is a binary file (located in [[Linux#/bin]] directory).
@@ -63,6 +63,16 @@ for token in "${tokenized_string_variable_name[@]}"; do echo $token; done
 
 #### sed (Stream editor for text transformation)
 #### find (Search for files in a directory hierarchy)
+```shell
+find <directory> -name "..."
+```
+Interesting flags:
+- `-type f`: search for files
+- `-type d`: search for directories
+Example: find all files from the current directory with `.py` extension:
+```shell
+find . -type f -name "*.py"
+```
 #### chmod (Change file or directory permissions)
 ##### Specifying Octal Notation
 ```shell

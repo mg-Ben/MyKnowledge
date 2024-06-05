@@ -146,7 +146,6 @@ xpack.security.transport.ssl:
 2. Specifying as ```configuration_name = xpack.security.transport.ssl.truststore.secure_password```
 
 Now your ElasticSearch node is secured with TLS/SSL!
-
 ###### HTTPS - Application Layer Security
 Generate the Application-Layer [[Cybersecurity#Certificates|certificate]]. To do so, use the [[#elasticsearch-certutil]] tool and:
 - [[#Generate the Application-Layer certificate for the node]]. The result will also contain the ```.pem``` file for [[Kibana]] so that Kibana trusts this ElasticSearch `.p12` certificate.
@@ -159,11 +158,16 @@ xpack.security.http.ssl:
 - [[#Add password to keystore|Store the node password in elasticsearch.keystore]]. For this purpose, run it once (enter the password you chose for the node when generated the Application-Layer certificate):
 	1. Specify as ```configuration_name = xpack.security.http.ssl.keystore.secure_password``` 
 	2. Enter the password
-- Move the `.pem` file to [[Kibana#Configuration Files Path|kibana config directory]].
+- Move the `.pem` file to [[Kibana#Configuration Files Path|kibana config directory]]
+###### Change file owner for elasticsearch.keystore
+Once you have configured both TLS/SSL and HTTPS certificates, you must [[GNU#chown (change ownership)|change ownership for elasticsearch.keystore file]] to `elasticsearch` user. For example:
+```shell
+sudo chown elasticsearch: /etc/elasticsearch/elasticsearch.keystore
+```
 #### 5. Check cluster health
 Sometimes it takes a lot of time to prepare [[#Shards]], so you can find errors related to `missing shards` while ElasticSearch is starting. To check cluster health and know the percentage of total shards which are ready, run the following command:
 ```shell
-curl -X GET "https://<ES_IP:ES_PORT>/_cluster/health?pretty" --cacert <path_to_CA.crt> -u username:password
+curl -X GET https://<ES_IP:ES_PORT>/_cluster/health?pretty --cacert <path_to_CA.crt> -u username:password
 ```
 # Hands on
 _The best way to learn ElasticSearch is firstly [[#ElasticSearch Locally|work locally]] (without docker containers). Once everything is configured, you can [[#ElasticSearch on Docker Container|dockerize it]]._
@@ -211,10 +215,10 @@ ElasticSearch installation comes with several additional tools. They are located
 - For Debian-based installation, the `/bin` is in `/usr/share/elasticsearch/bin`
 #### elasticsearch-reset-password
 For resetting passwords for users, such as Kibana user.
-1. Disable all the configurations made for [[#2. Security|Security]] if you had. This implies:
-	1. Disable all the [[#2. Security|Security]] settings inside ```elasticsearch.yml``` and remove all passwords inside the [[#elasticsearch-keystore]].
-	2. [[#Run ElasticSearch = Run one ElasticSearch node|Run again your ES node]].
-	3. While running, run the restart password tool: `./elasticsearch-reset-password -u <username>`. If your cluster is in RED state and cannot be started, you can pass the `-f` flag to force reset password.
+1. Disable all the configurations made for [[#4. Security]] if you had. This implies:
+	1. Disable all the [[#4. Security]] settings inside ```elasticsearch.yml``` and remove all passwords inside the [[#elasticsearch-keystore]]
+	2. [[#Run ElasticSearch = Run one ElasticSearch node|Run again your ES node]]
+	3. While running, run the restart password tool: `./elasticsearch-reset-password -u <username>`. If your cluster is in RED state and cannot be started, you can pass the `-f` flag to force reset password
 #### elasticsearch-certutil
 For generating [[SSL-TLS#elasticsearch-certutil|SSL/TLS certificates]] and encrypt inter-node communication.
 ##### Generate Certification Authority
@@ -238,11 +242,17 @@ The output will be a file named ```elastic-certificates.p12``` by default which 
 Interesting flags:
 - ```--pem```: the output will be a ```.zip``` with the certificate in ```pem``` format inside (i.e. one ```.key``` file and one ```.crt``` file)
 - `--dns <DNS (or hostname)>`
-You can repeat these steps for each node so that each one has got its own password.
+You can repeat these steps for each node so that each one has got its own password
 ##### Generate the Application-Layer certificate for the node
 ```shell
 ./elasticsearch-certutil http
 ```
+You will need to enter some configurations such as:
+- Generate a CSR (_Certificate Signing Request_). If this certificate is self-signed, select No (N)
+- Use an existing CA: Select Yes (y) and enter the [[#Generate Certification Authority|previously generated CA]]. You can also opt for generating a CA at the moment
+- Generate a certificate per node. If you choose Yes, you can enter the node name, but you can leave it empty (it is not necessary). However, choose No if you have a single-node cluster
+- **DNS names**: these names are the DNS names that others will use to connect to your ES instance (e.g. if you are running ElasticSearch inside some Operating System, you can set this to your [[Virtualization#Guest Operating System|Guest OS]]/[[Virtualization#Host Operating System|Host OS]] [[UNIX#hostname (get DNS name)|hostname]], as well as `localhost`)
+- **IP addresses**: these [[IP#IPv4|IP addresses]] refer to those IPs that others will use to connect to your ES instance (e.g. you can set this to [[IP#Special IP addresses]] such as `0.0.0.0`, `127.0.0.1`, `127.0.1.1` and the [[IP]] you get with `ipconfig` or `ifconfig`)
 #### elasticsearch-keystore
 For adding passwords to [[#Configuration Files#elasticsearch.keystore file]].
 The [[Linux#File owner]] of the elasticsearch-keystore may be `elasticsearch` user. You can determine the File Owner with [[UNIX#ls (List files)]] inside the [[#Configuration Files Path]]:
@@ -275,6 +285,15 @@ You will be prompted to add the password value.
 ./elasticsearch-keystore list
 ```
 ## Explore data
+### Check index health
+You can both [[#5. Check cluster health|check ES cluster health]] and check the health for a specific index with:
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/_cluster/health/<index> [other_curl_options]
+```
+### Delete index
+```shell
+curl -X DELETE http(s)://ES_IP:ES_PORT/<index> [other_curl_options]
+```
 ### Get all indices
 Retrieve ElasticSearch [[#Indices]]:
 ```shell

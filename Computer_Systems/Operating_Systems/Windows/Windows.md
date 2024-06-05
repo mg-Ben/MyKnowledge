@@ -14,6 +14,7 @@ The profile file for PowerShell is a `.ps1` Script file that contains commands a
 - Provide access to directories
 - Set Script execution policies
 - Configure environment variables
+
 The path of the Script is stored in `$profile` environment variable:
 ```PowerShell
 echo $profile

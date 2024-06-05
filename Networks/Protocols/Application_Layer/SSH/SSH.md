@@ -63,10 +63,12 @@ The value of ```<destination>``` can be:
 - The username + the destination [[IP#IP address|IP address]] or [[DNS|domain name]], separated by ```@``` (e.g. ```bmartin@1.2.3.4```)
 Flags:
 - `-v`: for debugging (show verbose)
+- `-vvv`: for more detailed debugging (show detailed verbose)
 - ```-p <PORT>```: specify destination port
 - ```-i <keyfile>```: specify the name of the [[#keyfile]].
 - `-o`: to specify additional configurations. For example:
 	- `-o KexAlgorithms`: to specify Key Exchange Algorithm. When you need to connect to some corporative SSH server, you might need to set this parameter, specially when you find some errors like `debug1: expecting SSH2_MSG_KEX_ECDH_REPLY` when showing verbose
+- `-F </path/to/config>`: explicitly specify [[#Configuration|config]] file
 ##### scp (Secure Copy)
 You can copy files from one machine to a remote machine securely with:
 ```shell
@@ -83,5 +85,10 @@ ssh: Could not resolve hostname X: Temporary failure in name resolution
 lost connection
 ```
 - You must have permissions on ```<destination_directory>```
-
-
+### Common errors
+#### ssh: Could not resolve hostname ...: Temporary failure in name resolution
+Run [[#ssh (Connect remotely to the SSH server)|ssh command]] with detailed verbose: `-vvv`. It might not be taking the configuration file from `~/.ssh/config` file, but from `/etc/ssh/ssh_config` instead due to file owner or file permissions.
+If it is not taking the configuration file from `~/.ssh/config`:
+- [[GNU#chmod (Change file or directory permissions)|chmod]] `.ssh` directory with `700` permissions: `sudo chmod 700 ~/.ssh`
+- [[GNU#chmod (Change file or directory permissions)|chmod]] all the inner files with `600` permissions: `sudo chmod 600 ~/.ssh/*`
+- [[GNU#chown (change ownership)|chown]] all the inner files inside `.ssh` directory to your user: `sudo chown <user>: ~/.ssh/*`

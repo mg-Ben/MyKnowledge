@@ -90,6 +90,10 @@ Or, in one line:
 ```shell
 for i in ...; do command; done
 ```
+For example, `...` can be:
+- A list of elements (`Monday Tuesday Wednesday Thursday Friday`)
+- A list of values (`1 2 3 4 5`). You can define this list as `{initial_value..final_value}`, both included
+- The output of some command (`$(command)`)
 ## Useful conditions
 For [[#if condition]], [[#while loop]] or [[#for loop]] (or whenever you need to use conditions), here you have some useful ones.
 _Note: you can negate them setting ! before the condition_
@@ -129,3 +133,7 @@ You can dump any command output to a file with ```>```. For example:
 ls -la > output_file.txt
 ```
 ## vi (Visual Editor)
+## hostname (get DNS name)
+```shell
+hostname
+```
