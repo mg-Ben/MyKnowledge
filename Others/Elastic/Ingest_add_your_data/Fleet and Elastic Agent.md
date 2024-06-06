@@ -157,7 +157,6 @@ services:
 ```shell
 systemctl stop elastic-agent.service
 ```
-
 ## Common settings
 #### Agent output
 Here you will configure the `IP:port` where the [[#Elastic Agent|Elastic Agents]] will dump data (specifically, you configure the HTTP URL, and HTTP**S** is mandatory). Remember that [[#Fleet Server]] is also an Elastic Agent, so this configuration applies to both: Fleet Server Agent and Agents.

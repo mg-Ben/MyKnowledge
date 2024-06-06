@@ -52,3 +52,5 @@ Commits that update configuration files or settings used by the software.
 - Build configurations
 - Deployment scripts
 _Or other settings that affect the behavior of the software._
+
+# Hands on

@@ -20,13 +20,15 @@ In the following image example, we have created two containers inside the Host O
 # Docker layer
 A Docker image is composed by layers, each one with an identifier.
 # Docker image
-It is the environment, with all the dependencies (configuration files). Consists of several [[#Docker layer|docker layers]]. To create a Docker image, a ```Dockerfile``` is needed, where you define which image to use (Python, Java, C, NodeJS...), the packages or modules your application needs (pandas, matplotlib, numpy...) or the command(s) that must be run when building the container to deploy your application (```python3 main.py```).
+It is the environment, with all the dependencies (configuration files). Consists of several [[#Docker layer|docker layers]]. To create a Docker image, a ```Dockerfile``` is needed, where you define which image to use (Python, Java, C, NodeJS...), the packages or modules your application needs (pandas, matplotlib, numpy...) or the command(s) that must be run when building the container to deploy your application (e.g. ```python3 main.py```).
+The `Dockerfile` file must be named `Dockerfile` or `<custom_name>.Dockerfile`.
 You can download Docker images on [DockerHub](https://hub.docker.com/).
 ## Dockerfile Example
 Dockerfile example:
 ```yml
 #Choose the image to download:
-FROM python:3.12.0
+FROM python:3.12.0 #The FROM line must be the first one
+#From the FROM line, a new image is started and the build environment is reset
 
 #Commands to run when deploying the future container based on this image:
 
@@ -54,7 +56,11 @@ openpyxl==3.1.2
 matplotlib==3.8.2
 fuzzywuzzy==0.18.0
 ```
-The Operating System image (```.iso``` file) in terms of Operating System virtualization would be the analogous to [[#Docker image]] in terms of Application virtualization, because the image is the flavour we want (Ubuntu version 18.04 or Windows version 10, for example; in this case, Python, NodeJS, Prometheus...).
+
+The [[Operating System]] image (```.iso``` file) in terms of Operating System virtualization would be the analogous to [[#Docker image]] in terms of Application virtualization, because the image is the flavour we want (Ubuntu version 18.04 or Windows version 10, for example; in this case, Python, NodeJS, Prometheus...).
+### ARG - Build arguments
+### ENV - Environment variables
+
 # Docker container
 It is the application itself. Consists of several [[# Docker image|docker images]]. One of those images is the **base image**.
 # Docker network
@@ -109,10 +115,10 @@ docker image rm <image_name>:<image_tag>
 ```shell
 docker image rm <image_id>
 ```
-#### Get docker image
+#### Build docker image
 ##### From Dockerfile
 Once you have your [[#Docker image#Dockerfile Example|Dockerfile]], you can build your image like:
-```
+```shell
 docker build <Dockerfile_path>
 ```
 Where ```<Dockerfile_path>``` is the path where your Dockerfile lies (e.g., ```/nowhere/land/```).
@@ -227,7 +233,7 @@ TIP: If ```<command> = bash```, you can get into the command line inside the con
 ### 0. Download Docker Desktop
 Download Docker Desktop to enable the [[#Interesting commands|Docker commands]].
 ### 1. Get an image
-Either create it or download it from DockerHub (see [[#Docker image]]).
+Either [[#Dockerfile Example|create it]] and [[#Build docker image|build it]] from Dockerfile or download it [[#From DockerHub|from DockerHub]].
 ### 2. Build a container
 See [[#Hands on#Interesting commands#For Docker containers]]: create and start your container.
 ### 3. The reality: docker-compose.yml
@@ -241,15 +247,15 @@ Interesting flags:
 - ```--force-recreate```: Recreate containers before deploy. If you find an error like ```error response from daemon: network <...> not found``` you will need to recreate the network when deploying by ```docker compose up``` with ```--force-recreate``` flag. This would stop and recreate the docker containers, but won't remove the docker volumes!
 _Note: use the two flags ```--build``` and ```--force-recreate``` in conjunction to rebuild images and recreate containers_
 #### Remove images and deployed by docker-compose.yml
-```
+```shell
 docker compose down
 ```
 #### Restart docker containers defined in docker-compose.yml
-```
+```shell
 docker compose restart
 ```
 #### Show logs of docker containers defined in docker-compose.yml
-```
+```shell
 docker compose logs
 ```
 #### Template example
@@ -319,3 +325,9 @@ Then, reference those variables inside ```docker-compose.yml``` such as:
 		...
 ```
 This makes easier the deployment: user just needs to edit the ```.env``` file and ```docker compose up```.
+If [[#Dockerfile Example|Dockerfile]] file has got a custom filename:
+```YAML
+build:
+	context: /path/where/Dockerfile/is/located
+	dockerfile: <filename>.Dockerfile
+```

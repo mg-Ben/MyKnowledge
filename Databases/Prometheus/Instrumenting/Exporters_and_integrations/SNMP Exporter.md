@@ -12,7 +12,7 @@ The core idea is to scrape this SNMP manager process because we want every infor
 # Hands on
 ## How to use SNMP Exporter
 ### Configuration
-Firstly, you will need to configure the SNMP Exporter through ```snmp.yml``` file. Here is where you define which [[SNMP#Definition|OIDs]] to request to [[SNMP|SNMP Agent]]. However, that file shouldn't be edited by user directly: use [[#SNMP Generator]] instead.
+Firstly, you will need to configure the SNMP Exporter through `snmp.yml` file. Here is where you define which [[SNMP#Definition|OIDs]] to request to [[SNMP|SNMP Agent]]. However, that file shouldn't be edited by user directly: use [[#SNMP Generator]] instead.
 #### SNMP Generator
 The [SNMP Generator](https://github.com/prometheus/snmp_exporter/tree/main/generator) is a "sub-tool" within SNMP Exporter whose aim is to auto-generate ```snmp.yml``` file based on two inputs: [[#Input 1 generator.yml file]] and [[#Input 2 MIBs]].
 ##### Input 1: generator.yml file

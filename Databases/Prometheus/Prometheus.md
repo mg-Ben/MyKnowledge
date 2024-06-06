@@ -222,4 +222,10 @@ processes{cpuIndex="4", ...} 340
 processes{cpuIndex="5", ...} 40
 ...
 ```
-
+### Point by point operation
+Supposing you want to perform some operation between two or more metric values for each time sample, those metrics must have the same labels.
+### Remove labels from query result
+If you don't want to show all labels for the query result, use `without` clause:
+```
+(PromQL_query) without (label1, label2, label3...)
+```

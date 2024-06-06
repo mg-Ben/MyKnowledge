@@ -24,46 +24,19 @@ All network resources must be available for all users.
 
 The definition of authentication is:
 - The process of verification that `user/machine is == who they claim to be`
-Whenever some user/machine wants to authenticate to us, they claim something about them (they say `hello, my name is X`). We then have to [[#Coherence-detection analysis|show that that statement is true]] and decide if we trust them or not.
-- If we trust them, the user/machine becomes trusted ([[#Authorization]]), which is the second step of authentication
-Summarized:
-- **Authentication** comes into play in [[#Registration process]]
-- **Authorization** comes into play in [[#Login process]]
-### Coherence analysis
-It serves for determining the veracity score for a given statement.
-- In mathematics, some statements can be shown with 100% veracity score (e.g. `show that x = 3` by a mathematic development)
-- In mathematics and other fields in life, there are statements that can't be known for 100% certain. In these cases, we proceed to make a step-by-step **coherence analysis** studying the consequences that there should be if the statement was true (see [[#Coherence analysis#example|example]] below)
-The output of coherence analysis is a **veracity score** (a value between 0 and 1) which represents the probability to trust the statement. If `>0.5`, we can decide to trust. Otherwise, we don't trust.
-The output **veracity score** is more reliable if a more exhaustive analysis has been performed (this means an analysis with better [[#Information quality]]).
-
-![[Coherence-detection.drawio.png]]
-#### Example
-Javier says "I have a new motorbike", but you cannot know it for certain because Javier lives very far from you. You want to show that in fact he has bought a new motorbike, so you perform a coherence analysis like this:
-
-![[Coherence-analysis.png]]
-
-- The statement under test (`Javier has got a new motorbike`) is an event that implies some events as a consequence (`to have spent money, to have looked for motorbikes on the Internet, to have poured petrol...`), and those events imply other sub-events as a consequence and so on
-- Each event has got a weight that is the **correlation** with its parent event. For example, `buying a new motorbike` is an event that has got a lot of correlation with the event `having looked for motorbikes on the Internet recently`. We will try to analyze those events which are more correlated to the parent event. For instance, `pouring petrol in some gas station` is not so correlated, but we can consider it in the analysis
-- The further one event is from another in the tree structure, the less correlated they are. For example; `having used a computer` is not as correlated with `having a new motorbike` as with `having used a web browser`
-- At the end, this is a [[Random events#Random event tree|random event tree]]
-#### Information quality
-Now, we will define:
-```ìnformation quality = number of data*information distance to the lie issue*privacy of data```
-This value determines if the coherence-detection system is accurate or not with its output: the veracity score. The more information quality, the more accurate the veracity score is (e.g. a coherence detector with a low information quality is not reliable and if the output veracity is equal to ```0.75```, that measure is not reliable).
-- The more variables under test, the more difficult for the liar to lie, because they have to create a "coherent story" with all those variables
-- And if those variables are closer to statement, the information quality is better and more difficult for the liar to lie
-- And if those variables are non accessible for the liar, it will be more difficult for the liar to lie, because they have to manage how to get access
-To make a very accurate coherence detector (i.e. a detector that is very accurate with veracity measure, i.e. a good lie-detector), you now know that you must obtain as much information as you can and not only that, but also information the most related to the statement under test as possible, and private.
-The coherence-detector is like a mentalist who ask questions to liars to determine whether they say the truth or not. A good mentalist would ask a lot of accurate questions. Liars try to create new realities from our existing reality (i.e. liars play God), but we have to check whether their reality is coherent with our one, so we have to assume that there only exists one reality: our one.
-_Well, note that coherence-detection systems are biased by our reality, because they detect the coherence between data according to our reality laws, but... There might be other realities with their own laws which are also coherent as this world? That's another discussion that we are not considering here :D_
+In every authentication process, there are two parts:
+1. [[#Registration process]]: the other side of the communication introduces itself to us
+2. [[#Login process]]: the other side of the communication wants to get access to some service. This process is called **Authorization**
 #### Registration process
+In a registration process, the user or machine introduces itself. However we can't know who the user or machine really is. For example, Bob might create a fake account and the server would never know it.
+However, we can:
+- Verify that the user or machine is providing information that makes sense (i.e. a **coherence** detection may be performed in this step). However, most systems don't implement this coherence detection
+- Verify that the user or machine identity information does not really exist against a **database**
+
+Since in most cases we are going to accept anyone new in the system, we can force users to provide private data and as many information as we can, to avoid possible impersonations.
 
 ![[RegistrationProcess.drawio.png]]
 
-The first case involves checking ```a new person == who they claim to be```. To make a human simile, It's as if someone gets closer to you and says ```Hi, I introduce myself: mi name is Bob```. In this statement, the suspicious Bob claims two sub-statements:
-- That we don't know him
-- That he is Bob
-To check the first condition, we need to take as much information as we can from the user, as related as possible to the issue under test (the identity of the user) and as private as possible. The number of data is important in this step because we will use all that information compacted (called biometric template) as an index to the database.
 However, for the second one, **there is no way to check that condition for a server**.
 Well, that's what happens in the **registration process** of a new user in a server, for example. The user introduces itself providing as much information as it is forced to give. Server designers decide to request all that information to make the authentication system more robust (remember [[#Information quality]]). For example:
 - The fingerprint
@@ -120,7 +93,7 @@ Other examples are: fingerprints, voice features or face features, which are bot
 Now, maybe you have noted that, to introduce yourself on the Internet, you have to provide something that is **private**. Unless you encrypt it, anyone can steal it! That's why authentication is something that implicitly must go-in-hand with [[#Confidentiality]].
 ### Authorization
 Once a user/machine has been authenticated, it is authorized.
-Authorization involves, summarizing, providing mechanism to grant certain permissions to certain users.
+Authorization involves, summarizing, providing mechanisms to grant certain permissions to certain users.
 To do so, we must create a database of **authorized users** or use [[#Certificates]].
 #### Login process
 

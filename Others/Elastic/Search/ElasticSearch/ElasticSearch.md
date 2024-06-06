@@ -188,7 +188,7 @@ Depending on how you installed ElasticSearch:
 	You will need to [[UNIX#rm (Remove files or directories)|remove]] the [[#Data path|elasticsearch data]], [[Linux#APT#Uninstall package|purge the elasticsearch package]] and [[Linux#APT#Install a Debian package|install elasticsearch again]]
 ## ElasticSearch on Docker Container
 ### Create or download the ElasticSearch Image
-You can either create a custom image through [[Docker#Dockerfile Example|Dockerfile]] from the ElasticSearch official image (setting ```FROM elasticsearch...```) or directly use the ElasticSearch official image by [[Docker#Interesting commands#Get docker image#From DockerHub|pulling it]].
+You can either create a custom image through [[Docker#Dockerfile Example|Dockerfile]] from the ElasticSearch official image (setting ```FROM elasticsearch...```) or directly use the ElasticSearch official image by [[Docker#Interesting commands#Build docker image#From DockerHub|pulling it]].
 Remember that it is better to define a [[Docker#3. The reality docker-compose.yml|docker-compose.yml]] where the pull is automatically done.
 ### Configure ElasticSearch
 To configure ElasticSearch, you have several ways:

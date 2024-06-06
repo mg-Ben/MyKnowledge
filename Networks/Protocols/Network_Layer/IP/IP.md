@@ -17,8 +17,8 @@ For instance, if you are wired-connected to Internet, you will have one interfac
 #### Special IP addresses
 There are some standard IP address values with their own meaning. For example:
 - `0.0.0.0` means "All network interfaces"
-- `127.0.0.1` means "localhost"
-- `127.0.1.1` means "localhost" too, but with the difference that this is the IP address attached to the [[Operating System]] [[UNIX#hostname (get DNS name)|hostname]]. This means that, if you perform a ping towards your OS hostname, that DNS hostname will be mapped to `127.0.1.1`
+- `127.0.0.1` means "localhost". You can see this DNS resolution inside [[Linux#/etc|/etc/hosts]] file in Linux [[Operating System|OS]]
+- `127.0.1.1` means "localhost" too, but with the difference that this is the IP address attached to the [[Operating System]] [[UNIX#hostname (get DNS name)|hostname]]. This means that, if you perform a ping towards your OS hostname, that DNS hostname will be mapped to `127.0.1.1`. You can see this DNS resolution inside [[Linux#/etc|/etc/hosts]] file in Linux [[Operating System|OS]]
 #### Format
 ##### IPv4
 It consists of four [[Binary numeral system#Byte|Bytes]] separated by ```.```:

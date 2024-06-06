@@ -144,7 +144,6 @@ Timestamp: 03-04-2023 13:43:23:
 	cpuProcesses{cpuIndex="5", cpuDescr="AMD Ryzen 3800X @ 2.4 GHz"} 56
 ```
 Let's explore some queries you can perform to get some visualizations.
-
 ##### Get label value(s)
 Whether you want to take some label values to show them as a dropdown list selection in Grafana dashboard or you want to create a dashboard variable with a certain label value:
 ```
@@ -295,6 +294,10 @@ temperature{cpuIndex="5", cpuDescr="AMD Ryzen 3800X @ 2.4 GHz", cpu="AMD", machi
 
 ```
 <metric> * on(<index_or_any_unique_value>) group_left(<target_label>) <target_metric>
+```
+You can even group by several indexes, such as:
+```
+<metric> * on(index1, index2, index3...) group_left(<target_label>) <target_metric>
 ```
 _In Grafana, it doesn't matter whether you use group_left or group_right, since columns are alphabetically-ordered_
 Example:
