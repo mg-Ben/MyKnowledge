@@ -26,36 +26,26 @@ The definition of authentication is:
 - The process of verification that `user/machine is == who they claim to be`
 In every authentication process, there are two parts:
 1. [[#Registration process]]: the other side of the communication introduces itself to us
-2. [[#Login process]]: the other side of the communication wants to get access to some service. This process is called **Authorization**
+2. [[#Login process]]: the other side of the communication wants to get access to some service. This process is also called **Authorization**
 #### Registration process
-In a registration process, the user or machine introduces itself. However we can't know who the user or machine really is. For example, Bob might create a fake account and the server would never know it.
-However, we can:
-- Verify that the user or machine is providing information that makes sense (i.e. a **coherence** detection may be performed in this step). However, most systems don't implement this coherence detection
-- Verify that the user or machine identity information does not really exist against a **database**
-
-Since in most cases we are going to accept anyone new in the system, we can force users to provide private data and as many information as we can, to avoid possible impersonations.
 
 ![[RegistrationProcess.drawio.png]]
 
-However, for the second one, **there is no way to check that condition for a server**.
-Well, that's what happens in the **registration process** of a new user in a server, for example. The user introduces itself providing as much information as it is forced to give. Server designers decide to request all that information to make the authentication system more robust (remember [[#Information quality]]). For example:
-- The fingerprint
-- The face features
-- The password or any private key
-- The username
-- The ID Card...
-Here, the provided information must be **(public)-unique** and **private-(non-unique)**. Sometimes those unique-private properties are separate, but in the whole the combination of final provided data must meet those two properties:
+In a registration process, the user or machine introduces itself. However, we can't know who the user or machine really is. For example, Bob might create a fake account and the server would never know it.
+Nonetheless, we can:
+- Verify that the user or machine is providing information that makes sense (i.e. a **coherence** detection may be performed in this step). However, most systems don't implement this coherence detection
+- Verify that the user or machine identity information does not really exist against a **database**
+In practice, in most cases we will accept anyone in the system.
+
+Now, we have to consider that the provided data in **registration** step will be used later for [[#Authorization]] stage, in the **log in** process. We don't want others to be able to get access to the system, so the provided information must be **(public)-unique** and **private-(non-unique)**. Sometimes those unique-private properties are separate, but in the whole the combination of final provided data must meet those two properties:
 - (Public)-unique because we are talking about the identity of the self (that is of what statement is about), and we must check whether that user already exists because there can't be two identic users. This value can be public or not, because it is used just for indexing in database. 
-    _An example are usernames, which are unique for each user (remember that sometimes, when you register with an existing username, you are given an error message that says "Username already exists"), or phone number_
-- Private-(non-unique) because the main purpose is to prevent hackers from impersonating someone by making them more difficult to lie, as we said in [[#Information quality]]. With privacy, we can prevent hackers from providing the credentials of other person.
+    _An example are usernames, which are unique for each user (remember that sometimes, when you register with an existing username, you are given an error message that says "Username already exists"), or phone number, or mail addresses_
+- Private-(non-unique) because the main purpose is to prevent hackers from impersonating someone by making them more difficult to lie. With privacy, we can prevent hackers from providing the credentials of other person.
     _An example are passwords, which are private for each user, but can be non-unique (several users might have the same password)_
 In the whole, _(user, password)_ combination is both unique and private: those are the main conditions to meet.
-To make the system even more robust, you can force the user to provide unique-private data. For example, you can use fingerprint as index. This would be more safe in the new user check, as fingerprint is difficult to steal (thanks to privacy). You can also add as many unique data as you can (username, phone numbers and others) so that make more difficult for the potential hacker to impersonate someone.
-Sometimes, in this statement assessment, it is considered an additional sub-statement:
-- Bob is real
-This sub-statement can be coherent-detected by extracting some inter-data information about Bob's identity (like the fingerprint, the face or whatever) and checking if it makes sense one another (e.g. if Bob is tall, he should have a big fingerprint). Some current systems implements this action to make the system even more accurate.
+An example of information that meets both unique-private at a time are fingerprints. You can use fingerprint as index, as it is unique, and fingerprint is difficult to steal (thanks to privacy).
 
-To meet these conditions, the provided data must have at least one data with uniqueness and another data (or the same) with privacy. For example, if the provided data has some column which is a unique value, the entire entry combination will be unique. If the provided data has some column which is a private value, the entire entry combination will be private:
+Examples: in the following case, we have username and password. The tuple meets both uniqueness and privacy:
 
 | username: unique | password: private | (username, password): unique and private |
 | :--------------: | :---------------: | ---------------------------------------- |
@@ -72,6 +62,7 @@ But in this case:
 | paul | 46 32 22 | (paul, 46 32 22) |
 | george | 82 73 73 | (george, 82 73 73) |
 | ringo | 31 99 56 | (ringo, 31 99 56) |
+
 Although data is unique, anyone can impersonate john, paul, george or ringo, because data is not private.
 
 In this other case:
@@ -82,31 +73,23 @@ In this other case:
 | ** |
 | ******** |
 | ********** |
-As data is non-unique, the server cannot check if a new user already exists. Therefore, register process is not performed and database makes no sense. Only a coherence-detection to check if user is real can be executed (see below).
+
+As data is non-unique (there might be duplicate passwords!), the server cannot check if a new user already exists. Therefore, register process is not performed and database makes no sense.
 
 At the end, the resulting combination properties can be interpreted as an ```OR``` operation. If we define:
 - Non-unique: ```0```, Unique: ```1```
 - Public: ```0```, Private: ```1```
 Then, if we have a data that is, for example, non-unique and private (```01```) and another that is Unique and private (```11```), the resulting combination is (```01 + 11 = 11```), i.e. unique and private. What is the same; to get a ```11``` unique and private value combination, some data must be unique and some data (not necessary the same) must be private.
 
-Other examples are: fingerprints, voice features or face features, which are both unique and private. You can make an authentication system based only on fingerprints, for example, but remember the more data you ask for the user the more accurate the liar-detector is.
+Other examples are: voice features or face features, which are both unique and private. You can make an authentication system based only on fingerprints, for example, but remember the more data you ask for the user the more accurate the liar-detector is.
 Now, maybe you have noted that, to introduce yourself on the Internet, you have to provide something that is **private**. Unless you encrypt it, anyone can steal it! That's why authentication is something that implicitly must go-in-hand with [[#Confidentiality]].
-### Authorization
+#### Authorization - Login process
 Once a user/machine has been authenticated, it is authorized.
 Authorization involves, summarizing, providing mechanisms to grant certain permissions to certain users.
-To do so, we must create a database of **authorized users** or use [[#Certificates]].
-#### Login process
+To do so, we must create a database of **authorized users** or directly use [[#Certificates]].
+Certificates are a way to allow users to access to the system without the need of prior [[#Registration process]]. However, the provided certificate must be signed by some reliable [[#Certificate Authorities (CA)|Certificate Authority]]. That's why the receiver must have a list of trusted **Certificate Authorities**.
 
 ![[LogInProcess.drawio.png]]
-
-The second case involves checking ```a known person == who they claim to be```. This statement might be similar, but it is really opposed to the previous one. Now, Bob would say ```Hi, I am Bob```. Here, Bob is implicitly saying:
-- That we should know him
-- That he is Bob
-This is what happens in **log in process** of an existing user in a server. In this case, we check if we indeed know Bob. We search in database for Bob, but **now if Bob already exists, Bob is saying the truth!** (unlike the previous case), and if Bob doesn't exist, he is a liar because we don't know him. If Bob exists, that means that previously Bob was authenticated in the registering process, so it's not necessary to check whether Bob is Bob, because he is trusted.
-In this case, if provided data is private only, but non-unique, the server has no database and the registering process doesn't exist. As a result, there is only log in process, so every user is trusted. To avoid these security risks, at least a coherence-detection can be performed to check if the user is real or not by checking the coherence between provided data.
-
-![[LogInProcessNoDB.drawio.png]]
-Note that these authentication methods always let users access to the service. Either with database or not, once the user data is successfully coherent-checked, the user has got access to the service. That's why, in these cases, we must grant permissions through [[#Authorization]] methods apart from the Authentication.
 ##### Can I use my private key to authenticate myself?
 _Theoretically you could, but not recommended_
 Your private key is something that meets the [[#Authentication information properties|two requirements]] needed for determining the identity of someone: unique and private. Therefore, it is something you can provide to an authentication system to show your own identity.
@@ -180,7 +163,7 @@ Refer to [[SSH#SSH public and private keys]].
 ## Hashing
 Involves creating a single number that is an operation result applied to the data you send. Therefore, that number should be unique for the binary data you send around Internet. In this way, if a hacker manipulates your network data, the number no longer corresponds to the manipulated data and the recipient of the information would realize.
 ## Certificates
-Whenever we want to provide [[#Authorization#Trust]], certificates come into play. Certificates are a way to turn someone into a trusted user or machine.
+Whenever we want to provide [[#Authorization - Login process|Authorization]], certificates come into play. Certificates are a way to turn someone into a trusted user or machine.
 In practice, certificates can be for example:
 - `.p12` files
 - `.pem` files

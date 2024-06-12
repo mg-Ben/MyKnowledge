@@ -12,7 +12,7 @@ The [[Operating System#Shell|Shell CLI]] (_Command Line Interface_).
 The profile file for PowerShell is a `.ps1` Script file that contains commands and configurations that are automatically executed when you start a PowerShell session. You can:
 - Define functions and variables
 - Provide access to directories
-- Set Script execution policies
+- [[#Set Script execution policies]]
 - Configure environment variables
 
 The path of the Script is stored in `$profile` environment variable:
@@ -22,6 +22,23 @@ echo $profile
 You can edit it with:
 ```PowerShell
 notepad $profile
+```
+#### Execution Policies
+Windows PowerShell has got a feature to prevent PowerShell from running untrusted Scripts (from untrusted publishers). You can change this by modifying the **Execution Policy**.
+##### Get current Script execution policy
+```PowerShell
+Get-ExecutionPolicy
+```
+##### Set Script execution policies
+Once you have edited your `.ps1` Script, when opening a new PowerShell your Script will run automatically. However, you may find some errors related to execution policies, which means that Scripts form untrusted authors are not allowed to be executed in your PowerShell. To solve this:
+1. Open PowerShell as administrator
+2. Run:
+```PowerShell
+Set-ExecutionPolicy RemoteSigned
+```
+To allow running Scripts from anyone:
+```PowerShell
+Set-ExecutionPolicy Unrestricted
 ```
 # Distributions
 ## Windows Server 2003
@@ -36,6 +53,10 @@ notepad $profile
 If you want to make tests with **Windows Server 2003** [[Operating System]], you can download it from [Windows Server 2003 Standard Edition RTM : Microsoft : Free Download, Borrow, and Streaming : Internet Archive](https://archive.org/details/en_windows_server_2003_standard). The product key should be as a comment in that webpage (`JB88F-WT2Q3-DPXTT-Y8GHG-7YYQY`).
 ## Useful commands
 ### CMD
+#### Get system information
+```cmd
+systeminfo
+```
 #### Run .exe file
 ##### Windows Server 2003
 ```cmd

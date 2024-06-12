@@ -3,6 +3,15 @@ tags:
   - Programming_Languages
 ---
 # Core principles
+## Variables
+### Definition
+In general, it is recommended to use `let` or `const`, instead of `var`, if the variable value won't change.
+## Coercion
+When we want to compare two elements in JavaScript, sometimes can come up some strange situations such as:
+- `"5" + 9 = 59`
+- `"5" - 9 = -4`
+- `[] == 0 == ''`
+To compare two elements without coercion, use `===` instead of `==`.
 ## NodeJS
 _Refer to [[NodeJS]]_
 The **environment** to run JavaScript code.

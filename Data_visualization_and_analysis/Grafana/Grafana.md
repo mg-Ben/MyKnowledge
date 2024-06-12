@@ -3,11 +3,34 @@ tags:
   - Data_visualization_and_analysis
 ---
 # Core principles
+## Grafana CLI
+## Dashboard
+The entire graphical interface where all metrics, data, graphics and others are visualized. It contains several [[#Panel|panels]].
+
+![[grafana-dashboard.png]]
+## Panel
+The [[#Dashboard]] element where some graphic is displayed from a query to a [[#Datasource]].
+## Datasource
+Each [[#Panel]] contains a Datasource to which the query is performed.
+## Plugin
+Grafana works mainly thanks to plugins. There are:
+- [[#Panel plugin|Panel plugins]]
+- [[#Dashboard plugin|Dashboard plugins]]
+
+![[grafana-plugin-arch.png]]
+### Panel plugin
+To configure a [[#Panel]].
+### Dashboard plugin
+To compute queries to [[#Datasource]].
+### Plugin location
+#### Linux
+`/opt/naudit/grafana/plugins`
 ## Configuration files
 Grafana can be configured from `grafana.ini` file.
 ### Location
 #### Debian or Ubuntu
 `/etc/grafana/grafana.ini`
+
 # Hands on
 ## Install Grafana
 ### Debian or Ubuntu
@@ -35,6 +58,11 @@ You can configure Grafana from [[#Configuration files|grafana.ini]] file. For ex
 ## Start Grafana
 You must [[Internet#Interact with running ports|interact with running Grafana port]] through a Web browser, for example.
 Use `username = admin` and `password = admin` to enter Grafana.
+## Install Grafana Plugin
+A plugin can be installed in several ways:
+- From Grafana User Interface
+- From [[#Grafana CLI]]
+- Unzipping in [[#Plugin location|plugin path]]
 ## Exploring data
 ### Prometheus database
 #### PromQL queries

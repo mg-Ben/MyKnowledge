@@ -15,6 +15,9 @@ _Refer to [[#References|npmjs.org]]_
 _pnpm stands for Plug'n'play Node Package Manager_
 An alternative package manager for NodeJS.
 - More efficient in terms of space than npm
+### npx
+_npx stands for Node Package eXecute_
+A tool for executing Node packages. npx allows us to run binaries from npm without [[#Install a package|installing them]].
 ## nvm
 _nvm stands for Node Version Manager_
 ## fnm
@@ -76,6 +79,10 @@ Very important file: it contains data about the project in [[JSON]] format. With
 ## NodeJS
 ### Download and install NodeJS
 _Refer to [[#References|Download NodeJS]]_
+#### Linux
+```shell
+sudo apt install nodejs
+```
 ### Check NodeJS version
 ```shell
 node -v or --version
@@ -121,6 +128,7 @@ To avoid auto-updates of packages, we must **remove** the `^` character in `pack
     "package2": "1.0.0"
 }
 ```
+
 Interesting flags:
 - `-E` (e.g. `npm install -E <package>`): prevent npm from installing `<package>` with auto-update enable (i.e. the `^` will be automatically removed)
 #### From package.json
@@ -210,6 +218,14 @@ _Refer to [[#References|Schniz/fnm: 🚀 Fast and simple Node.js version manager
 winget install Schniz.fnm
 ```
 And re-load the [[Windows#PowerShell]].
+#### Ubuntu
+```shell
+curl -fsSL https://fnm.vercel.app/install | bash
+```
+Then:
+```shell
+source ~/.bashrc
+```
 ### Configure fnm
 #### Set up shell profile
 ##### Windows PowerShell
@@ -226,19 +242,28 @@ fnm list
 ```shell
 fnm ls
 ```
+### Show current NodeJS version
+```shell
+fnm current
+```
 ### Install a NodeJS version
 ```shell
-fnm install <nodeJSversion> 
+fnm install <nodeJSversion>
 ```
 ### Switch to a NodeJS version
 ```shell
-fnm use <nodeJSversion> 
+fnm use <nodeJSversion>
 ```
 _Note: you must [[#Set up shell profile]] before or you will find an error related to environment variables_
 Once you have switched NodeJS version, you can check it with [[#Check NodeJS version|node version command]].
 ### Set a NodeJS version as default
 ```shell
 fnm alias <nodeJSversion> default
+```
+## npx
+### Run command
+```shell
+npx <command>
 ```
 # References
 - [Download NodeJS](https://nodejs.org/en)
