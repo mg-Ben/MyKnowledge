@@ -427,8 +427,37 @@ output{
 }
 ```
 You can also set `codec => multiline` if you want to merge several logs into a single one by a regular expression.
+##### translate{}
+Supposing you want to map some field value into another value using an external [[YAML]] file. For example, you are receiving metrics for each process in some system and the received metrics are:
+```JSON
+log1: {"timestamp": 12345, "process": {"pid": "00107b"}, cpu: "94"}
+log2: {"timestamp": 12345, "process": {"pid": "001f7d"}, cpu: "91"}
+log3: {"timestamp": 12348, "process": {"pid": "00107b"}, cpu: "92"}
+```
+And you know that `00107b` is equivalent to `java` process and `001f7d` is equivalent to `service.exe` process. Therefore, you want the output to be:
+```JSON
+log1: {"timestamp": 12345, "process": {"pid": "00107b", "name": "java"}, cpu: "94"}
+log2: {"timestamp": 12345, "process": {"pid": "00107b", "name": "service.exe"}, cpu: "91"}
+log3: {"timestamp": 12348, "process": {"pid": "00107b", "name": "java"}, cpu: "92"}
+```
+Thus, the solution is to use **translate{}** plugin and define a dictionary in [[YAML]] where you set which process name corresponds to which process ID.
+The dictionary must look like this:
+```YAML
+"00107b": java
+"001f7d": service.exe
+```
+Then, the translate plugin must be:
+```JSON
+translate {
+	dictionary_path => "/path/to/dictionary.yml"
+	source => "[process][pid]" #source_field
+	target => "[process][name]" #new tag that will be created after the mapping
+	fallback => "Unknown_process" #value to assign if pid not found in dict
+}
+```
 ##### codec => ... {}
 Serves for changing data representation.
+
 
 #### Access to JSON fields
 Imagine that your incoming logs follow this format, which is, indeed, the output format of elastic agents:

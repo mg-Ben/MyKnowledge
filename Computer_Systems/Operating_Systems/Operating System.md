@@ -63,6 +63,9 @@ _Also known as Process_
 A set of instructions and data. When running a program, its instructions and data are passed to [[#Main memory (RAM)]] and then processed by [[#CPU]].
 ### IPC
 _IPC stands for Inter-Process Communication_
+## Secondary memory (Disk)
+_Often referred as HDD (Hard Disk Drive) or SSD (Solid-State Drive)_
+The long-term storage memory.
 ## Main memory (RAM)
 _Also known as RAM (Random Access Memory)_
 It is the memory where the currently running [[#Program|programs]] (i.e. instructions and data) are stored. The [[#CPU]] is directly connected to RAM to read those instructions and compute them.
@@ -70,6 +73,10 @@ It is the memory where the currently running [[#Program|programs]] (i.e. instruc
 The **Kernel** is the portion of [[#Main memory (RAM)|RAM]] memory where the Operating System is hosted. It contains the common-used features.
 #### MicroKernel
 The most important part of the Kernel where the few important functions lies (memory and processes management and [[#IPC]]).
+### Virtual memory (swap memory/space)
+A portion inside [[#Secondary memory (Disk)]] that is used as if it were RAM. Processes are **swapped in** RAM and **swapped out** RAM when needed. That's why the **space** used to swap processes is often known as **swap space** or **swap memory**.
+
+![[virtual-memory-swap.png]]
 ## CPU
 _CPU stands for Central Processor Unit_
 Firstly, we introduce IC (Integrated Circuit). It is a physical Hardware component, like this:
