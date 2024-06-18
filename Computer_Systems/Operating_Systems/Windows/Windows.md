@@ -10,6 +10,7 @@ The [[Operating System#Shell|Shell CLI]] (_Command Line Interface_).
 The [[Operating System#Shell|Shell CLI]] (_Command Line Interface_).
 ### Profile file
 The profile file for PowerShell is a `.ps1` Script file that contains commands and configurations that are automatically executed when you start a PowerShell session. You can:
+- Run [[#Useful commands#PowerShell|PowerShell commands]] when executing PowerShell
 - Define functions and variables
 - Provide access to directories
 - [[#Set Script execution policies]]
@@ -52,6 +53,15 @@ Set-ExecutionPolicy Unrestricted
 ### Windows Server 2003
 If you want to make tests with **Windows Server 2003** [[Operating System]], you can download it from [Windows Server 2003 Standard Edition RTM : Microsoft : Free Download, Borrow, and Streaming : Internet Archive](https://archive.org/details/en_windows_server_2003_standard). The product key should be as a comment in that webpage (`JB88F-WT2Q3-DPXTT-Y8GHG-7YYQY`).
 ## Useful commands
+### PowerShell
+#### Move to directory
+```PowerShell
+Set-Location <directory>
+```
+#### Get pwsh.exe location
+```PowerShell
+Get-Command pwsh | Select-Object -ExpandProperty Source
+```
 ### CMD
 #### Get system information
 ```cmd
@@ -77,7 +87,7 @@ type <filename>
 Get-Content -Path path\\to\\file -Wait
 ```
 
-## Configuring Internet connectivity
+## Configuring **Internet** connectivity
 ### Virtualized Windows Server 2003
 [[Virtualization#Bridge mode|Configure Virtual Machine in bridge mode]].
 Assign an [[IP|IP address]] to your Windows Server 2003 VM; inside Windows Server 2003:
