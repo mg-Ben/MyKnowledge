@@ -643,7 +643,8 @@ pipeline.workers: 1          <---
 ```
 ## Create a pipeline
 _Refer to [Creating a Logstash pipeline](https://www.elastic.co/guide/en/logstash/current/configuration.html)_
-Go to [[#Pipeline programming - *.conf|.conf files]] and create your `.conf` file.
+Go to [[#Pipeline programming - *.conf|.conf files]] and create the `.conf` file.
+Once created, add it to [[#Pipelines configurations - pipelines.yml|pipelines.yml]].
 ### Example template
 ```JSON
 input
@@ -661,7 +662,7 @@ output
 	...
 }
 ```
-## Configure a pipeline
+## Program a pipeline
 ### Run Logstash Server for Elastic Agents
 #### 1. Configure Fleet
 Go to Fleet Settings in Kibana (Kibana > Management > Fleet > Settings > Output) and configure a new output with type Logstash.
@@ -715,7 +716,13 @@ output {
 	}
 }
 ```
-### See pipeline logs
+## Start a pipeline
+Once programmed your pipeline, you can restart pipelines with:
+```shell
+kill -sighup <logstash_PID>
+```
+To retrieve `<logstash_PID>`, use [[Linux Service#Get service status|get logstash.service status]].
+## See pipeline logs
 ```shell
 tail -f /var/log/logstash/logstash-plain.log | grep <pipeline_name>
 ```

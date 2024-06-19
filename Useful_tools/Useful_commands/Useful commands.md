@@ -17,6 +17,12 @@ Useful to check the destination's machine reachability and test connectivity. It
 ```shell
 ping <targetIP>
 ```
+# nslookup
+_Available in [[Windows]] [[Windows#CMD|CMD]] and [[Windows#PowerShell|PowerShell]] by default_
+To retrieve the [[IP#IP address|IP address]] for a given [[DNS|Domain name]]:
+```shell
+nslookup <domain.com>
+```
 # telnet
 Connect your keyboard to a [[Internet#Socket]]:
 ```shell

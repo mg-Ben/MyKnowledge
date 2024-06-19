@@ -64,7 +64,13 @@ A plugin can be installed in several ways:
 - From [[#Grafana CLI]]
 - Unzipping in [[#Plugin location|plugin path]]
 ## Exploring data
-### Prometheus database
+### [[ElasticSearch]] database
+#### Lucene queries
+##### Bucket Script
+Example:
+![[bucket-script-lucene-query-example.png]]
+
+### [[Prometheus]] database
 #### PromQL queries
 On condition that you have these metrics:
 ```

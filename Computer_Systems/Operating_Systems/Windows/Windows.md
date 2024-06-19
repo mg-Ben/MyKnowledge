@@ -41,6 +41,13 @@ To allow running Scripts from anyone:
 ```PowerShell
 Set-ExecutionPolicy Unrestricted
 ```
+## WMI
+_WMI stands for Windows Management Instrumentation_
+It is what [[Beats]] use in the background to retrieve Windows System information.
+WMI is a standarized way to query system, devices and applications information, and even configuring system settings.
+### WMIC
+_WMIC stands for [[#WMI]] Command-Line_
+It is a **CLI** (Command Line Interface) to execute WMI queries.
 # Distributions
 ## Windows Server 2003
 ### Directory layout
@@ -87,6 +94,36 @@ type <filename>
 Get-Content -Path path\\to\\file -Wait
 ```
 
+### WMIC
+#### Start wmic
+```PowerShell
+wmic
+```
+#### Get wmic aliases
+Either run:
+```PowerShell
+wmic alias list brief
+```
+Outside [[#WMIC]], or run:
+```WMIC
+/?
+```
+Inside [[#WMIC]].
+#### Get data
+Run:
+```PowerShell
+wmic path <alias> <other_options (optional)>
+```
+Outside [[#WMIC]].
+Example:
+- `<alias> = win32_perfrawdata_perfdisk_logicaldisk`
+- `<other_options> = get <metric_name>`
+- `<metric_name> = FreeMegabytes`
+Or run:
+```WMIC
+<ALIAS>
+```
+Inside [[#WMIC]].
 ## Configuring **Internet** connectivity
 ### Virtualized Windows Server 2003
 [[Virtualization#Bridge mode|Configure Virtual Machine in bridge mode]].

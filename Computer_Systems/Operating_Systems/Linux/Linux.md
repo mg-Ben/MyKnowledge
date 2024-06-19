@@ -139,6 +139,13 @@ Used to mount file systems temporarily, such as network file systems or disk ima
 Temporary files created by [[Linux Service|system services]].
 ### /sys
 System Hardware information and devices.
+### /proc
+_Virtual file system: there are no real data on disk_
+Information about processes in the system and other system data.
+#### HardIRQ (or IRQ)
+You can get Hardware [[Operating System#IRQ Time|IRQ]] information from `/proc/interrupts` file
+#### SoftIRQ
+You can get Software [[Operating System#IRQ Time|IRQ]] information from `/proc/softirqs` file
 ### .
 Represents the current directory.
 ### ..

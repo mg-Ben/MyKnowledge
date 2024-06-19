@@ -7,6 +7,9 @@ tags:
 A group of [[Operating System|Operating Systems]] which have common features such as:
 - Modular design: the Operating System has got simple tools, each one with limited and well-defined function.
 - A [[Operating System#Shell|Shell CLI]] (_Command Line Interface_), called **UNIX-CLI**.
+# Nice processes
+Each process in UNIX has got a priority value. However, we can modify it; in that case, we say that the process has been _niced_. The new value is called **nice value**, and determines the new priority. This allows system administrators to influence the scheduling of processes, ensuring that higher-priority tasks receive more CPU time compared to lower-priority tasks.
+Through **nice mechanism** you can adjust the CPU time for each process.
 # UNIX-CLI standard commands
 There are some standard commands that are present in every UNIX-like OS. Here you can find some examples.
 ## ls (List files)
