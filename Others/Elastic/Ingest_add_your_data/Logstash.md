@@ -722,6 +722,11 @@ Once programmed your pipeline, you can restart pipelines with:
 kill -sighup <logstash_PID>
 ```
 To retrieve `<logstash_PID>`, use [[Linux Service#Get service status|get logstash.service status]].
+Sometimes, this command may fail. For example, when a [[#Pipeline programming - *.conf|.conf file]] uses some external resource such as [[ElasticSearch#Index template|Elasticsearch template]] and the template is modified but not the `.conf` itself, the command `kill -sighup <logstash_PID>` might not detect the changes. To solve this:
+1. Comment the pipeline in [[#Pipelines configurations - pipelines.yml|pipelines.yml]]
+2. Run `kill -sighup <logstash_PID>`
+3. Uncomment the pipeline in [[#Pipelines configurations - pipelines.yml|pipelines.yml]]
+4. Run `kill -sighup <logstash_PID>`
 ## See pipeline logs
 ```shell
 tail -f /var/log/logstash/logstash-plain.log | grep <pipeline_name>

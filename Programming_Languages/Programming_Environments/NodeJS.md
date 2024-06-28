@@ -75,6 +75,32 @@ Very important file: it contains data about the project in [[JSON]] format. With
   }
 }
 ```
+## Typical directory layout
+```NodeJS
+/
+├── package.json
+├── package-lock.json
+├── index.js         <- Entrypoint of application
+└── node_modules/
+    ├── express/
+    └── agent-base/
+```
+In most cases, the project will be linked with [[git]], so it's very common to see these additional files, which comes from [[git#Typical directory layout]]:
+```git
+├── (code)
+│	└── ...
+├── .git             (hidden folder)
+│	├── hooks
+│	├── info
+│	├── objects
+│	├── refs
+│	├── config       (git configuration file)
+│	├── description
+│	└── HEAD
+├── .gititgnore      (if not exists, can be created manually)
+├── LICENSE
+└── README.md
+```
 # Hands on
 ## NodeJS
 ### Download and install NodeJS
@@ -97,7 +123,6 @@ node
 ```shell
 node <script.(m|c)js>
 ```
-
 ## nvm
 
 ## npm

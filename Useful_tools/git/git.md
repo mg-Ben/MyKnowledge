@@ -53,4 +53,26 @@ Commits that update configuration files or settings used by the software.
 - Deployment scripts
 _Or other settings that affect the behavior of the software._
 
+## Typical directory layout
+```git
+├── (code)
+│	└── ...
+├── .git             (hidden folder)
+│	├── hooks
+│	├── info
+│	├── objects
+│	├── refs
+│	├── config       (git configuration file)
+│	├── description
+│	└── HEAD
+├── .gititgnore      (if not exists, can be created manually)
+├── LICENSE
+└── README.md
+```
 # Hands on
+## git init
+Convert the current folder into a git folder:
+```shell
+git init
+```
+This will 

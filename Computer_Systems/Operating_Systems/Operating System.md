@@ -71,6 +71,17 @@ The long-term storage memory.
 ## Main memory (RAM)
 _Also known as RAM (Random Access Memory)_
 It is the memory where the currently running [[#Program|programs]] (i.e. instructions and data) are stored. The [[#CPU]] is directly connected to RAM to read those instructions and compute them.
+RAM is **volatile**, which means that data is lost when computer is turned off.
+### Cache RAM
+It is actually a different component, closer to [[#CPU]] (Cache memory is built into the CPU chip or placed very close to it to minimize access time).
+
+There are typically different cache levels:
+- `L1`: the smallest; the fastest. For example, it can have 64KB of space
+- `L2`: intermediate level. For example, it can have 512KB of space
+- `L3`: larger, but slower. For example, it can have 8MB of space
+_Some manufacturers might include the cache space in the product specifications. E.g. when you see a specification stating 8GB RAM, it refers to the main system memory, not including the cache memory_
+
+Cache RAM works with the following principle: _If the data is found (cache hit), it can be accessed more quickly than if it had to be retrieved from RAM. If the data is not in the cache (cache miss), it is fetched from RAM and stored in the cache for future access._
 ### Kernel
 The **Kernel** is the portion of [[#Main memory (RAM)|RAM]] memory where the Operating System is hosted. It contains the common-used features.
 #### MicroKernel
