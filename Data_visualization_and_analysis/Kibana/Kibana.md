@@ -32,9 +32,19 @@ You will find the Kibana files in the following path:
 elasticsearch.username: "kibana_system"
 elasticsearch.password: "..."
 ```
+## KQL query
+_KQL stands for Kibana Query Language_
+_Refer to [Kibana Query Language | Kibana Guide [8.14] | Elastic](https://www.elastic.co/guide/en/kibana/current/kuery-query.html)_
+
 # Hands on
 _The best way to learn ElasticSearch is firstly [[#Kibana Locally|work locally]] (without docker containers). Once everything is configured, you can [[#Kibana on Docker Container|dockerize it]].
 **IMPORTANT**: Before deploying Kibana, an ElasticSearch node to connect with must be running. See [[ElasticSearch#Hands on|how to deploy ElasticSearch]]_
 ## Kibana Locally
 - You can download Kibana [[BinaryFile|Binary Files]] from [here](https://www.elastic.co/es/downloads/kibana). Extract the ```.tar.gz``` file, look for ```/bin``` directory.
 - However, it's recommended to install Kibana with Debian Package (refer to [Install Kibana with Debian package | Kibana Guide [8.13] | Elastic](https://www.elastic.co/guide/en/kibana/current/deb.html)), as the configuration files will be automatically placed where they should be. Remember the [[Linux#APT|steps]] for installing Debian packages.
+## Explore ElasticSearch data
+Inside Kibana, go to _☰ > Analytics > Discover_:
+![[KibanaAnalyticsDiscover.png]]
+- Select the [[ElasticSearch#Indices]] you want to explore
+- Perform a [[#KQL query]] to retrieve data from those indices
+![[kibanaKQLqueryTextBox.png]]
