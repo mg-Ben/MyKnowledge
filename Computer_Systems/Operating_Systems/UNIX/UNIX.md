@@ -140,3 +140,8 @@ ls -la > output_file.txt
 ```shell
 hostname
 ```
+## top
+Provides real-time information about system processes ([[Operating System#CPU|used CPU]] and [[Operating System#Main memory (RAM)|RAM]] per process, process ID and so on), general resource usage ([[Operating System#Main memory (RAM)|used RAM]]), and more.
+```shell
+top
+```

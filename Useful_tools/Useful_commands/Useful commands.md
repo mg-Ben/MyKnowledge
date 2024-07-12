@@ -51,3 +51,16 @@ ack <regexp>
 Perform a discovery to get all [[IP]] addresses from all devices in a [[Internet#LAN|LAN]]. However, the [[ARP]] table only contains, for each LAN portion to which each interface of our system belongs to, the devices we have already connected to, instead of other devices we have never met. Therefore, the first step is performing a ping to everyone in the same LAN setting as IP dest the [[IP#IP address range|broadcast address]].
 1. `ping <broadcast_address>`
 2. `arp -a`
+# htop
+An enhanced version of [[UNIX#top|top command]]. It is very similar to [[Windows#Task Manager]].
+```shell
+htop
+```
+# free
+Prints current [[Operating System#Main memory (RAM)|RAM]] utilization on [[Linux]] [[Operating System]].
+```shell
+free
+```
+Interesting flags:
+- `-h`: display information in a better-readable human format
+- `-s N`: repeat printing every N seconds

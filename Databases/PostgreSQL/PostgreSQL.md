@@ -26,54 +26,61 @@ sudo apt install postgresql
 
 ### psql commands
 They server for interacting with PostgreSQL software.
-### Log in to PostgreSQL
+#### Log in to PostgreSQL
 [[Linux#Switch user|Switch to postgres user]] and run:
 ```shell
 psql
 ```
-### Dump database into .sql file
+#### Dump database into .sql file
 ```shell
 pg_dump -U <username> -h <postgresql_hostname (e.g. localhost)> <database>
 ```
 You will be prompted to enter a password. If you don't want to enter any password, configure the password for this database in [[#.pgpass]].
-### Dump table into .sql file
+#### Dump table into .sql file
 ```shell
 pg_dump -U <username> -h <postgresql_hostname (e.g. localhost)> --table <table> <database>
 ```
 You will be prompted to enter a password. If you don't want to enter any password, configure the password for this database in [[#.pgpass]].
-### Dump .sql file into table
+#### Dump .sql file into table
 Firstly, [[#Create database|create a database]] where you will create the inner table. Then, [[Linux#Switch user|switch to postgres user]] and run this in [[GNU#Bash|bash]] (without `sudo`!):
 ```shell
 psql -U postgres -d <database> -f </path/to/.sql>
 ```
 You must place your `.sql` file in a folder where `postgres` user has got permissions, such as [[Linux#/home|/home]] directory.
-### List user and roles
+#### List user and roles
 ```postgresql
 \du
 ```
-### List databases
+#### List databases
 _Analogous to [[MySQL#Show databases]]_
 ```postgresql
 \l
 ```
-### Create database
+#### Create database
 ```SQL
 CREATE DATABASE <database>;
 ```
-### Connect to a database
+#### Connect to a database
 ```postgresql
 \c <database>
 ```
-### List tables
+You can also connect to an existing database directly from [[Operating System#Shell|Shell]] with:
+```shell
+psql <database>
+```
+In this case, you may not need to change user to **postgres** user.
+#### List tables
 _Analogous to [[MySQL#Show tables]]_
 ```postgresql
 \dt
 ```
-### See table content
+#### See table content
 ```postgresql
 SELECT * FROM <table>;
 ```
-### Quit psql
+#### Quit psql
 ```postgresql
 \q
 ```
+### SQL commands
+Once you have connected to a PostgreSQL table, you can perform [[SQL#SQL Queries|SQL Queries]].

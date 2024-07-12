@@ -456,6 +456,24 @@ ORDER BY AVG(Height) ASC
 LIMIT 4
 OFFSET 2;
 ```
+## UPDATE
+Update a row in a [[#Table]]:
+```SQL
+UPDATE mytable
+SET column_name1 = value1,
+	column_name2 = value2,
+	...
+WHERE condition;
+```
+### Append string to current column value
+```SQL
+UPDATE mytable
+SET column_name1 = CONCAT(column_name, 'mystring'),
+	column_name2 = value2,
+	...
+WHERE condition;
+```
+_Note: Use single quotes as second argument for CONCAT() function!_
 ## Example template
 ```SQL
 SELECT DISTINCT column, AGG_FUNC(_column_or_expression_) AS ..., …
@@ -469,4 +487,3 @@ OFFSET _COUNT_;
 ```
 # References
 - [SQLBolt - Learn SQL - Introduction to SQL](https://sqlbolt.com/)
-- 

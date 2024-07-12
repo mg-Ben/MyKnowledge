@@ -48,6 +48,7 @@ WMI is a standarized way to query system, devices and applications information, 
 ### WMIC
 _WMIC stands for [[#WMI]] Command-Line_
 It is a **CLI** (Command Line Interface) to execute WMI queries.
+## Task Manager
 # Distributions
 ## Windows Server 2003
 ### Directory layout
