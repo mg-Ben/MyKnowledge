@@ -23,13 +23,23 @@ It is the open-source implementation as a toolkit (basically, a software library
 openssl pkcs12 -in <certificate.p12> -out <output.crt> -clcerts -nokeys
 openssl pkcs12 -in <certificate.p12> -out <output.key> -nocerts -nodes
 ```
+### Convert from .p12 to .pem
+```shell
+openssl pkcs12 -in <certificate.p12> -out <output.pem> -nodes
+```
+From `.pem` file, you can obtain the [[DNS]] names configured for an [[HTTP]] certificate (e.g. [[ElasticSearch#Generate the Application-Layer certificate for the node|http.p12]] 
+file in [[ElasticSearch]]). To do so, see [[#Get DNS names from .pem]].
+### Convert from .key to .pkcs8.key
+```shell
+openssl pkcs8 -inform PEM -in <certificate.key> -topk8 -nocrypt -outform PEM -out <output.pkcs8.key>
+```
 ### Get Fingerprint from .crt
 ```shell
 openssl x509 -noout -fingerprint -sha256 -in <certificate.crt>
 ```
-### Convert from .key to .pkcs8.key
+### Get DNS names from .pem
 ```shell
-openssl pkcs8 -inform PEM -in <certificate.key> -topk8 -nocrypt -outform PEM -out <output.pkcs8.key>
+openssl x509 -in <http-certificate.pem> -noout -text | grep DNS:
 ```
 ## elasticsearch-certutil
 The tool for managing certificates in a Elastic Stack.

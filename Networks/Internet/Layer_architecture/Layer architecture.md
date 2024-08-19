@@ -8,6 +8,9 @@ tags:
 A way to understand complex systems by simplifying them in layers. Each layer has its own function in the information delivery, and that layer in source speaks the same language as the same layer in destination.
 ## Interface
 The communication between two different layers is called **interface**.
+## Protocol
+## RFC (Request For Comments)
+The official documents that have the information about every [[#Protocol]] on the Internet. You can find the RFC you want in \[[[#References|1]]\]
 # Example
 ![[Layer-architecture-example.png]]
 A spanish person wants to send a letter to a japanese person. To this end:
@@ -23,3 +26,6 @@ In this information exchange, there are different layers, each one with a certai
 - The transmission layer, whose purpose is to transmit the layer from one side to the other
 
 Therefore, for example: the transmission layer only understands how to deliver the packet, but cannot understand its content, and that transmission layer must speak in the same language in source and destination to make the delivery possible.
+
+# References
+1. [» RFC Editor (rfc-editor.org)](https://www.rfc-editor.org/)

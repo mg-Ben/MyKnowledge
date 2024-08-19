@@ -74,6 +74,14 @@ For Windows, ensure that the path is written with `\\` (e.g. `"C:\\"`, `C:\\User
 output.elasticsearch:
 	hosts: ["ES_IP:ES_PORT"]
 ```
+##### HTTPS
+```YAML
+output.elasticsearch:
+  hosts: ["https://ES_IP:ES_PORT"]
+  protocol: "https"
+  ssl.certificate_authorities:
+    - path/to/ca.crt
+```
 ## Binary path
 - For [[Linux]] OS, `/usr/share/metricbeat/bin/metricbeat`
 - For [[AIX]] OS, `/opt/freeware/usr/share/metricbeat/bin/metricbeat`

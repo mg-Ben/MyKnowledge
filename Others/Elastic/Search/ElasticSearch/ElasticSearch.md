@@ -114,7 +114,7 @@ xpack.security.authc:
 ```
 However, once this setting has been made, this doesn't imply that you can access with any `user:password`. This setting only serves for those cases you don't have a user to access ElasticSearch (such as [[#Elastic Agent|Elastic Agents]]), as it sets a new user called `anonymous` for this purpose. However, even with this configuration you might want to define other users which require authentication such as kibana_system and elastic users. In this case, you must provide the corresponding passwords.
 ##### Test user authentication
-If you want to test the applied configuration, you can perform a `curl`:
+If you want to test the applied configuration, you can perform a [[Useful commands#curl|curl]]:
 ```shell
 curl -X GET https://<ES_IP:ES_PORT> --cacert <path_to_CA.crt> -u username:password
 ```
@@ -318,10 +318,6 @@ Queries can be performed in two contexts:
 #### Query DSL
 _Refer to [Query DSL | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html)_
 The query is [[DSL]] and it is based on [[JSON]].
-
-
-
-
 ### Handy commands
 - Iterate over all the ElasticSearch indices and, for each one, see if there is something inside the index that is related to some string:
 ```shell

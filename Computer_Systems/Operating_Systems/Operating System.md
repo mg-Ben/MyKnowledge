@@ -87,31 +87,39 @@ The **Kernel** is the portion of [[#Main memory (RAM)|RAM]] memory where the Ope
 #### MicroKernel
 The most important part of the Kernel where the few important functions lies (memory and processes management and [[#IPC]]).
 ### Virtual memory (swap memory/space)
-A portion inside [[#Secondary memory (Disk)]] that is used as if it were RAM. Processes are **swapped in** RAM and **swapped out** RAM when needed. That's why the **space** used to swap processes is often known as **swap space** or **swap memory**.
+An Operating System technique that involves using a portion inside [[#Secondary memory (Disk)]] as if it were RAM. Processes are **swapped in** RAM and **swapped out** RAM when needed. That's why the **space** used to swap processes is often known as **swap space** or **swap memory**.
 
 ![[virtual-memory-swap.png]]
 ## CPU
+![[cpu-overview.png]]
 _CPU stands for Central Processor Unit_
-Firstly, we introduce IC (Integrated Circuit). It is a physical Hardware component, like this:
+_We often use the term **Processor** instead of **CPU** to avoid confusions_
+The **CPU or processor** is the IC (Integrated Circuit) which is installed in the motherboard:
 
 ![[CPU.png]]
 Inside an IC, there can be:
-- One CPU
-- Several CPUs (called **Multi-core processor**)
+- One **core**
+- Several **cores** (called **Multi-core processor**)
 
 Besides, a computer system can have:
-- One IC with one CPU
-- One IC with several CPUs
-- Several ICs with one CPU each
-- Several ICs with several CPUs each
+- One processor with one core
+- One processor with several cores
+- Several processors with one core each
+- Several processors with several cores each
 
-We will define [[#Multi-processor system]] as a system that as >1 CPU, and [[#Mono-processor system]] as the system containing just 1 CPU.
-
-CPU is the combinational Hardware circuit that reads instructions from [[#Main memory (RAM)]] and executes it. Executing an instruction means _carry the bits to the suitable ways in order to get the instruction done_. Note that one CPU can only run one instruction at a time, although it can be "pipelinised".
+We will define [[#Multi-processor system]] as a system that has >1 processor (chip), and [[#Mono-processor system]] as the system containing only 1 processor (chip).
+### Core
+ The processor core is the combinational Hardware circuit that reads instructions from [[#Main memory (RAM)]] and executes it. Executing an instruction means _carry the bits to the suitable ways in order to get the instruction done_.
+#### Thread
+Each core (i.e. combinational circuit) can do some magic to appear as if it was running several instructions at a time. These advanced techniques are:
+- **Pipelining**
+- **Superscalar architecture**
+- **SMT** (_Simultaneous Multithreading_)
 ### Mono-processor system
-A system with only 1 CPU.
+A system with only 1 processor (CPU).
+**Most modern PCs are monoprocessor systems.**
 ### Multi-processor system
-A system with > 1 CPU.  It can be either with one IC with several CPUs inside, with several ICs with one CPU inside or with several ICs with several CPUs inside each one.
+A system with > 1 processor (CPU).
 All the CPUs share the same [[#Main memory (RAM)]].
 ### Interrupts
 #### IRQ

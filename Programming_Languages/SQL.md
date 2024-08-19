@@ -86,6 +86,12 @@ Would result in:
 |     Maria     |
 |     Sara      |
 
+You can perform some operations over the selected data, such as a [[Regular Expressions|regexp]] to the rows content. Supposing you want to keep only the initial letter of the usernames, use the `regexp_replace()` method:
+
+```SQL
+SELECT regexp_replace(Name, '([a-z])(.*)', '\1') AS usernames FROM <table_name>;
+```
+
 ## JOIN + ON
 To concatenate two table columns. For instance:
 

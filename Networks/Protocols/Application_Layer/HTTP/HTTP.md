@@ -5,6 +5,14 @@ tags:
   - Application_Layer
 ---
 # Core principles
+_HTTP is an [[Layer architecture|Application Layer]] protocol_
+_Refer to [[Layer architecture#RFC (Request For Comments)|HTTP RFC]]: [RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1 (rfc-editor.org)](https://www.rfc-editor.org/rfc/rfc2616)_
+## Methods
+### GET
+### POST
+## Message format
+### Header
+### Payload
 ## Status codes
 - `[100, 199]`: Informative response
 - `[200, 299]`: Successful responses (example: `200 OK`)
