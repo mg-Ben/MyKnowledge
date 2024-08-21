@@ -84,6 +84,7 @@ _Some manufacturers might include the cache space in the product specifications.
 Cache RAM works with the following principle: _If the data is found (cache hit), it can be accessed more quickly than if it had to be retrieved from RAM. If the data is not in the cache (cache miss), it is fetched from RAM and stored in the cache for future access._
 ### Kernel
 The **Kernel** is the portion of [[#Main memory (RAM)|RAM]] memory where the Operating System is hosted. It contains the common-used features.
+The Kernel manages the Hardware, Memory and Processes, because those are the tasks of an Operating System.
 #### MicroKernel
 The most important part of the Kernel where the few important functions lies (memory and processes management and [[#IPC]]).
 ### Virtual memory (swap memory/space)

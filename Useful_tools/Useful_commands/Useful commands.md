@@ -35,7 +35,7 @@ Make requests to [[HTTP|HTTP endpoints]]:
 curl -X <HTTP_method> <HTTP_endpoint>
 ```
 Flags and options:
-- `--cacert=<path_to_CA_cetificate>`: specify a [[Cybersecurity#Certificate Authorities (CA)|CA certificate file]] to trust in
+- `--cacert <path_to_CA_cetificate>`: specify a [[Cybersecurity#Certificate Authorities (CA)|CA certificate file]] to trust in. You may need to run curl with [[Linux#Users#Super/Root users|sudo]] as the certificate file might be private
 - `-s or --silent`: silent mode. Used to prevent the command output from displaying additional data like this:
 ```
  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -66,3 +66,14 @@ free
 Interesting flags:
 - `-h`: display information in a better-readable human format
 - `-s N`: repeat printing every N seconds
+# nc (netcat)
+_It comes pre-installed in well-known [[Distributions]] such as [[Distributions#Ubuntu|Ubuntu]], [[Distributions#Debian|Debian]] or [[Distributions#CentOS]]_
+```shell
+nc <dest_IP> <dest_port>
+```
+You can use this command to test connectivity to [[SSH|SSH server]] or [[HTTP|HTTP server]], just by specifying the target port.
+By default, the ``netcat`` command would send raw data as a [[TCP]] or [[UDP]] segment (e.g. to establish a connection), with no [[Layer architecture|Application Layer]] headers. That's why it works with any [[Layer architecture|Application Layer]] protocol; because the communication occurs up to [[Layer architecture|Transport Layer]].
+However, you can craft an [[Layer architecture|Application Layer]] packet with `netcat` by the use of [[UNIX#(Pipes)]]. For example, to add [[HTTP]] headers:
+```shell
+echo "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n" | nc example.com 80
+```

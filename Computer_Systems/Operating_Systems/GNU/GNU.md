@@ -10,6 +10,9 @@ It is a **project** with the purpose of turning **Open-Source** [[UNIX|UNIX-like
 
 The term _GNU_ stands for _GNU is Not Unix_ because It differs from UNIX by being **free software**.
 Therefore, GNU can be mixed in conjunction with a UNIX-like Operating System: e.g. **GNU/[[Linux]]**, providing the classic [[#Bash]] shell.
+Summarizing, when we talk about **GNU/Linux**:
+- GNU would be the [[Operating System]] software utilities, libraries, tools...
+- Linux would be the [[Operating System]] itself (i.e. the [[Operating System#Kernel|Kernel]])
 ## GPG public and private keys
 _GPG stands for GNU Privacy Guard_
 It uses the **PGP Standard**.

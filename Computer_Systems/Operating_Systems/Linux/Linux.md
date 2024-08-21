@@ -5,6 +5,7 @@ tags:
 ---
 # Core principles
 It is a [[UNIX|UNIX-like]] [[Operating System]].
+Linux is the [[Operating System#Kernel|Kernel]].
 ## Concepts
 ### cgroups
 A Linux Kernel feature that allows us to allocate resources such as CPU time, memory, network bandwith... For a group of processes. It prevents processes from interfering one another and consuming excessive resources by limiting them.

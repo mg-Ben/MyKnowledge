@@ -30,6 +30,7 @@ You will find the ```~/.ssh/config``` file, where all SSH configurations are set
 Either [[IP#IP address|IP address]] of the destination device or the [[DNS|domain name]].
 ##### Port
 Destination port of the SSH server. Equivalent to specify ```-p``` flag in [[#ssh (Connect remotely to the SSH server)|ssh command]].
+The default SSH server port is `22`.
 ##### User
 Some SSH Servers expect users to specify a username. Equivalent to specify ```username@...``` in [[#ssh (Connect remotely to the SSH server)|ssh command]].
 ##### ProxyJump
@@ -45,10 +46,19 @@ Example:
 Would bind `<A>:<B>` in your machine with `<C>:<D>` in the remote machine. Therefore, if you want to link some port inside your machine (let's say `8080`) to some port inside the remote host (let's say `80`):
 `LocalForward localhost:8080 localhost:80`
 ##### DynamicForward
-When you connect to a remote SSH server, sometimes you need to connect to a certain port in that server. In that case, you could use [[#LocalForward]], but sometimes you need to use your own local ports. In that case, you could directly connect to ```IP_remote:Port_remote```. However, your [[Internet#Interact with running ports|interaction with that port]] might require the use of a web browser, which doesn't typically allow the connection to SSH servers directly. Therefore, a [[Proxies#SOCKS5|Proxy SOCKS]] must be configured on your local machine to connect to the SSH server through an intermediate proxy by a web browser, but also on your configuration SSH file. The Proxy SOCKS is just a process running on your localhost which acts as a proxy.
-With DynamicForward, you can set which port to launch the proxy SOCKS on. Once set, the proxy SOCKS is executed when running ```ssh``` command. Then, you can configure your web browser so as to use that proxy. You can now connect to any port on remote SSH server.
+When you connect to a remote SSH server, sometimes you need to connect to a certain port in that server. In that case, you could use [[#LocalForward]], but sometimes you can't use your own ports beacuse they are reserved to other things. In that case, you could directly connect to ```IP_remote:Port_remote```. However, your [[Internet#Interact with running ports|interaction with that port]] might be from a web browser, which doesn't typically allow the connection to SSH servers directly. Therefore, a [[Proxies#SOCKS5|Proxy SOCKS]] must be configured on your local machine to connect to the SSH server through an intermediate proxy by a web browser, but also on your configuration SSH file. The Proxy SOCKS is just a process running on your localhost which acts as a proxy.
+With DynamicForward, you can set which port to launch the Proxy SOCKS on inside your local machine. Once set, the Proxy SOCKS is executed when you connect to the remote host by `ssh`. Then, you can configure your web browser so as to use that proxy. You can now connect to any port on remote SSH server.
 
 ![[DynamicForwardIdea.png]]
+
+For instance, to configure Mozilla Web Browser to use the Proxy SOCKS, go to Settings and Network Settings. Then, configure where the Proxy SOCKS is running:
+
+![[MozillaProxySOCKS.png]]
+
+Once configured, connect to remote host by `ssh` to activate the Proxy SOCKS. You should have set the DynamicForward option in your [[#Configuration|~/.ssh/config file]] before.
+###### Proxy SOCKS reuse
+You don't have to create a [[Proxies#SOCKS5|Proxy SOCKS]] for each target SSH server you want to connect to.
+Supposing you want to connect to two SSH servers: `A` and `B`, you can configure SSH activate  when you connect to `A` (by setting the DynamicForward option in your [[#Configuration|~/.ssh/config file]] before). Then, you can connect to `A` by [[#ssh (Connect remotely to the SSH server)|ssh]]. Once connected, the Proxy SOCKS would be active in your local machine, so you can instruct your Web Browser to use that Proxy SOCKS to connect to `B`.
 
 ##### IdentityFile
 With this configuration you can specify the path and name of the keyfiles. Equivalent to ```-i``` flag in [[#ssh (Connect remotely to the SSH server)|ssh command]].

@@ -4,6 +4,9 @@ tags:
   - Operating_Systems
 ---
 # Core principles
+## IIS
+_IIS stands for Internet Information Service_
+It is a Microsoft **web server** (a set of services for Windows [[Operating System|Operating Systems]]).
 ## CMD
 The [[Operating System#Shell|Shell CLI]] (_Command Line Interface_).
 ## PowerShell

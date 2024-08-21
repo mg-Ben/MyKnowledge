@@ -49,7 +49,7 @@ result:       128*0 + 64*1 + 32*1 + 16*0 + 8*1 + 4*1 + 2*0 + 1*0 = 108
 ```
 
 # Operations
-# AND
+## AND
 It is like a product.
 
 | Bit 1 | Bit 2 | Result |
@@ -59,7 +59,7 @@ It is like a product.
 | 1     | 0     | 0      |
 | 1     | 1     | 1      |
 
-## Bitwise
+### Bitwise
 _Bitwise = Bit per bit_
 Example:
 ```
@@ -67,4 +67,87 @@ Example:
 AND 00101101
 ------------
     00001001
+```
+
+# Units for digital storage
+When we have to count lots of [[#Bit|bits]] or [[#Byte|bytes]], we can use the following notation:
+## Prefix _Kilo-_
+_Means 10^3_
+### Kilobit \[Kb]
+```
+1 Kb = 10^3 bits
+```
+### Kilobyte \[KB]
+```
+1 KB = 10^3 bytes
+```
+## Prefix _Mega-_
+_Means 10^6_
+### Megabit \[Mb]
+```
+1 Mb = 10^6 bits
+```
+### Megabyte \[MB]
+```
+1 MB = 10^6 bytes
+```
+## Prefix _Giga-_
+_Means 10^9_
+### Gigabit \[Gb]
+```
+1 Gb = 10^9 bits
+```
+### Gigabyte \[GB]
+```
+1 GB = 10^9 bytes
+```
+## Prefix _Tera-_
+_Means 10^12_
+### Terabit \[Tb]
+```
+1 Tb = 10^12 bits
+```
+### Terabyte \[TB]
+```
+1 TB = 10^12 bytes
+```
+## Prefix _Kibi-_
+_Means 2^10 = 1024_
+### Kibibit \[Kib]
+```
+1 Kib = 2^10 bits
+```
+### Kibibyte \[KiB]
+```
+1 KiB = 2^10 bytes
+```
+## Prefix _Mebi-_
+_Means 2^20 = 1024*1024_
+### Mebibit \[Mib]
+```
+1 Mib = 2^20 bits
+```
+### Mibibyte \[MiB]
+```
+1 MiB = 2^20 bytes
+```
+## Prefix _Gibi-_
+_Means 2^30 = 1024*1024*1024_
+### Gibibit \[Gib]
+```
+1 Gib = 2^30 bits
+```
+### Gibibyte \[GiB]
+```
+1 GiB = 2^30 bytes
+```
+## Prefix _Tebi-_
+_Means 2^40 = 1024*1024*1024*1024_
+### Tebibit \[Tib]
+```
+1 Tib = 2^40 bits
+```
+### Tebibyte \[TiB]
+```
+1 TiB = 2^40 bytes
 ```

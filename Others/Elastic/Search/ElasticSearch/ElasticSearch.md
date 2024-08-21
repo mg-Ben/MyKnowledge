@@ -3,6 +3,7 @@ tags:
   - Databases
 ---
 # Core principles
+_It is a [[Databases#Non-relational database or NoSQL|NoSQL]] database, so it provides more scalability and flexibility_
 A DataBase for **analytics** and **fast searches**. It stores data (called [[#Document|documents]]).
 When to use Elasticsearch:
 - Webpages and searches within that webpages (e.g. a searchbox)
@@ -11,6 +12,20 @@ When to use Elasticsearch:
 Refer to [[#References | References > Elastic Products - Entry Point of Documentation]] to know more about how this documentation has been structured.
 ## Indices
 It contains several [[#Document|documents]].
+### Index mapping
+As ElasticSearch is a [[Databases#Non-relational database or NoSQL|NoSQL]] database, it allows user to store [[#Document|documents]] with any fields and any field types inside them. For example, some index may receive this data:
+```JSON
+{ "user": "Ringo" }
+```
+And suddenly might receive another document like this, with a new unexpected field `age`:
+```JSON
+{
+	"user": "Ringo",
+	"age": 45
+}
+```
+Although ElasticSearch is NoSQL, it contains an [[#Index template]] where the fields and their datatypes are defined.
+When ElasticSearch detects a new field in a document, it creates that field in the Index template.
 ### Index template
 An index template is a way to tell Elasticsearch how to configure an index when it is created. For example, you can create a template where you specify:
 - The number of **index replicas**
@@ -25,6 +40,12 @@ An index template is a way to tell Elasticsearch how to configure an index when 
       "properties": {
         "@timestamp": {
           "type": "date"
+        },
+        "user": {
+	      "type": "string"
+        },
+        "age": {
+	      "type": "long"
         }
       }
     }
@@ -302,6 +323,10 @@ curl -X GET http(s)://ES_IP:ES_PORT/_cat/indices [other_curl_options]
 ### Get data inside an index
 ```shell
 curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search [other_curl_options]
+```
+### Get [[#Index template]]
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/<index>/_mapping
 ```
 ### Query data
 _Refer to [The search API | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-your-data.html)_

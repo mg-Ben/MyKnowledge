@@ -8,8 +8,26 @@ tags:
 The entire graphical interface where all metrics, data, graphics and others are visualized. It contains several [[#Panel|panels]].
 
 ![[grafana-dashboard.png]]
+### Variables
+Dashboard variables are variables that have global scope inside the Dashboard. There are some standard variables such as:
+- **Time from**: its value is stored inside `${__from}`
+- **Time to**: its value is stored inside `${__to}`
+You can also define your own ones in _Dashboard Settings > Variables_. In these cases, the variable values are stored inside `${<variablename>}`.
+Whenever you need to reference these variables values inside your dashboard (e.g. inside a [[#Panel]] query), you just need to use those variables references.
+
+You can also pass dashboard variables values inside the query string you use to load the dashboard. For example:
+`your.dashboard.url/...?from=A&to=B`
+If your variables are custom defined, you must specify `var-` preffix:
+`your.dashboard.url/...?from=A&to=B&var-<variablename>=C`
 ## Panel
 The [[#Dashboard]] element where some graphic is displayed from a query to a [[#Datasource]].
+### Data links
+Whenever you want to reference another dashboard inside a panel, you can use Data links.
+
+> **Example usecase**: you have a table with some machine names and you want each row to be clickable. Then, a new dashboard opens, passing the [[#Dashboard#Variables|some variables through query string]] to the new dashboard from the current panel.
+
+To get the resulting values of the query performed inside the current panel, use the `${__data}` variable. Specifically, you can access to the clicked value as `${__data.fields["<ColumnName>"]}`.
+To set the target URL to access to (the target dashboard), it is not necessary to specify the domain (i.e. `your.dashboard.url`). You can just specify the request path and then the query string parameters (e.g. `grafana/d/12345/my-dashboard?orgId=1&var-Machine=${__data.fields["Host"]}&from=${__from}&to=${__to}`).
 ## Datasource
 Each [[#Panel]] contains a Datasource to which the query is performed.
 ## Plugin
