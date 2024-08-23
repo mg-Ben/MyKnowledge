@@ -68,6 +68,22 @@ _IPC stands for Inter-Process Communication_
 ## Secondary memory (Disk)
 _Often referred as HDD (Hard Disk Drive) or SSD (Solid-State Drive)_
 The long-term storage memory.
+For example, in [[GNU]]/[[Linux]] Operating Systems, we denote the disks as `/dev/sdX` (e.g. `/dev/sda`, `/dev/sdb`, `/dev/sdc` and so on).
+### Partition
+_Also known as Volume_
+Each disk can be divided into one or more partitions, which are subdivisions of that disk.
+For example, in [[GNU]]/[[Linux]] Operating Systems, we denote the partitions as `/dev/sdXY` (e.g. `/dev/sda1`, `/dev/sda2`, `/dev/sdb1` and so on).
+#### File system
+There is a single and unified file system for the entire Operating System. However, each partition is mounted inside some directory of that file system.
+There are several File System types that determine how data is organized within a partition:
+- **EXT4**: widely used in [[Linux]]
+- **NTFS**: widely used in [[Windows]]
+- **HFS+ and APFS**: widely used in MacOS
+- **FAT32/exFAT**: widely used in removable devices
+Each partition can have its own file system type (e.g. `/dev/sda1` is EXT4, `/dev/sda2` is NTFS, `/dev/sdb1` is EXT4...).
+##### Mount point
+Each partition has got a mount point. When we mount the partition in the unified file system, the data for that partition will be accessible from the directory we have mounted the partition (i.e. _Mount point_).
+For example, we can mount `/dev/sda1` inside the directory `/data` and `/dev/sdb3` inside `/home`.
 ## Main memory (RAM)
 _Also known as RAM (Random Access Memory)_
 It is the memory where the currently running [[#Program|programs]] (i.e. instructions and data) are stored. The [[#CPU]] is directly connected to RAM to read those instructions and compute them.

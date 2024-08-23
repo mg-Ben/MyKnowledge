@@ -12,6 +12,27 @@ A Linux Kernel feature that allows us to allocate resources such as CPU time, me
 To do so, cgroups organizes the processes using some hierarchy (like tree structures). Each hierarchy group has got its own constraint of resources. Each cgroup would be a node in the tree structure, and the resources limit applied to some node is applied automatically to its children cgroups.
 The directory to control the cgroup is `/sys/fs/cgroup`.
 [[Linux Service#systemd]] can be used to manage cgroups easily. For example, you can limit the CPU usage of some [[Linux Service]] adding a setting inside its [[Linux Service#Unit file#Example template|unit file]] (such as `CPUQuota=50%` to limit the CPU usage to 50%).
+### LVM
+_LVM stands for Logical Volume Manager_
+A feature in Linux that allows flexible disk management:
+- Resizing of [[partitions]]
+- Snapshots
+- Pooling of multiple physical volumes into a single logical volume group
+#### PV
+_PV stands for Physical Volume_
+In [[GNU]]/[[Linux]] [[Operating System|Operating Systems]], we can also initialize a partition (or even the entire disk) as a **PV** (Physical Volume). This means that we can use that partition to be grouped with other PVs so as to create a single [[#VG|VG (Volume Group)]].
+For example, we can initialize `/dev/sda2` and `/dev/sdb1` as PVs to be combined into a Volume Group.
+#### VG
+_VG stands for Volume Group_
+The combination of one or more [[#PV|PVs]]. It aggregates the storage capacity of all its PVs into a single, large pool of storage.
+For example, you can combine `/dev/sda2` and `/dev/sdb1` in a Volume Group.
+##### LV
+_LV stands for Logical Volume_
+Within a [[#VG]] we can create **LVs** (Logical Volumes).
+- A LV acts like a [[#PV]] with the difference that they are not physical, so you we resize it whenever we want
+- You can even configure the [[Operating System#File system|File system]] type of the LV: for example, LV1 can be EXT4, LV2 can be NTFS, LV3 can be EXT4...)
+Like [[Operating System#Partition|partitions]], each LV has got a mount point. When we mount the LV in the unified [[#File system]], the data for that LV will be accessible from the directory we have mounted the partition (i.e. _Mount point_).
+For example, we can mount `LV1` inside the directory `/mnt/volume1` and `LV2` inside `/mnt/volume2`.
 # Users
 The [[Operating System]] is shared between several users. Each user has got its own password, and belongs to one or more group. However, one of those groups is considered the primary group.
 ## User types
@@ -110,7 +131,12 @@ The ```root root``` part means:
 ![[linux-filesystem.png]]
 ### /bin
 _Binaries_
-Contains [[BinaryFile|Binary files]] such as [[UNIX#UNIX-CLI standard commands]] and [[GNU]] commands, as well as external-downloaded binaries.
+Contains essential [[BinaryFile|Binary files]] such as [[UNIX#UNIX-CLI standard commands]] and [[GNU]] commands, as well as external-downloaded binaries. These binaries are required for the system to boot and operate correctly.
+### /sbin
+_System Binaries_
+Contains essential [[BinaryFile|Binary files]] such as [[UNIX#UNIX-CLI standard commands]] and [[GNU]] commands, as well as external-downloaded binaries. These binaries are required for the system to boot and operate correctly.
+However, these binaries are used by system administrators for system maintenance and configurations.
+Examples: `ifconfig`, `shutdown`, `reboot`...
 ### /etc
 System configuration files.
 ### /home
@@ -124,12 +150,23 @@ Additional software that is not part of the core system.
 Temporary files that are created by applications and [[Linux Service|services]] running on the system.
 ### /usr
 User-level programs, libraries, documentation and shared data files.
+#### /usr/bin
+Contains the majority of user commands ([[BinaryFile|Binary files]]) and application binaries that are not required for system boot or repair but are used for regular operations and applications.
+**Examples:** [[GNU#grep (Search for patterns in files or command output)|grep]], [[GNU#find (Search for files in a directory hierarchy)|find]], [[AWK#Hands on|awk]], [[Python#Hands on#Run python Script|python]]...
+#### /usr/local/bin
+Contains software and scripts (i.e. [[BinaryFile|Binary files]]) installed locally by system administrator or user, such as custom scripts, third-party software, local compiled programs...
 ### /var
 Contains logs files and system databases. It is called ```/var``` because they change frequently.
 ### /boot
 Boot loader files and kernel images needed to start the system.
 ### /dev
 Device files that represents internal hardware devices of the system: printers, terminals (`/dev/tty`), hard disks (```/dev/sda```)...
+For instance: `/dev/sda1` means:
+- `sd` stands for [[Peripherial Devices#SCSI|SCSI]] disk
+- `a` is the first detected disk, `b` the second and so on
+	- `1` is the first partition inside that disk
+	- `2` is the second partition inside that disk
+	- `3` is the third partition inside that disk...
 ### /lib
 Shared library files that are shared between programs.
 ### /media

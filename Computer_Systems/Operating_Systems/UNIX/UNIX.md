@@ -145,3 +145,22 @@ Provides real-time information about system processes ([[Operating System#CPU|us
 ```shell
 top
 ```
+## sftp
+Initialize a [[SFTP]] session with a remote machine through [[SSH]].
+```
+sftp <SSH_options>
+```
+Recommended: [[SSH#Configuration|Configure SSH ~/.ssh/config]] before. For example, you can add your target host to the SSH configuration file and then init a session to remote host by specifying hostname:
+```
+sftp <hostname>
+```
+### put
+Once you have connected to the remote machine, you can send a file with:
+```sftp
+put <local_file_path> <remote_file_path>
+```
+### get
+Once you have connected to the remote machine, you can receive a file from remote with:
+```sftp
+get <remote_file_path> <local_file_path>
+```

@@ -190,3 +190,11 @@ Interesting flags:
 ```shell
 make <target>
 ```
+#### df
+Displays [[Operating System#Mount point|Mounted points]] in the file system, which can be from:
+- [[Linux#LV|Logical Volumes]]
+- [[Operating System#Partition|Partitions]]
+This command is available in most [[UNIX]]-like [[Operating System|Operating Systems]]. However, we have placed it in GNU because there are some flags and options (such as `-h`) that are from GNU.
+```shell
+df
+```

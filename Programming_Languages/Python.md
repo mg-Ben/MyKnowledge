@@ -10,6 +10,10 @@ It is the package manager for Python. Included by default in Python installation
 
 # Hands on
 ## Python
+### Run python Script
+```shell
+python <script.py>
+```
 ## PIP
 ### Install package
 ```shell

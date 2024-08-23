@@ -9,6 +9,11 @@ tags:
 _SSH stands for Secure SHell, but it is considered a protocol_
 Is a cryptographic network [[OSI Model|Application Layer]] protocol based on [[Internet#Client-Server communication|Client-Server communication]] that allows us to access to a remote machine through a [[Operating System#Shell|Shell]] to run commands inside it, as long as that machine is running a SSH server to accept connections.
 It is an alternative to [[Telnet]].
+## Communication
+### KeepAlive
+A message that the SSH Client sends to SSH Server to keep the session alive.
+The server may close the session after some elapsed time if does not receive information from client.
+After `N` consecutive KeepAlive messages, if no response from server, the client closes the connection.
 # Implementations
 SSH protocol is implemented on different programs and [[Operating System|Operating Systems]].
 ## PuTTY
@@ -95,6 +100,10 @@ ssh: Could not resolve hostname X: Temporary failure in name resolution
 lost connection
 ```
 - You must have permissions on ```<destination_directory>```
+- You may need to set `666` or `777` permissions on the filename or path you want to send to remote machine with [[GNU#chmod (Change file or directory permissions)|chmod]]
+- To better debugging of a possible problem, use [[UNIX#sftp|sftp]]. You will be able to see the transferring data status. For example, the file might be _Stalled_
+- You may need to limit bandwidth with `-l <bandwidth [B/s]>` (e.g. `-l 8192`)
+- It might be a timeout issue: the remote server closes connection because does not receive client data after some elapsed time. To do so, use scp with `-o ServerAliveInterval=<time [s]>` (e.g. `<time [s]>=10`) to send a [[#KeepAlive]] message to server each `<time [s]>` seconds
 ### Common errors
 #### ssh: Could not resolve hostname ...: Temporary failure in name resolution
 Run [[#ssh (Connect remotely to the SSH server)|ssh command]] with detailed verbose: `-vvv`. It might not be taking the configuration file from `~/.ssh/config` file, but from `/etc/ssh/ssh_config` instead due to file owner or file permissions.

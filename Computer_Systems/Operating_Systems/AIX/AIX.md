@@ -62,6 +62,18 @@ lsdev
 ```
 Interesting flags:
 - `-Cc <device>`: get specific information of some device (e.g. `-Cc processor`)
+### chvg (change [[Linux#VG|volumegroup]] attributes)
+```
+chvg <options> <volumegroup_name>
+```
+### chfs (change [[Linux#LV|mountpoint]] attributes)
+```
+chfs <options> <mountpoint>
+```
+Common `<options>` are:
+- `-a size=<size>`: Resize the filesystem to the specified size. You can set this option to `-a size=+4G` for example to increment `+4` [[Binary numeral system#Gigabyte \[GB|GB]] the current size
+- `-m <mount_point>`: Change the mount point of the filesystem
+- `-n <new_name>`: Rename the filesystem
 ### shutdown
 ```shell
 shutdown
