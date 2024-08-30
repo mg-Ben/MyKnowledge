@@ -17,7 +17,7 @@ There are some standard commands that are present in every UNIX-like OS. Here yo
 ls
 ```
 Interesting flags:
-- `-la`: list all ([[Linux#File type and permissions]], as well as File size and last changed date.
+- `-la`: list all ([[Linux#File type and permissions]], as well as File size and last changed date)
 ## touch (Create new file)
 ```shell
 touch <filename>

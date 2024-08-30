@@ -41,15 +41,32 @@ Some SSH Servers expect users to specify a username. Equivalent to specify ```us
 ##### ProxyJump
 When you connect to a remote server, an intermediate machine can exist between client and server (i.e. a [[Proxies|Proxy]]. Here is where you can set the proxy information.
 ##### LocalForward
-Once you are connected to a remote SSH server, you can mirror your [[Internet#Interact with running ports|interaction with some local port]] on your client machine to the interaction of the SSH server with its port. In other words, for instance, if you are connected to the remote SSH server and you interact with your ```localhost:8080``` port, actually, instead of interacting with your ```localhost:8080```, you are interacting with ```8080``` port on the remote server.
+_Used to access remote services locally (reverse of [[#RemoteForward]])_
+Once you are connected to a remote SSH server, you can forward your [[Internet#Interact with running ports|interaction with some local port]] on your client machine to the interaction of the SSH server with its port. In other words, for instance, if you are connected to the remote SSH server and you interact with your ```localhost:8080```, the traffic will be forwarded to another port inside the remote host.
 
 ![[LocalForwardIdea.png]]
 
-You can also configure which port on your local corresponds to which port on the remote (e.g. ```localhost:A``` to ```localhost:B``` on remote).
-Example:
-`LocalForward <A>:<B> <C>:<D>`
-Would bind `<A>:<B>` in your machine with `<C>:<D>` in the remote machine. Therefore, if you want to link some port inside your machine (let's say `8080`) to some port inside the remote host (let's say `80`):
-`LocalForward localhost:8080 localhost:80`
+
+```Syntax
+LocalForward your_local_port remote_address:remote_port
+```
+For the example above:
+```
+LocalForward 8080 localhost:9119
+```
+##### RemoteForward
+_Used to expose local services to remote users (reverse of [[#LocalForward]])_
+If you are connected to the remote SSH server and that remote server interacts with its ```localhost:9119```, the traffic will be forwarded to some port inside your local host.
+
+![[RemoteForwardIdea.png]]
+
+```Syntax
+RemoteForward remote_port local_address:local_port
+```
+For the example above:
+```
+LocalForward 9119 localhost:8080
+```
 ##### DynamicForward
 When you connect to a remote SSH server, sometimes you need to connect to a certain port in that server. In that case, you could use [[#LocalForward]], but sometimes you can't use your own ports beacuse they are reserved to other things. In that case, you could directly connect to ```IP_remote:Port_remote```. However, your [[Internet#Interact with running ports|interaction with that port]] might be from a web browser, which doesn't typically allow the connection to SSH servers directly. Therefore, a [[Proxies#SOCKS5|Proxy SOCKS]] must be configured on your local machine to connect to the SSH server through an intermediate proxy by a web browser, but also on your configuration SSH file. The Proxy SOCKS is just a process running on your localhost which acts as a proxy.
 With DynamicForward, you can set which port to launch the Proxy SOCKS on inside your local machine. Once set, the Proxy SOCKS is executed when you connect to the remote host by `ssh`. Then, you can configure your web browser so as to use that proxy. You can now connect to any port on remote SSH server.
@@ -64,7 +81,6 @@ Once configured, connect to remote host by `ssh` to activate the Proxy SOCKS. Yo
 ###### Proxy SOCKS reuse
 You don't have to create a [[Proxies#SOCKS5|Proxy SOCKS]] for each target SSH server you want to connect to.
 Supposing you want to connect to two SSH servers: `A` and `B`, you can configure SSH activate  when you connect to `A` (by setting the DynamicForward option in your [[#Configuration|~/.ssh/config file]] before). Then, you can connect to `A` by [[#ssh (Connect remotely to the SSH server)|ssh]]. Once connected, the Proxy SOCKS would be active in your local machine, so you can instruct your Web Browser to use that Proxy SOCKS to connect to `B`.
-
 ##### IdentityFile
 With this configuration you can specify the path and name of the keyfiles. Equivalent to ```-i``` flag in [[#ssh (Connect remotely to the SSH server)|ssh command]].
 #### Commands

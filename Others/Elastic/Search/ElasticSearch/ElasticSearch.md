@@ -315,6 +315,8 @@ curl -X GET http(s)://ES_IP:ES_PORT/_cluster/health/<index> [other_curl_options]
 ```shell
 curl -X DELETE http(s)://ES_IP:ES_PORT/<index> [other_curl_options]
 ```
+### Delete all documents inside some index
+Go to [[Kibana]] and click on _Management_. Then, go to _Data > Index Management_, select your index and in _Manage index_ select _Flush index_.
 ### Get all indices
 Retrieve ElasticSearch [[#Indices]]:
 ```shell

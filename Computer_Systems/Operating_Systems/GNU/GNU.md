@@ -90,7 +90,7 @@ for token in "${tokenized_string_variable_name[@]}"; do
 ```
 For instance:
 ```shell
-IFS=',' read tokenized_string_variable_name <<< "hello,goodby,hello"
+IFS=',' read -a tokenized_string_variable_name <<< "hello,goodby,hello"
 ```
 After running the previous command:
 ```shell
@@ -197,4 +197,9 @@ Displays [[Operating System#Mount point|Mounted points]] in the file system, whi
 This command is available in most [[UNIX]]-like [[Operating System|Operating Systems]]. However, we have placed it in GNU because there are some flags and options (such as `-h`) that are from GNU.
 ```shell
 df
+```
+#### mapfile (turn [[#Bash]] output into an array)
+Whenever you want to take some command output and store each line as an element in an array, you can use `mapfile`:
+```shell
+mapfile -t <my_array> < <(<command>)
 ```

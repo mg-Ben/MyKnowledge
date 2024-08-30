@@ -69,7 +69,7 @@ Refer to [[#AWK Program|the program syntax section]] on how to program in AWK.
 awk <flags> 'program' input-file1 input-file2...
 ```
 - ```-f```: specify the script AWK file. Example: ```awk -f my_awk_program input-file1 input-file2...```
-- - ```-F```: specify the delimiter character. Example: ```awk -F '.' 'program' input-file1 input-file2```
+- ```-F```: specify the delimiter character. Example: ```awk -F '.' 'program' input-file1 input-file2```
 # References
 - Although AWK != GAWK, GNU provides [this documentation](https://www.gnu.org/software/gawk/manual/gawk.html) about AWK and GAWK separately
 - [Linux Manual Page](https://www.man7.org/linux/man-pages/man1/awk.1p.html)
