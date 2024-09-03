@@ -7,6 +7,31 @@ tags:
 A group of [[Operating System|Operating Systems]] which have common features such as:
 - Modular design: the Operating System has got simple tools, each one with limited and well-defined function.
 - A [[Operating System#Shell|Shell CLI]] (_Command Line Interface_), called **UNIX-CLI**.
+## UNIX timestamp
+Imagine you have to operate with dates. For example, you need to get the number of days that have passed from `04-23-1999` to `02-03-2013`. You would take the number of years that have passed firstly, then multiply by 365 to get the number of days, but there would be some leap years between that range... Then you would consider the number of months... It's a very tedious task, and worse if you want to consider hours, minutes and seconds.
+### UTC
+_UTC stands for Universal Time Coordinated_
+What's more: each country has got a different date (called _timezone_):
+
+![[timezonesMap.png]]
+
+Therefore, when we say `02-03-2024 at 04:50:23`, as each country has got its own timezone, we should specify which timezone that datetime corresponds to. It's not the same `02-03-2024 at 04:50:23` in Spain as `02-03-2024 at 04:50:23` in Guatemala.
+There is an UTC which is an universal standard and all the countries measure their datetimes with respect to it. For example, Spain is `UTC+2`, which means that the datetime in Spain is equal to the universal datetime plus 2 hours. Guatemala is `UTC-6`.
+So, imagine if you had to compute the days elapsed between `04-23-1999 at 18:23:11 Spain` and `02-03-2024 at 04:50:23 Guatemala`: you should firstly convert them to UTC and operate in UTC format:
+- `04-23-1999 at 18:23:11 Spain` = `04-23-1999 at 16:23:11 UTC`
+- `02-03-2024 at 04:50:23 Guatemala` = `02-02-2024 at 22:50:23 UTC`
+### Datetime syntax
+```
+yyyy-MM-dd'T'HH:mm:ssZZZZZ
+```
+Typically, the timezone information goes at the end of the datetime, and it is provided by the `ZZZZZ` suffix. For example:
+- `2024-09-02T05:28:19Z` means `UTC
+- `2024-09-02T00:28:19-05:00` means `UTC-5`
+- `2024-09-02T06:28:19+01:00` means `UTC+1`
+
+To ease the operation with datetimes, every [[Operating System]] has got a _UNIX timestamp_, which is the number of seconds elapsed since `01-01-1970 at 00:00:00 UTC`. There is also a variant which is the number of milliseconds. In this way, you can add or substract two timestamps easily and the convert the result to number of days, months or whatever.
+- If you want to convert from timestamp to datetime, you should firstly get the datetime in `UTC` and then convert it to datetime depending on timezone.
+- If you want to convert from datetime to timestamp, you should firstly convert the datetime to `UTC` and then to timestamp.
 # Nice processes
 Each process in UNIX has got a priority value. However, we can modify it; in that case, we say that the process has been _niced_. The new value is called **nice value**, and determines the new priority. This allows system administrators to influence the scheduling of processes, ensuring that higher-priority tasks receive more CPU time compared to lower-priority tasks.
 Through **nice mechanism** you can adjust the CPU time for each process.
@@ -164,3 +189,49 @@ Once you have connected to the remote machine, you can receive a file from remot
 ```sftp
 get <remote_file_path> <local_file_path>
 ```
+### export
+Used to change some [[Operating System#Environment variables|environment variable]] value:
+```shell
+export <VARIABLE_NAME>=<value>
+```
+If you want to append to the current environment variable value some string:
+```shell
+export <VARIABLE_NAME>="string_to_append$<VARIABLE_NAME>"
+```
+Example:
+```shell
+export PATH="/usr/local/bin:$PATH"
+```
+### ln
+#### With -s flag
+```shell
+ln -s <source> <target>
+```
+It creates a symbolic link (also known as symlink or soft link), which is a shortcut for some file or directory in your system.
+For example, you have this file:
+```
+/some/invented/path/file.json
+```
+You can create a shortcut in your Desktop or wherever you want with:
+```shell
+ln -s /some/invented/path/file.json /home/user/Desktop/configs.json
+```
+Then, if you go to `/home/user/Desktop/` and [[#ls (List files)]], you will be able to see something like this:
+```
+...
+lrwxrwxrwx 1 root root 20 sep  3 11:04 configs.json -> /some/invented/path/file.json
+...
+```
+Both files (`configs.json` and `file.json`) are synced: if you modify one of them, the changes will be reflected to the other.
+If you delete the origin file (`/some/invented/path/file.json`), the symbolic link will get broken because will point to a non-existing file.
+You can also link directories. For example, to create a shortcut to `/etc/elasticsearch` in your Desktop:
+```shell
+ln -s /etc/elasticsearch /home/user/Desktop
+```
+#### Without -s flag
+It creates a hard link:
+```shell
+ln <source> <target>
+```
+With hard links, you can only link **files**, not directories. However, the files must be in the same [[Operating System#File system|partition filesystem]] (e.g. you cannot create a link from `/dev/sda1` to `/dev/sda2`).
+If the original file is deleted, the data remains accessible via the hard link.

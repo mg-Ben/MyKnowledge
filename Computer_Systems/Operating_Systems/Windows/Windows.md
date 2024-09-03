@@ -52,6 +52,11 @@ WMI is a standarized way to query system, devices and applications information, 
 _WMIC stands for [[#WMI]] Command-Line_
 It is a **CLI** (Command Line Interface) to execute WMI queries.
 ## Task Manager
+## Resource monitor
+A built-in tool which shows performance metrics of [[Operating System#CPU|CPU]], [[Operating System#Main memory (RAM)|RAM]], [[Operating System#Secondary memory (Disk)|Disk]] and Network (i.e. resources of Windows).
+
+![[windows-resmon.png]]
+Open it with [[#resmon]] command.
 # Distributions
 ## Windows Server 2003
 ### Directory layout
@@ -97,7 +102,11 @@ type <filename>
 ```cmd
 Get-Content -Path path\\to\\file -Wait
 ```
-
+#### resmon
+Opens [[#Resource monitor]]:
+```cmd
+resmon
+```
 ### WMIC
 #### Start wmic
 ```PowerShell
@@ -140,3 +149,9 @@ Assign an [[IP|IP address]] to your Windows Server 2003 VM; inside Windows Serve
 4. Select _Internet Protocol (TCP/IP)_ and click on _Properties_
 ![[LAN-properties.png]]
 5. Assign an IP inside your [[Virtualization#Hyper-V LAN]] and set the Hyper-V LAN subnet mask
+
+## Configure [[Operating System#Virtual memory (swap memory/space)|virtual memory]]
+In Windows, virtual memory is called **Pagefile**, and usually located at `C:\\pagefile.sys`.
+In order to change swap space, go to:
+_Windows button > View advanced system settings > Advanced tab > Performance settings > Advanced tab > Change_
+Once the changes are applied, press **Set button**.

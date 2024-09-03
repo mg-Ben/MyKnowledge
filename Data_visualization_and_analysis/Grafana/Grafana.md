@@ -623,5 +623,9 @@ With this clause, you are grouping the metrics with different combination of ```
 ## Adding datasources
 ### ElasticSearch Datasource
 _Refer to [[ElasticSearch]]_
-ElasticSearch is based on [[ElasticSearch#Indices|indices]], each one containing several documents.
-You can add to Grafana 
+ElasticSearch is based on [[ElasticSearch#Indices|indices]], each one containing several [[ElasticSearch#Document|documents]].
+You can add to Grafana a datasource which takes all the documents from one **or more** indices by using a [[Regular Expressions|regular expression]].
+To add a new ElasticSearch datasource, go to hamburger menu _**☰** > Management > Datasources_. Then, select _+ Add new data source_ and choose type ElasticSearch. Specify the datasource name and URL.
+_If your database uses [[HTTP#HTTPS|HTTPS]], Grafana should verify the certificate as it is the client for the database requests. However, you can skip this step by enabling the option **Skip TLS Verify**_
+- For example, if you want to retrieve data for all the indices whose name begins with `importer`, you can specify `importer*` as _Index name_.
+- In case you want to retrieve data from `importer*` indices and `tests*` indices, you can specify `importer*,tests*` as _Index name_. **In this case, you must specify it separated by commas, without a blank space!**

@@ -328,13 +328,13 @@ curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search [other_curl_options]
 ```
 ### Get [[#Index template]]
 ```shell
-curl -X GET http(s)://ES_IP:ES_PORT/<index>/_mapping
+curl -X GET http(s)://ES_IP:ES_PORT/<index>/_mapping [other_curl_options]
 ```
 ### Query data
 _Refer to [The search API | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-your-data.html)_
 To query ElasticSearch data, you will need to use a [[HTTP#REST|REST]] [[Internet#API|API]] towards `ES_IP:ES_PORT` through [[HTTP]]. The structure of the query is the following:
 ```
-GET http(s)://ES_IP:ES_PORT/<index>/_search
+GET http(s)://ES_IP:ES_PORT/<index>/_search [other_curl_options]
 {
 	<QueryDSL-Body>
 }
@@ -345,6 +345,8 @@ Queries can be performed in two contexts:
 #### Query DSL
 _Refer to [Query DSL | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html)_
 The query is [[DSL]] and it is based on [[JSON]].
+#### Kibana Discover App
+_Refer to [[Kibana#Explore ElasticSearch data]]_
 ### Handy commands
 - Iterate over all the ElasticSearch indices and, for each one, see if there is something inside the index that is related to some string:
 ```shell
@@ -355,6 +357,10 @@ do \
 	sudo curl -s http(s)://ES_IP:ES_PORT/${array[2]}/_search?pretty [other_curl_options] |
 	grep <some_string>;
 done
+```
+- Get `@timestamp` format: your database stores timestamped data with a `@timestamp` field. When you visualize data (e.g. from [[#Kibana Discover App]]), timestamps might be converted to your local timezone date (taken from your web browser), so there is no way to know what the real raw timestamp is. You can use this [[#Query DSL]] to retrieve the raw timestamp value:
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search -H "Content-type" -d '{"size": 1, "sort": [{"timestamp_field": {"order": "desc"}}]}' [other_curl_options]
 ```
 ### Index notation
 - If the index begins with `.`, it is a self-managed index (managed by ElasticSearch itself).

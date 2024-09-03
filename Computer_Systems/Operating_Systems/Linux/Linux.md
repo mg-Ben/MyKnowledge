@@ -15,7 +15,7 @@ The directory to control the cgroup is `/sys/fs/cgroup`.
 ### LVM
 _LVM stands for Logical Volume Manager_
 A feature in Linux that allows flexible disk management:
-- Resizing of [[partitions]]
+- Resizing of [[Operating System#Partition|partitions]]
 - Snapshots
 - Pooling of multiple physical volumes into a single logical volume group
 #### PV

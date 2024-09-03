@@ -89,6 +89,10 @@ You can connect remotely to a SSH server by:
 ```shell
 ssh <destination>
 ```
+You can run a command in remote with:
+```shell
+ssh <destination> <command>
+```
 The value of ```<destination>``` can be:
 - The destination [[IP#IP address|IP address]] or [[DNS]]
 - The username + the destination [[IP#IP address|IP address]] or [[DNS|domain name]], separated by ```@``` (e.g. ```bmartin@1.2.3.4```)
@@ -99,7 +103,9 @@ Flags:
 - ```-i <keyfile>```: specify the name of the [[#keyfile]].
 - `-o`: to specify additional configurations. For example:
 	- `-o KexAlgorithms`: to specify Key Exchange Algorithm. When you need to connect to some corporative SSH server, you might need to set this parameter, specially when you find some errors like `debug1: expecting SSH2_MSG_KEX_ECDH_REPLY` when showing verbose
+	- `-o ConnectTimeout=<time [s]>`: specifies the maximum amount of time, in seconds, that the SSH client should wait while trying to establish a connection to a remote host
 - `-F </path/to/config>`: explicitly specify [[#Configuration|config]] file
+- `-T`: prevent the session from creating an interactive terminal. This is useful when you only need to run a single command in remote and then close the connection automatically, like `ssh -T <destination> echo "hello"`
 ##### scp (Secure Copy)
 You can copy files from one machine to a remote machine securely with:
 ```shell

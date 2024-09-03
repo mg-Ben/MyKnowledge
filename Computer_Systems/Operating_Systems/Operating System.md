@@ -168,3 +168,14 @@ Developed by Intel and AMD. Used in:
 Used in [[AIX]] OS.
 ## Shell
 A computer program that exposes to the user the Operating System's services through a **CLI** (Command Line Interface) or a **GUI** (Graphical User Interface). In CLI cases, the shell has got a **shell-specific language**.
+## Environment variables
+Dynamic values that affect the processes or applications running on a computer. They are part of the environment in which a process runs and are used to pass configuration information to applications and system utilities.
+The value of these variables is stored in `$(<VARIABLE_NAME>)` (e.g. `$HOME`) and you can [[GNU#echo (Print text to the terminal)|echo it]] with `echo $HOME`.
+### Scope
+- **User-Specific**: Environment variables can be set for individual users. These variables apply only to the user's processes and sessions
+- **System-Wide**: Environment variables can be set globally, affecting all users and processes on the system
+### Examples
+- `PATH`: Specifies a list of directories where the operating system looks for executable files when you run a command
+- `PYTHONPATH`: Used by the [[Python]] interpreter to determine which directories to search for Python modules and packages when you use `import`
+- `HOME`: Represents the current user's home directory
+- `USER`: Contains the name of the currently logged-in user
