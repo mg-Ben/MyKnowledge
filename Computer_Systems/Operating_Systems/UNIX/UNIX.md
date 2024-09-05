@@ -235,3 +235,17 @@ ln <source> <target>
 ```
 With hard links, you can only link **files**, not directories. However, the files must be in the same [[Operating System#File system|partition filesystem]] (e.g. you cannot create a link from `/dev/sda1` to `/dev/sda2`).
 If the original file is deleted, the data remains accessible via the hard link.
+### vmstat
+_Shows [[Operating System#Virtual memory (swap memory/space)|Virtual memory (swap memory/space)]] statistics_
+```shell
+vmstat
+```
+Example output:
+```
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r    b   swpd   free  buff cache   si   so    bi    bo   in   cs us sy id wa st
+ 1    0      0 6012852 2120 817048    0    0 2805  289 797 657 21  7 71  1  0
+```
+Interesting options:
+- `vmstat <period [s]>`: reports data each `<period [s]>`
+- `vmstat <period [s]> <max_samples>`: reports data each `<period [s]>` and stops after showing `<max_samples>` samples

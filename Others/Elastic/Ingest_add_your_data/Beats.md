@@ -137,6 +137,10 @@ The specific data used by the process that triggered the event. E.g.:
 Similar to generic [[#tags]], the keywords used to classify events. E.g.: `Classic`, `Audit Success` (when some user logs in successfully), `Audit Failure` (when there are errors in log in process)... With the difference that `windows.keywords` is exclusive for Windows.
 ### winlog.provider_name
 The same as [[#event.provider]] but for Windows.
+# LibBeat
+A library written in [[Go]] that contains the [[Internet#API|API]] that all **Beats** use for shipping data to ElasticSearch. With LibBeat, you can use this library to create your own Beat.
+The developer community has released custom Beats (such as [[AIX]]Beat, called **PerfStatBeat**, which is a version of [[#MetricBeat]] but adapted to [[AIX]] [[Operating System]]). you can find them here:
+[Community Beats | Beats Platform Reference [master] | Elastic](https://www.elastic.co/guide/en/beats/libbeat/master/community-beats.html)
 # Log fields
 ## log.level
 The log level (`info`, `warning`, `error`...).

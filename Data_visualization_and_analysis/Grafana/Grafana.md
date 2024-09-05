@@ -19,6 +19,12 @@ You can also pass dashboard variables values inside the query string you use to 
 `your.dashboard.url/...?from=A&to=B`
 If your variables are custom defined, you must specify `var-` preffix:
 `your.dashboard.url/...?from=A&to=B&var-<variablename>=C`
+
+If you want to define a variable which is a dropdown menu with several options, those options must be the result of some query. If the query is performed against ElasticSearch, use this template to retrieve all distinct values of some fieldname:
+```
+{"find": "terms", "field": <fieldname>}
+```
+_Note: this is **not** a [[ElasticSearch#Query DSL]]! It is specific to Grafana_
 ## Panel
 The [[#Dashboard]] element where some graphic is displayed from a query to a [[#Datasource]].
 ### Data links

@@ -48,7 +48,7 @@ Once you are connected to a remote SSH server, you can forward your [[Internet#I
 
 
 ```Syntax
-LocalForward your_local_port remote_address:remote_port
+LocalForward your_local_port remote_address (in server-side):remote_port
 ```
 For the example above:
 ```

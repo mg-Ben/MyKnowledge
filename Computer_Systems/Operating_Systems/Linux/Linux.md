@@ -173,6 +173,9 @@ Shared library files that are shared between programs.
 Mount point for removable devices (USBs, CD-ROMs, external hard drives). When we insert a USB, it might be accessible through ```/media/usb```, for example.
 ### /mnt
 Used to mount file systems temporarily, such as network file systems or disk images.
+#### /mnt/hgfs
+_Stands for [[Virtualization#Host Operating System|Host]]-[[Virtualization#Guest Operating System|Guest]] FileSystem_
+When you create a [[Virtualization#Shared folders|Shared folder]] between your Host and your Guest OS, those shared folders will appear inside this directory.
 ### /run
 Temporary files created by [[Linux Service|system services]].
 ### /sys

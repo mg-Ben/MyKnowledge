@@ -345,6 +345,16 @@ Queries can be performed in two contexts:
 #### Query DSL
 _Refer to [Query DSL | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html)_
 The query is [[DSL]] and it is based on [[JSON]].
+##### Get the last timestamp
+_Refer to [[#Handy commands]]_
+```JSON
+{"size": 1, "sort": [{"timestamp_field": {"order": "desc"}}]}
+```
+##### Select distinct values of some field
+```JSON
+{"aggs": {"whatever": {"terms": {"field": <fieldname>}}}, "size": 0}
+```
+
 #### Kibana Discover App
 _Refer to [[Kibana#Explore ElasticSearch data]]_
 ### Handy commands
@@ -360,7 +370,7 @@ done
 ```
 - Get `@timestamp` format: your database stores timestamped data with a `@timestamp` field. When you visualize data (e.g. from [[#Kibana Discover App]]), timestamps might be converted to your local timezone date (taken from your web browser), so there is no way to know what the real raw timestamp is. You can use this [[#Query DSL]] to retrieve the raw timestamp value:
 ```shell
-curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search -H "Content-type" -d '{"size": 1, "sort": [{"timestamp_field": {"order": "desc"}}]}' [other_curl_options]
+curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search -H "Content-type: application/json" -d '{"size": 1, "sort": [{"timestamp_field": {"order": "desc"}}]}' [other_curl_options]
 ```
 ### Index notation
 - If the index begins with `.`, it is a self-managed index (managed by ElasticSearch itself).

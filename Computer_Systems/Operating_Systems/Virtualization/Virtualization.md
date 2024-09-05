@@ -46,4 +46,9 @@ In this case, the virtual Ethernet interface inside our Host OS has got `34.124.
 By default, some Guest OS can't access to the Host OS files. However, you may need to send files from **Host** to **Guest** or the other way round. To do so, you have two options:
 - `Drag and Drop` in VMware settings > Settings of Guest OS > Virtual Machine Settings > Options > Guest Isolation > Enable drag and drop. However, that option might be missing. The menu where you should find it is this one:
 ![[vmware-settings-options.png]]
-- If `Drag and Drop` is missing, you can opt for `Shared Folders`. For this purpose, go to VMware settings > Settings of Guest OS > Virtual Machine Settings > Options > Shared Folders. You can select a path inside your [[#Host Operating System]] that will be available inside your [[#Guest Operating System]]. If after turning on Guest OS and your Guest OS is Windows (such as [[Windows#Windows Server 2003|Windows Server 2003]]) you can't find the shared folder, ensure you have selected the option _Map as a network drive in Windows guests_
+- If `Drag and Drop` is missing, you can opt for `Shared Folders`. For this purpose, go to VMware settings > Settings of Guest OS > Virtual Machine Settings > Options > Shared Folders. You can select a path inside your [[#Host Operating System]] that will be available inside your [[#Guest Operating System]]. If after turning on Guest OS and your Guest OS is Windows (such as [[Windows#Windows Server 2003|Windows Server 2003]]) you can't find the shared folder, ensure you have selected the option _Map as a network drive in Windows guests_:
+![[map-as-a-network-drive-windows-guestOS-vmware.png]]
+- If your Guest OS is [[Linux]]-based (e.g. [[Distributions#Ubuntu|Ubuntu]]), you can see the shared folder under [[Linux#/mnt/hgfs|/mnt/hgfs]] directory. In case the shared folder is not present inside that path, you can run this command (ensure that you are running it outside `/mnt/hgfs`):
+```shell
+sudo vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other
+```
