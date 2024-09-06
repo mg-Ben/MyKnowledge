@@ -55,12 +55,54 @@ Once downloaded, you can [[AIX Subsystem|convert it into a subsystem]].
 # FunctionBeat
 # HeartBeat
 # MetricBeat
-Used for monitoring **services** (also called **modules**) on the machine where it is installed. Specifically, it gets **metrics** (i.e. CPU usage, memory usage and more).
+Used for monitoring **services** (also called [[#Module|modules]]) on the machine where it is installed. Specifically, it gets **metrics** (i.e. CPU usage, memory usage and more).
+## Module
+_Refer to [Modules | Metricbeat Reference [8.15] | Elastic](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-modules.html)_
+A module contains several [[#Metricset|metricsets]].
+For example:
+- `System`
+- `Statsd`
+- `Redis`
+- `SQL`
+### Metricset
+A metricset contains several [[#Exported fields]].
+For example, the `System` module contains the following metricsets:
+- `core`: information about system [[Operating System#Core|cores]]
+- `diskio`: information about system [[Operating System#Secondary memory (Disk)|Disk]] I/O operations
+- `load`: information about [[Operating System#CPU|CPU]] load
+#### Exported fields
+The metrics themselves.
+For example, the `system.core` metricset contains the following exported fields ([System fields | Metricbeat Reference [8.15] | Elastic](https://www.elastic.co/guide/en/beats/metricbeat/current/exported-fields-system.html#_core_2)):
+- `system.core.id`
+- `system.core.total.pct`
+- `system.core.user.pct`
 ## metricbeat.yml
 MetricBeat can be configured by `metricbeat.yml`, which is under the following path:
 - For [[Linux]] OS, `/etc/metricbeat/metricbeat.yml`
 - For [[AIX]] OS, `/opt/freeware/etc/metricbeat/metricbeat.yml
 With `metricbeat.yml` you can configure the [[#metricbeat.yml#Output]] (e.g. [[ElasticSearch]], [[Logstash#Run Logstash Server for Elastic Beats|Logstash Server]], a local file on the machine itself...).
+You can also control which [[#Module|modules]] to use, which [[#Metricset|metricsets]] to use inside some module and [[#Exported fields|metrics]] configurations inside that metricset. The configuration you provide will be added to the default configuration (e.g. you don't need to specify all the metrics to monitor in `metricbeat.yml`, but only those configurations you would like to override from default configuration).
+#### Configuring modules, metricsets and metrics
+You can configure which modules, metricsets and metrics to use in `metricbeat.yml` configuration file like:
+```YAML
+metricbeat.modules:
+- module: <module_name>
+  metricsets: [<some_metricset>]
+  <some_metricset>.<some_configuration>: ["..."]
+```
+For example, you can configure the `diskio` metricset, which belongs to `system` module, to specify explicitly to retrieve information from specific [[Operating System#Partition|partitions]]. Then:
+```YAML
+metricbeat.modules:
+- module: system
+  metricsets: ["diskio"]
+  diskio.include_devices: ["sda1", "sdb3"]
+```
+Sometimes, the default configuration does not include some metricsets in the monitoring process (e.g. [[Windows#Windows Server 2003|Windows Server 2003]] does not include by default the `system.diskio` metricset). You can explicitly set that you want to retrieve data from that metricset with:
+```
+metricbeat.modules:
+- module: system
+  metricsets: ["diskio"]
+```
 ### Output
 #### File
 ```YAML

@@ -105,4 +105,36 @@ It is a way to establish a connection inside a private and protected network.
 ## VPN Server
 Provides the VPN functionality by allowing the user to browse securely and change their [[IP#IP address|IP address]].
 
-
+# Web server
+A [[#Server]] that delivers [[#Web content|web content]] to [[#Client]] (i.e. users).
+## Web content
+A Web server offers static content.
+It can be:
+- [[HTML]] files
+- Images
+- [[CSS]] stylesheets
+- [[JavaScript]] files...
+Web servers can also handle [[#Application content|dynamic content like Application Servers]], but they typically do this by interacting with application servers or scripting engines (like [[PHP]] or [[Python]]) to generate that content.
+## URL
+### Endpoint
+Examples: `https://myserver1.com/users`, `https://myserver1.com/accounts`, `https://myserver1.com/taxes`...
+### Query string
+## Examples
+### AHS
+_AHS stands for Apache [[HTTP]] [[#Server]]_
+_Also known as **Apache**, **Apache Web Server**_
+It is an Open-source [[#Web server]] developed by **Apache Software Foundation**. It serves static [[#Web content]]. However, can handle dynamic content through integrations with [[Python]], for example.
+### IHS
+_IHS stands for IBM HTTP Server_
+It is a the implementation of [[#AHS]], but developed by IBM.
+### NGINX
+### [[Windows#IIS]]
+# Application Server
+## Application content
+An Application Server offers dynamic content.
+This means that what it serves is **running code**, such as [[Java#Servlet#Hello world Servlet Example|Java servlets]].
+For example, an Application Server is able to pull data from a database and then render a dynamic webpage.
+## Examples
+### Apache Tomcat
+It is a [[Java#Servlet#Container|Java Servlet Container]].
+It is a [[Java]] [[#Application Server]]. Developed by **Apache Software Foundation**.

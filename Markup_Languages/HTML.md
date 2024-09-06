@@ -1,6 +1,6 @@
 ---
 tags:
-  - Programming_Languages
+  - Markup_Languages
 ---
 # Core principles
 # Hands on

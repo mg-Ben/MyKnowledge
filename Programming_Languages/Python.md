@@ -23,6 +23,11 @@ pip install <package_name>
 ```shell
 pip list
 ```
+### Show package details
+For example, the package location in the [[Operating System#File system]]:
+```Shell
+pip show <package>
+```
 ## Create your own Python package
 1. Create a directory with this contents:
 ```
