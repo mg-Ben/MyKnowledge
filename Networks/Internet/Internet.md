@@ -70,7 +70,7 @@ A gateway machine actually means:
 - A [[Firewalls|Firewall]]
 - A [[Balancers]]
 - A [[#Router]]
-- A NAT
+- A [[NAT]]
 ### Client-Server communication
 #### Server
 A running process which is usually indefinitely awaiting for connections and which provides a service to the client (e.g. a webpage).
@@ -106,7 +106,7 @@ It is a way to establish a connection inside a private and protected network.
 Provides the VPN functionality by allowing the user to browse securely and change their [[IP#IP address|IP address]].
 
 # Web server
-A [[#Server]] that delivers [[#Web content|web content]] to [[#Client]] (i.e. users).
+A [[#Server]] that delivers [[#Web content|web content]] to [[#Client]] (i.e. users) by processing [[#Web server#Supported protocols|HTTP requests]].
 ## Web content
 A Web server offers static content.
 It can be:
@@ -119,6 +119,8 @@ Web servers can also handle [[#Application content|dynamic content like Applicat
 ### Endpoint
 Examples: `https://myserver1.com/users`, `https://myserver1.com/accounts`, `https://myserver1.com/taxes`...
 ### Query string
+## Supported protocols
+Typically [[HTTP]] and [[HTTP#HTTPS|HTTPS]].
 ## Examples
 ### AHS
 _AHS stands for Apache [[HTTP]] [[#Server]]_
@@ -130,10 +132,19 @@ It is a the implementation of [[#AHS]], but developed by IBM.
 ### NGINX
 ### [[Windows#IIS]]
 # Application Server
+A [[#Server]] that delivers [[#Application content]] to [[#Client]] (i.e. users) by processing **business logic** and [[#Application Server#Supported protocols|a variety of different protocols]].
 ## Application content
 An Application Server offers dynamic content.
-This means that what it serves is **running code**, such as [[Java#Servlet#Hello world Servlet Example|Java servlets]].
+This means that what it serves is **running code**, such as [[Java#Servlet#Hello world Servlet Example|Java servlets]]. In other words, an Application Server provides an **environment** to run applications.
 For example, an Application Server is able to pull data from a database and then render a dynamic webpage.
+## Supported protocols
+Not limited to [[HTTP]]. For example, can support other protocols such as [[SOAP]].
+
+# Web Application Server
+_Also known as **WAS**_
+The same as [[#Application Server]], but focused on web-based applications. They differ in the [[#Web Application Server#Supported protocols|supported protocols]]; whereas an Application Server is not limited to HTTP, a Web Application Server is, as it is web-based.
+## Supported protocols
+Typically [[HTTP]] and [[HTTP#HTTPS|HTTPS]].
 ## Examples
 ### Apache Tomcat
 It is a [[Java#Servlet#Container|Java Servlet Container]].

@@ -108,6 +108,7 @@ Opens [[#Resource monitor]]:
 resmon
 ```
 ### WMIC
+_WMIC stands for WMI Command-Line_
 #### Start wmic
 ```PowerShell
 wmic
@@ -137,6 +138,12 @@ Or run:
 <ALIAS>
 ```
 Inside [[#WMIC]].
+#### Get alias performance counter name
+Aliases are just a way to ease the WMIC queries, without the need to specificate each performance counter name. However, sometimes we want to retrieve the performance counter name for some alias. To do so:
+```WMIC
+Alias <ALIAS> list brief
+```
+Recommended: when searching information about some performance counter, specify in the browser **only** the performance counter name (e.g. just search `Win32_LogicalMemoryConfiguration`)
 ## Configuring **Internet** connectivity
 ### Virtualized Windows Server 2003
 [[Virtualization#Bridge mode|Configure Virtual Machine in bridge mode]].
@@ -149,9 +156,12 @@ Assign an [[IP|IP address]] to your Windows Server 2003 VM; inside Windows Serve
 4. Select _Internet Protocol (TCP/IP)_ and click on _Properties_
 ![[LAN-properties.png]]
 5. Assign an IP inside your [[Virtualization#Hyper-V LAN]] and set the Hyper-V LAN subnet mask
-
+_Note: in case you want to connect a Windows 2003 [[Virtualization#Guest Operating System|Gest OS]] to another [[Virtualization#Guest Operating System|Guest OS]], ensure that the assigned IP Adress belongs to the same [[Internet#LAN]] by configuring rightly the subnet mask_
 ## Configure [[Operating System#Virtual memory (swap memory/space)|virtual memory]]
+### Windows 11
 In Windows, virtual memory is called **Pagefile**, and usually located at `C:\\pagefile.sys`.
 In order to change swap space, go to:
 _Windows button > View advanced system settings > Advanced tab > Performance settings > Advanced tab > Change_
 Once the changes are applied, press **Set button**.
+### Windows Server 2003
+_Windows button > Run... > Type sysdm.cpl > Advanced tab > Performance settings > Advanced tab > Change_

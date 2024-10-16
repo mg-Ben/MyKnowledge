@@ -4,8 +4,40 @@ tags:
 ---
 # Core principles
 ## Class
+### Child-Parent
+A class can be the child of some parent class, called _superclass_.
+The child class inherits the parent class, but also can have other [[#Attributes]] and [[#Methods]], because the child class is more specific and detailed (fine-grained), in a lower level.
+```Java
+class Dog extends Animal { //Means that class Dog is child of class Animal
+	...
+}
+```
+### Abstract
+An **abstract class** is a class from where we cannot create an object. It is meant to serve as a blueprint for other classes.
+It can contain both [[#Methods#Abstract|abstract methods]] and normal [[#Methods|methods]] (i.e. with implementation).
+```Java
+abstract class Animal {
+	abstract void sound();
+	void sleep() {
+		System.out.println("Sleeping");
+	}
+}
+```
+The abstract class serves for defining a [[#Class#Child-Parent|child]] class from the abstract one. Then, in that child class, we **must** define the superclass-abstract methods implementation (in the example above, `sound()`):
+```Java
+class Dog extends Animal {
+	void sound() {
+		System.out.println("Bark");
+	}
+}
+```
+- The child class could be another abstract class! In that case, we are not forced to define the method's implementations of the superclass
 ### Attributes
 ### Methods
+#### Abstract
+An **abstract method** is a method without body implementation.
+
+
 ## javac
 The Java [[Programming Languages#Compiler|compiler]].
 ## Servlet

@@ -14,6 +14,7 @@ Each network interface has got the following data:
 One network device (e.g. your computer) on Internet has got several IP addresses. You can list them with ```ipconfig``` (Windows) or ```ifconfig``` ([[Linux]]) commands, that lists all the Network Interfaces.
 Each Network Interface represents a way to reach your machine on Internet.
 For instance, if you are wired-connected to Internet, you will have one interface to reach your machine through Ethernet. If you also have a WiFi antenna, you will be reachable through the interface that represents the antenna, and so on. Besides, you might be running a [[Virtualization#Guest Operating System|Guest Operating System]] inside your [[Virtualization#Host Operating System|Host Operating System]]. In that case, you can assign a network interface to the [[Virtualization#Guest Operating System|Guest Operating System]] to make it directly reachable from outside Internet. You can also have [[Docker#Docker container|Docker containers]] running on your system, and each one can have their own network interface (i.e. IP address).
+When you communicate to a remote IP Address, you will **typically** specify the [[Internet#Gateways|NAT]] address, which is the public IP address that represents all the machines inside a [[Internet#LAN|LAN]]. However, this doesn't mean you can't communicate directly with a target Network interface: you can, but it is not a common practice.
 #### Special IP addresses
 There are some standard IP address values with their own meaning. For example:
 - `0.0.0.0` means "All network interfaces"

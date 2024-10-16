@@ -474,7 +474,7 @@ WHERE condition;
 ### Append string to current column value
 ```SQL
 UPDATE mytable
-SET column_name1 = CONCAT(column_name, 'mystring'),
+SET column_name1 = CONCAT(column_name1, 'mystring'),
 	column_name2 = value2,
 	...
 WHERE condition;

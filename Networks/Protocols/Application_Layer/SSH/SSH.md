@@ -41,32 +41,72 @@ Some SSH Servers expect users to specify a username. Equivalent to specify ```us
 ##### ProxyJump
 When you connect to a remote server, an intermediate machine can exist between client and server (i.e. a [[Proxies|Proxy]]. Here is where you can set the proxy information.
 ##### LocalForward
-_Used to access remote services locally (reverse of [[#RemoteForward]])_
-Once you are connected to a remote SSH server, you can forward your [[Internet#Interact with running ports|interaction with some local port]] on your client machine to the interaction of the SSH server with its port. In other words, for instance, if you are connected to the remote SSH server and you interact with your ```localhost:8080```, the traffic will be forwarded to another port inside the remote host.
+_Reverse of [[#RemoteForward]]_
+_For further information: [A Visual Guide to SSH Tunnels: Local and Remote Port Forwarding (iximiuz.com)](https://iximiuz.com/en/posts/ssh-tunnels/)_
+The `LocalForward` option generically allows us to forward every request made from an external device to the _Our host_ (through some of our [[IP#Network Interfaces|network interfaces]]) to some _Target host_ inside the remote private network. For example:
 
 ![[LocalForwardIdea.png]]
 
-
-```Syntax
-LocalForward your_local_port remote_address (in server-side):remote_port
+The generic syntax is:
+```
+RemoteForward [local_listening_interfaceIP:]local_port remote_address:remote_port
 ```
 For the example above:
 ```
-LocalForward 8080 localhost:9119
+RemoteForward 9.8.7.6:8080 123.234.1.1:9119
 ```
+Where:
+- `[local_listening_interfaceIP:]` is the [[IP#IP address|IP address]] of the interface inside our host where we will be listening for requests. In the example above, it is the WiFi Adapter Network Interface IP Address
+- `local_port`: the [[Internet#Port|port number]] where we are listening for requests
+- `remote_address`: the IP address where the traffic will be forwarded to (_Target host_). This IP address is the IP address **seen from the remote machine**, where the SSH server is running
+- `remote_port`: the port inside the _Target host_ where the forwarded traffic will be sent to
+
+Note that:
+- `[local_listening_interfaceIP:]` can be the [[IP#Network Interfaces#Special IP addresses|localhost (127.0.0.1) interface]]
+- `remote_address` can be `localhost`
+
+This is:
+```
+LocalForward localhost:8080 localhost:9119
+```
+With this setup, you would have something like this:
+![[LocalForwardIdeaLocal.drawio.png]]
+
 ##### RemoteForward
-_Used to expose local services to remote users (reverse of [[#LocalForward]])_
-If you are connected to the remote SSH server and that remote server interacts with its ```localhost:9119```, the traffic will be forwarded to some port inside your local host.
+_Reverse of [[#LocalForward]]_
+_For further information: [A Visual Guide to SSH Tunnels: Local and Remote Port Forwarding (iximiuz.com)](https://iximiuz.com/en/posts/ssh-tunnels/)_
+The `RemoteForward` option generically allows us to forward every request made from an external device to the _Remote host_ (through some of its [[IP#Network Interfaces|network interfaces]]) to some _Target host_ inside our private network. For example:
 
 ![[RemoteForwardIdea.png]]
 
-```Syntax
-RemoteForward remote_port local_address:local_port
+The generic syntax is:
+```
+RemoteForward [remote_listening_interfaceIP:]remote_port local_address:local_port
 ```
 For the example above:
 ```
-LocalForward 9119 localhost:8080
+RemoteForward 9.8.7.6:9119 123.234.1.1:8910
 ```
+Where:
+- `[remote_listening_interfaceIP:]` is the [[IP#IP address|IP address]] of the interface inside the remote host where the remote will be listening for requests. In the example above, it is the WiFi Adapter Network Interface IP Address
+- `remote_port`: the target [[Internet#Port|port number]] where the traffic is sent from the external devices
+- `local_address`: the IP address where the traffic will be forwarded to (_Target host_). This IP address is the IP address **seen from your local machine**, where you configure SSH
+- `local_port`: the port inside the _Target host_ where the forwarded traffic will be sent to
+
+Note that:
+- `[remote_listening_interfaceIP:]` can be the [[IP#Network Interfaces#Special IP addresses|localhost (127.0.0.1) interface]]
+- `local_address` can be `localhost`
+
+This is:
+```
+RemoteForward localhost:9119 localhost:8910
+```
+With this setup, you would have something like this:
+
+![[RemoteForwardIdeaLocal.png]]
+
+In this case, you can make `localhost:8910` respond the request, for example.
+Sometimes, the _Remote host_ does not have Internet reachability. In this case, you can configure RemoteForward to redirect the traffic towards your machine and then to an external [[DNS]] domain that will send back a response to the remote server (this technique is often refered to as **Proxychains**).
 ##### DynamicForward
 When you connect to a remote SSH server, sometimes you need to connect to a certain port in that server. In that case, you could use [[#LocalForward]], but sometimes you can't use your own ports beacuse they are reserved to other things. In that case, you could directly connect to ```IP_remote:Port_remote```. However, your [[Internet#Interact with running ports|interaction with that port]] might be from a web browser, which doesn't typically allow the connection to SSH servers directly. Therefore, a [[Proxies#SOCKS5|Proxy SOCKS]] must be configured on your local machine to connect to the SSH server through an intermediate proxy by a web browser, but also on your configuration SSH file. The Proxy SOCKS is just a process running on your localhost which acts as a proxy.
 With DynamicForward, you can set which port to launch the Proxy SOCKS on inside your local machine. Once set, the Proxy SOCKS is executed when you connect to the remote host by `ssh`. Then, you can configure your web browser so as to use that proxy. You can now connect to any port on remote SSH server.

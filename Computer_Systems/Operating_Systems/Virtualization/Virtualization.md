@@ -48,6 +48,8 @@ By default, some Guest OS can't access to the Host OS files. However, you may ne
 ![[vmware-settings-options.png]]
 - If `Drag and Drop` is missing, you can opt for `Shared Folders`. For this purpose, go to VMware settings > Settings of Guest OS > Virtual Machine Settings > Options > Shared Folders. You can select a path inside your [[#Host Operating System]] that will be available inside your [[#Guest Operating System]]. If after turning on Guest OS and your Guest OS is Windows (such as [[Windows#Windows Server 2003|Windows Server 2003]]) you can't find the shared folder, ensure you have selected the option _Map as a network drive in Windows guests_:
 ![[map-as-a-network-drive-windows-guestOS-vmware.png]]
+- In case you don't have **VMware tools installed**, you can download the software in your [[#Host Operating System|Host OS]] from [Index of tools/releases/latest/windows/ (vmware.com)](https://packages.vmware.com/tools/releases/latest/windows/). Download the `.iso` file (you can ignore the other files) and, after downloading it, double click on the `.iso` file and run `setup.exe`. You will need to reboot your Host OS. After rebooting, go to your Guest OS and then select _Install VMware Tools...:
+![[InstallVMwaretoolsOption.png]]
 - If your Guest OS is [[Linux]]-based (e.g. [[Distributions#Ubuntu|Ubuntu]]), you can see the shared folder under [[Linux#/mnt/hgfs|/mnt/hgfs]] directory. In case the shared folder is not present inside that path, you can run this command (ensure that you are running it outside `/mnt/hgfs`):
 ```shell
 sudo vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other

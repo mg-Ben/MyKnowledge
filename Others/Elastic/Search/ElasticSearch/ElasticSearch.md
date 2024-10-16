@@ -26,6 +26,11 @@ And suddenly might receive another document like this, with a new unexpected fie
 ```
 Although ElasticSearch is NoSQL, it contains an [[#Index template]] where the fields and their datatypes are defined.
 When ElasticSearch detects a new field in a document, it creates that field in the Index template.
+However, we have two choices:
+1. [[#Dynamic Mapping]]: Let ElasticSearch auto-detect the datatypes and create the mapping by itself
+2. [[#Explicit Mapping]]: Explicitly create the mappings on our own
+#### Dynamic Mapping
+#### Explicit Mapping
 ### Index template
 An index template is a way to tell Elasticsearch how to configure an index when it is created. For example, you can create a template where you specify:
 - The number of **index replicas**
@@ -54,7 +59,37 @@ An index template is a way to tell Elasticsearch how to configure an index when 
 
 ## Document
 The data that ElasticSearch stores are called _documents_ and can be specified in [[JSON|JSON format]].
-
+Each document has got:
+- **Data**
+- **Metadata** (fields which begin with `_`, such as `_index`, `_id` or `_source`).
+	- `_source` is the original JSON document
+	- `_index` is the [[#Indices|index]] where the document is stored in
+	- `_id` is the document id
+### Example
+```JSON
+{
+  "_index": "my-first-elasticsearch-index",
+  "_id": "DyFpo5EBxE8fzbb95DOa",
+  "_version": 1,
+  "_seq_no": 0,
+  "_primary_term": 1,
+  "found": true,
+  "_source": {
+    "email": "john@smith.com",
+    "first_name": "John",
+    "last_name": "Smith",
+    "info": {
+      "bio": "Eco-warrior and defender of the weak",
+      "age": 25,
+      "interests": [
+        "dolphins",
+        "whales"
+      ]
+    },
+    "join_date": "2024/05/01"
+  }
+}
+```
 ## Shards
 
 ## Data path
