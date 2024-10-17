@@ -250,12 +250,24 @@ It is a file with `.rpm` extension and represents the software you want to insta
 ```shell
 rpm -qa
 ```
+`-qa` stands for _Query All packages_
 ### Install a rpm package
+#### From `.spec` file
+Get the `.spec` file and run:
+```shell
+rpmbuild -ba <file.spec>
+```
+`-ba` flag tells `rpm` to build both the binary and the source `.rpm` file.
+If `rpmbuild: command not found`, you will have to install `rpm-build` with [[#DNF]]:
+```shell
+dnf install rpm-build
+```
 #### After manually downloading .rpm file
 Download the `.rpm` file from the software official website and then run:
 ```shell
 rpm -i <file.rpm>
 ```
+The `rpm` command doesn't automatically resolve or download dependencies — it only installs the specified package and reports any missing dependencies. To automatically resolve dependencies, use [[#DNF#Install `.rpm` package]].
 ### Get rpm package information
 _Whenever you want to get package information, use `-qp` flag (which stands for `query-package`)_
 #### Extract .rpm scripts
@@ -289,6 +301,12 @@ You can get the `.rpm` package by:
 ```shell
 dnf install --downloadonly --downloaddir /path <package_name1> <package_name2>...
 ```
+### Install `.rpm` package
+You can also install a `.rpm` package with DNF with:
+```shell
+dnf install <package.rpm>
+```
+And dependencies will be automatically resolved.
 ### Redownload installed packages but not installing
 You can get the `.rpm` package by:
 ```shell

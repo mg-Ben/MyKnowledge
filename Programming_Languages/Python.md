@@ -3,7 +3,7 @@ tags:
   - Programming_Languages
 ---
 # Core principles
-It is a high-level, general-purpose programming language that emphasizes code readability.
+It is a high-level, general-purpose [[General Features#Object Oriented language|Object oriented]] programming language that emphasizes code readability.
 ## Iterable
 An iterable is, for example, a list, string, file... They are stored in **memory**, so we can read them as many times as we want.
 ```Python
@@ -74,6 +74,13 @@ It is the package manager for Python. Included by default in Python installation
 ### Run python Script
 ```shell
 python <script.py>
+```
+### Python classes
+_For more information, refer to [9. Classes — Python 3.13.0 documentation](https://docs.python.org/3/tutorial/classes.html)_
+Python is an [[General Features#Object Oriented language|Object Oriented language]], so we can define classes with attributes and methods.
+```python
+class Animal:
+	
 ```
 ## PIP
 ### Install package

@@ -140,7 +140,7 @@ Flags:
 - `-v`: for debugging (show verbose)
 - `-vvv`: for more detailed debugging (show detailed verbose)
 - ```-p <PORT>```: specify destination port
-- ```-i <keyfile>```: specify the name of the [[#keyfile]].
+- ```-i <keyfile>```: specify the name of the [[#SSH public and private keys|private key]] file.
 - `-o`: to specify additional configurations. For example:
 	- `-o KexAlgorithms`: to specify Key Exchange Algorithm. When you need to connect to some corporative SSH server, you might need to set this parameter, specially when you find some errors like `debug1: expecting SSH2_MSG_KEX_ECDH_REPLY` when showing verbose
 	- `-o ConnectTimeout=<time [s]>`: specifies the maximum amount of time, in seconds, that the SSH client should wait while trying to establish a connection to a remote host

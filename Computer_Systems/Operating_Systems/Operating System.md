@@ -179,3 +179,6 @@ The value of these variables is stored in `$(<VARIABLE_NAME>)` (e.g. `$HOME`) an
 - `PYTHONPATH`: Used by the [[Python]] interpreter to determine which directories to search for Python modules and packages when you use `import`
 - `HOME`: Represents the current user's home directory
 - `USER`: Contains the name of the currently logged-in user
+## Hands on
+### Get OS information
+In [[Linux]], you can [[UNIX#cat (Concatenate and display file content)|cat]] the `/etc/os-release` to get Operating System information.

@@ -51,6 +51,15 @@ services:
 Then, ```docker compose up```.
 See [[Linux#/etc]].
 ### Prometheus as Linux Service
+_Refer to [Prometheus First Steps](https://prometheus.io/docs/introduction/first_steps/)_
+#### Download Prometheus
+_Refer to [Prometheus Downloads](https://prometheus.io/download/)_
+Download the `.tar.gz` file for your [[Operating System]] and your [[Operating System#CPU Architectures|CPU Architecture]].
+Then, [[GNU#tar (tape archive)#Extracting files|extract it]].
+## How to install an exporter
+_Refer to [Prometheus Exporters](https://prometheus.io/docs/instrumenting/exporters/)_
+Most of them are [[GitHub]] repositories. You will typically have to look for [[Bash Scripting|binaries]] link in `README.md` and then [[Linux Service#Daemonize Bash command|turn it into a service]].
+
 ## Configuration files
 ### prometheus.yml
 The file where we define the [[#Job|jobs]] to scrape, as well as the scrape parameters, the target instances, the metrics labels... [There are lots of parameters](https://prometheus.io/docs/prometheus/latest/configuration/configuration/) to configure here, but here we show the main of them.

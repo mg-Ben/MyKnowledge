@@ -203,3 +203,28 @@ Whenever you want to take some command output and store each line as an element 
 ```shell
 mapfile -t <my_array> < <(<command>)
 ```
+#### tar (tape archive)
+_Was originally created to write multiple files onto tape storage_
+It can be used for either compressing files in a single `.tar` file or extract files from `.tar` file.
+##### Archiving (compressing) files
+You can package an entire directory into a single `.tar` file. To do so, you have to instruct `tar` command to compress files using flags:
+- `-c`: stands for "create a new archive"
+- `-z`: stands for "GZIP `.tar.gz` compression type" (optional)
+- `-j`; stands for "BZIP2 `.tar.bz2` compression type" (optional)
+- `-f`: stands for "filename"
+- `-v`: stands for "verbose output" (optional)
+The simplest use case is:
+```shell
+tar -cf <filename.tar(.gz/.bz2)> <path>
+```
+##### Extracting files
+To do so, you have to instruct `tar` command to compress files using flags:
+- `-x`: stands for "extract the files from an archive"
+- `-z`: stands for "GZIP `.tar.gz` decompression type" (optional)
+- `-j`; stands for "BZIP2 `.tar.bz2` compression type" (optional)
+- `-f`: stands for "filename"
+- `-v`: stands for "verbose output" (optional)
+The simplest use case is:
+```shell
+tar -xf <filename.tar>
+```

@@ -77,3 +77,11 @@ However, you can craft an [[Layer architecture|Application Layer]] packet with `
 ```shell
 echo "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n" | nc example.com 80
 ```
+# lshw
+Get detailed Hardware information:
+```shell
+lshw
+```
+With this command, you can get the [[Operating System#CPU Architectures|CPU architecture]], for example.
+Interesting flags:
+- `-c <classname>`: to get specific information about some component (e.g. `processor`)

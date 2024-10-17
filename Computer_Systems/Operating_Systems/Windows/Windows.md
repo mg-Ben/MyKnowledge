@@ -108,7 +108,7 @@ Opens [[#Resource monitor]]:
 resmon
 ```
 ### WMIC
-_WMIC stands for WMI Command-Line_
+_WMIC stands for [[#WMI]] Command-Line_
 #### Start wmic
 ```PowerShell
 wmic
