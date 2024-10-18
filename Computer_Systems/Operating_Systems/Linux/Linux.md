@@ -215,6 +215,7 @@ For this purpose, go to [[#/etc]]/apt/sources.list.d directory, then create a `.
 ```
 deb [signed-by=<path_to_gpg_key.gpg>] <repository_URL> stable main
 ```
+_The repository URL must point to a Debian-compatible package repository (it can't be a GitHub repository, for example)_
 Then, update package lists:
 ```shell
 sudo apt update
@@ -293,7 +294,7 @@ dnf list --installed
 ```
 ### Get package dependencies
 ```shell
-dnf repoquery --requires <package-name>
+dnf repoquery --requires <package-name(.rpm)>
 ```
 Would return the package dependencies of `<package-name>`.
 ### Download packages but not installing
