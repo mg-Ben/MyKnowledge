@@ -203,6 +203,10 @@ Whenever you want to take some command output and store each line as an element 
 ```shell
 mapfile -t <my_array> < <(<command>)
 ```
+#### unzip (uncompress `.zip` file)
+```shell
+unzip <file.zip>
+```
 #### tar (tape archive)
 _Was originally created to write multiple files onto tape storage_
 It can be used for either compressing files in a single `.tar` file or extract files from `.tar` file.

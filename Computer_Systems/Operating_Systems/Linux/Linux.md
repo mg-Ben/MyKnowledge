@@ -138,7 +138,7 @@ Contains essential [[BinaryFile|Binary files]] such as [[UNIX#UNIX-CLI standard 
 However, these binaries are used by system administrators for system maintenance and configurations.
 Examples: `ifconfig`, `shutdown`, `reboot`...
 ### /etc
-System configuration files.
+System configuration files. E.g.: `/etc/hosts` is the file where [[DNS]] resolutions are configured.
 ### /home
 The home directory for each [[#Users|User]].
 #### /home/username
@@ -215,6 +215,7 @@ For this purpose, go to [[#/etc]]/apt/sources.list.d directory, then create a `.
 ```
 deb [signed-by=<path_to_gpg_key.gpg>] <repository_URL> stable main
 ```
+_The repository URL must point to a Debian-compatible package repository (it can't be a GitHub repository, for example)_
 Then, update package lists:
 ```shell
 sudo apt update
@@ -267,6 +268,7 @@ Download the `.rpm` file from the software official website and then run:
 ```shell
 rpm -i <file.rpm>
 ```
+_Note: you can also look for `.rpm` packages in `rpmfind.net`_
 The `rpm` command doesn't automatically resolve or download dependencies — it only installs the specified package and reports any missing dependencies. To automatically resolve dependencies, use [[#DNF#Install `.rpm` package]].
 ### Get rpm package information
 _Whenever you want to get package information, use `-qp` flag (which stands for `query-package`)_
@@ -293,7 +295,7 @@ dnf list --installed
 ```
 ### Get package dependencies
 ```shell
-dnf repoquery --requires <package-name>
+dnf repoquery --requires <package-name(.rpm)>
 ```
 Would return the package dependencies of `<package-name>`.
 ### Download packages but not installing

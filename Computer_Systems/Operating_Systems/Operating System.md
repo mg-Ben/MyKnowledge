@@ -82,7 +82,7 @@ There are several File System types that determine how data is organized within 
 - **FAT32/exFAT**: widely used in removable devices
 Each partition can have its own file system type (e.g. `/dev/sda1` is EXT4, `/dev/sda2` is NTFS, `/dev/sdb1` is EXT4...).
 ##### Mount point
-Each partition has got a mount point. When we mount the partition in the unified file system, the data for that partition will be accessible from the directory we have mounted the partition (i.e. _Mount point_).
+Each [[#Partition]] has got a mount point. When we mount the partition in the unified file system, the data for that partition will be accessible from the directory we have mounted the partition (i.e. _Mount point_).
 For example, we can mount `/dev/sda1` inside the directory `/data` and `/dev/sdb3` inside `/home`.
 ## Main memory (RAM)
 _Also known as RAM (Random Access Memory)_

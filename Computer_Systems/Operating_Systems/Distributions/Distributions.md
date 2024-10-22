@@ -11,7 +11,7 @@ When we talk about [[GNU]]/[[Linux]] distributions:
 - [[Linux]] is the [[Operating System#Kernel|Kernel]]: this means that the Kernel is Linux-based, but there might be some customizations to it
 - The distribution adds some customizations to the Linux Kernel, as well as new tools apart from GNU tools (e.g. [[Linux#APT|APT]] for Ubuntu). That's why we consider that the distribution (e.g. Ubuntu) is itself an [[Operating System]]
 ## Debian
-Is a [[GNU]]/[[Linux]] distribution. It stands out for its **stability**.
+Is a [[GNU]]/[[Linux]] distribution. It stands out for its **stability**. Uses [[Linux#APT|APT]] as package manager tool.
 ## Ubuntu
 Is a [[GNU]]/[[Linux]] distribution. In fact, It is based on [[#Debian]] distribution. It stands out for its **simplicity**.
 ## Linux Mint

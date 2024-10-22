@@ -66,6 +66,14 @@ systemctl stop <service_name.service>
 ```shell
 systemctl restart <service_name.service>
 ```
+### Daemon-reload
+```shell
+sudo systemctl daemon-reload
+```
+### Enable a service
+```shell
+sudo systemctl enable <file.service>
+```
 ### Kill service
 Get the Main Process ID from [[#Get service status|service status]] and run:
 ```shell
@@ -74,7 +82,7 @@ sudo kill <Process_ID>
 ### See service logs
 There are several ways:
 - Go to [[Linux#/var|/var]]/log/<service_name> directory
-- Run `journalctl -xeu <service_name>`
+- Run `journalctl -xeu <service_name> -n <last n lines>`
 _To see logs in real-time, you can use `tail` command with the `-f` flag (refer to [[UNIX#tail (see the last lines of some file)]]_
 Some services have their own `log` files location, such as [[ElasticSearch]]. In this case, you can also use [[UNIX#tail (see the last lines of some file)]] command.
 ### Daemonize Bash command

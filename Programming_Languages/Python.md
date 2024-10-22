@@ -68,6 +68,11 @@ The custom function **must** use `yield` keyword instead of `return` to return a
 ## PIP
 _PIP stands for Package Installer for Python_
 It is the package manager for Python. Included by default in Python installations.
+## PyPI
+_PyPI stands for Python Package Index_
+Whenever you run [[#Hands on#PIP#Install package|pip install]], the package name is resolved using PyPI, which is the main repository for Python packages. However, you can configure `pip` to look for in other custom repositories.
+By default, the URL where packages are obtained is `https://pypi.org/simple/`, which is a public repository that `pip` uses to find and install packages. Nonetheless, you can configure where to get the repositories from in `~/.config/pip/pip.conf` file (see [[#Hands on#PyPI#Configure download repositories#Through `pip.conf`|pip.conf repositories configuration]]), or in the `pip install` command itself, using [[#Install package|--index-url or --extra-index-url]] command.## Django
+A Framework for [[Internet#Web Application Server]] development with Python.
 ## Django
 A Framework for [[Internet#Web Application Server]] development with Python.
 ## venv (Python Virtual ENVironment)
@@ -76,6 +81,11 @@ It is a similar concept to [[Docker]]: you can create a python code and, instead
 To do this, you need to create a virtual environment inside some directory.
 # Hands on
 ## Python
+### Open Python interpreter
+If you want to test some Python code without creating a Script, you can open the Python interpreter as:
+```shell
+python(3)
+```
 ### Run python Script
 ```shell
 python <script.py>
@@ -88,9 +98,54 @@ class Animal:
 	
 ```
 ## PIP
+### Download PIP
+You can get PIP with these commands:
+1. Get `get-pip.py` Script from `https://bootstrap.pypa.io`:
+```shell
+wget https://bootstrap.pypa.io/get-pip.py
+```
+2. Run:
+```shell
+python(3) ./get-pip.py
+```
+#### Download PIP offline
+Supposing you have to download PIP offline, you will need to run:
+```shell
+python(3) ./get-pip.py --no-index --find-links=/path/to/pip(.tar.gz/.whl)
+```
+However, in my machine I don't have Internet reachability: how can I get the pip files?
+To do this, you will need to use an auxiliary host with Internet connectivity. In that online host, you will need to download both the `get-pip.py` and the pip `.tar.gz` or `.whl`, and then pass it through [[SSH#scp (Secure Copy)|scp]], for example, to the offline host.
+1. Go to a machine with Internet reachability and run `wget https://bootstrap.pypa.io/get-pip.py` to get `get-pip.py` Script
+2. In the machine with Internet connectivity, download the pip files. For this purpose: `pip download pip -d <target_dir>`.
+_Note: you will probably need to downlaod `wheel` package together with `pip` in this step: `pip download pip wheel -d <target_dir>`_ 
+3. Compress the `<target_dir>` (see [[GNU#tar (tape archive)#Archiving (compressing) files|tar]] command) and send both `get-pip.py` and `.tar.gz` file to remote machine through scp, for example
+4. Iin remote machine, run the command above
+
+### Download package
+Supposing you want to only download a Python package without installing it (e.g. you want to get the files corresponding to a certain package):
+```shell
+pip download <package_name> <package2_name>... -d <target_directory>
+```
 ### Install package
 ```shell
-pip install <package_name>
+pip install <package_name> <package2_name>...
+```
+Interesting flags:
+- `--index-url <https://your-private-repo/simple>` in case you are using a custom repository apart from PyPI, or
+- `--extra-index-url https://your-private-repo/simple` if you are using a repository of PyPI, but not default repository
+- `--no-index --find-links=/path/to/package(.tar.gz or .whl)`: install packages without Internet connectivity , from a package with extension `.tar.gz` or `.whl` (_wheel)_. The `/paht/to/package(.tar.gz or .whl)` is the directory where the package is located (e.g. if you located the `.tar.gz` insido `/home/user/packages`, you can simply specify `--find-links=/home/user/packages`).
+_Note: you can get a `.tar.gz` package for any Python package by (1) [[#Download package|downloading it]]) and (2) [[GNU#tar (tape archive)#Archiving (compressing) files|compressing]] the target folder you specified when you downloaded it with the `-d` flag
+
+### Install several packages at a time
+You can create a `requirements.txt` file with the list of packages to download, such as:
+```requirements.txt
+requests
+pandas
+...
+```
+Then:
+```shell
+pip install -r requirements.txt
 ```
 ### List installed packages
 ```shell
@@ -101,6 +156,32 @@ For example, the package location in the [[Operating System#File system]]:
 ```Shell
 pip show <package>
 ```
+### Get package location
+Whenever you want to get some Python package location, you can [[#Open Python interpreter]] and run:
+```Python
+import <package>
+print(<package>.__file__)
+```
+### Get Python site packages
+Python looks for packages in certain directories inside your system. To get the list of directories Python is looking for, run:
+```shell
+python(3) -m site
+```
+You can also get the same result running the following code after [[#Open Python interpreter|opening the Python code interpreter]]:
+```Python
+import sys
+print(sys.path)
+```
+## PyPI
+### Configure download repositories
+#### Through `pip.conf`
+```conf
+[global]
+extra-index-url = https://...
+index-url = https://...
+```
+#### Through [[#Install package|pip install]] flags
+Use `--index-url` or `--extra-index-url`.
 ## Create your own Python package
 1. Create a directory with this contents:
 ```

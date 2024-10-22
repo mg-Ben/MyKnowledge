@@ -51,6 +51,8 @@ touch <filename>
 ```shell
 cp <filename_src> <filename_dst>
 ```
+Interesting flags:
+- To preserve file permissions, use `-p` flag
 ## mv (Move or rename files)
 ```shell
 mv <filename_src> <directory_name_dst>

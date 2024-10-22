@@ -108,8 +108,14 @@ Where the passwords can be securely stored and cannot be read (the content of th
 To add passwords, use the [[#Run ElasticSearch = Run one ElasticSearch node#elasticsearch-keystore|elasticsearch-keystore]]. Everything that you can set in this file is equivalent to set in [[#Main Configuration Files|elasticsearch.yml]]. However, you may not want to see them as plain text (e.g. if you want to set some password inside `elasticsearch.yml`). Therefore you can set those configurations in the keystore.
 ### Configuration Files Path
 #### For locally running ElasticSearch
-##### For Debian installation
+##### For [[Distributions#Debian|Debian]] installation
 Refer to Debian Directory Layout [Install Elasticsearch with Debian Package | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html#deb-layout).
+You will typically find the ElasticSearch files in the following path:
+```
+/etc/elasticsearch
+```
+##### For RPM installation
+Refer to RPM Installation [Install Elasticsearch with RPM | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html#rpm-layout)
 You will typically find the ElasticSearch files in the following path:
 ```
 /etc/elasticsearch
@@ -200,7 +206,7 @@ xpack.security.transport.ssl:
 - [[#Add password to keystore|Store the node password in elasticsearch.keystore]]. For this purpose, run it twice (for both, enter the node password you chose when you generated the Transport-Layer certificate):
 1. Specifying as ```configuration_name = xpack.security.transport.ssl.keystore.secure_password``` 
 2. Specifying as ```configuration_name = xpack.security.transport.ssl.truststore.secure_password```
-
+- Ensure that the permissions for `<TLS_certname.p12>` are [[GNU#chmod (Change file or directory permissions)|chmod 644]] (i.e. `-rw-r--r--`)
 Now your ElasticSearch node is secured with TLS/SSL!
 ###### HTTPS - Application Layer Security
 Generate the Application-Layer [[Cybersecurity#Certificates|certificate]]. To do so, use the [[#elasticsearch-certutil]] tool and:
@@ -215,6 +221,7 @@ xpack.security.http.ssl:
 	1. Specify as ```configuration_name = xpack.security.http.ssl.keystore.secure_password``` 
 	2. Enter the password
 - Move the `.pem` file to [[Kibana#Configuration Files Path|kibana config directory]]
+- Ensure that the permissions for `<HTTP_certname.p12>` are [[GNU#chmod (Change file or directory permissions)|chmod 644]] (i.e. `-rw-r--r--`)
 ###### Change file owner for elasticsearch.keystore
 Once you have configured both TLS/SSL and HTTPS certificates, you must [[GNU#chown (change ownership)|change ownership for elasticsearch.keystore file]] to `elasticsearch` user. For example:
 ```shell
@@ -230,18 +237,21 @@ _The best way to learn ElasticSearch is firstly [[#ElasticSearch Locally|work lo
 ## ElasticSearch Locally
 ### Download ElasticSearch
 - You can download ElasticSearch [[BinaryFile|Binary Files]] from [here](https://www.elastic.co/downloads/elasticsearch). Extract the ```.tar.gz``` file, look for ```/bin``` directory
-- However, it's recommended to install ElasticSearch with Debian Package (refer to [Install Elasticsearch with Debian Package | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html)), as the configuration files will be automatically placed where they should be. Remember the [[Linux#APT|steps]] for installing Debian packages
+However:
+- If you are using a [[Distributions#Debian|Debian]] distirbution, it's recommended to install ElasticSearch as a [[Linux#APT#Debian package .deb|Debian package (.deb)]] (refer to [Install Elasticsearch with Debian Package | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html)), since the configuration files will be automatically placed where they should be. Remember the [[Linux#APT|steps]] for installing Debian packages
+- On condition that you are using a distribution with [[Linux#RPM|RPM]] as package manager tool (such as [[Distributions#Fedora|Fedora]] or [[Distributions#Red Hat Enterprise Linux (RHEL)|RHEL]]), you can install the [[Linux#RPM file|.rpm package]] and [[Linux#DNF#Install `.rpm` package|install it]]. Refer to [Install Elasticsearch with RPM | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html)
 ### Configure ElasticSearch
 Go to [[#Configuration Files Path]].
 There are some [[#Important configurations for a ElasticSearch Node]] you can do before deploying ElasticSearch.
 ### Run ElasticSearch = Run one ElasticSearch node
 Depending on how you installed ElasticSearch:
 - If you installed it as a binary file, [[BinaryFile#How to run|Run elasticsearch binary file]]. After running it, it will take the configuration from ```/config``` directory inside the [[#Download ElasticSearch|extracted folder]]
-- If you installed it as a service (with Debian Package), [[Linux Service#Start service|start elasticsearch.service]]. If you find some error logs related to ElasticSearch upgrade:
+- If you installed it as a service (with Debian or RPM Package), [[Linux Service#Start service|start elasticsearch.service]]. You might need to [[Linux Service#Daemon-reload|damon-reload]] and then [[Linux Service#Enable a service|enable .service]] to force changes to take effect. If you find some error logs related to ElasticSearch upgrade:
 
 	_org.elasticsearch.gateway.CorruptStateException: Format version is not supported. Upgrading to [8.12.2] is only supported from version [7.17.0]_
 
 	You will need to [[UNIX#rm (Remove files or directories)|remove]] the [[#Data path|elasticsearch data]], [[Linux#APT#Uninstall package|purge the elasticsearch package]] and [[Linux#APT#Install a Debian package|install elasticsearch again]]
+_Remember that you can see Linux Service logs ([[Linux Service#See service logs|See service logs]])_
 ## ElasticSearch on Docker Container
 ### Create or download the ElasticSearch Image
 You can either create a custom image through [[Docker#Dockerfile Example|Dockerfile]] from the ElasticSearch official image (setting ```FROM elasticsearch...```) or directly use the ElasticSearch official image by [[Docker#Interesting commands#Build docker image#From DockerHub|pulling it]].
@@ -277,6 +287,7 @@ For resetting passwords for users, such as Kibana user.
 	3. While running, run the restart password tool: `./elasticsearch-reset-password -u <username>`. If your cluster is in RED state and cannot be started, you can pass the `-f` flag to force reset password
 #### elasticsearch-certutil
 For generating [[SSL-TLS#elasticsearch-certutil|SSL/TLS certificates]] and encrypt inter-node communication.
+See [[#Configuration Files Path]] (type: bin) to know where this tool is located.
 ##### Generate Certification Authority
 _Theory: [[Cybersecurity#Certificate Authorities (CA)]]_
 ```shell
@@ -287,6 +298,7 @@ _Theory: [[Cybersecurity#Certificate Authorities (CA)]]_
 The output will be a ```.p12``` file with the public-private key of Certification Authority.
 Interesting flags:
 - ```--pem```: the output will be a ```.zip``` with the certificate in ```pem``` format inside (i.e. one ```.key``` file and one ```.crt``` file)
+The certificate will be typically placed under `..` (i.e. the previous directory of `elasticsearch-certutil` binary). 
 ##### Generate the Transport-Layer certificate for the node
 _Theory: [[Cybersecurity#Certificate Authorities (CA)]]. This Transport-Layer certificate will be sent form ElasticSearch to the clients so that they can trust ElasticSearch_
 ```shell
@@ -329,7 +341,7 @@ You will be prompted to add the password value.
 ```shell
 ./elasticsearch-keystore show <configuration_name>
 ```
-##### Remove pasword to keystore
+##### Remove pasword from keystore
 ```shell
 ./elasticsearch-keystore remove <configuration_name>
 ```
