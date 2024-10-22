@@ -68,7 +68,12 @@ The custom function **must** use `yield` keyword instead of `return` to return a
 ## PIP
 _PIP stands for Package Installer for Python_
 It is the package manager for Python. Included by default in Python installations.
-
+## Django
+A Framework for [[Internet#Web Application Server]] development with Python.
+## venv (Python Virtual ENVironment)
+_Refer to [Python Virtual Environments](https://docs.python.org/3/library/venv.html)_
+It is a similar concept to [[Docker]]: you can create a python code and, instead of downloading all the dependencies systemwide (i.e. in your machine, in general), you can only download it in the virtual environment.
+To do this, you need to create a virtual environment inside some directory.
 # Hands on
 ## Python
 ### Run python Script
@@ -129,3 +134,9 @@ import <my_module_1>
 from another_package import <my_module_2>
 from another_package.another_package_2 import <my_module_3>
 ```
+## venv
+### Create a virtual environment
+```shell
+ptyhon -m venv /virtual/environment/path 
+```
+
