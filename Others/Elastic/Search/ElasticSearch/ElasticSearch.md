@@ -12,6 +12,23 @@ When to use Elasticsearch:
 Refer to [[#References | References > Elastic Products - Entry Point of Documentation]] to know more about how this documentation has been structured.
 ## Indices
 It contains several [[#Document|documents]].
+### Index pattern
+_Refer to [Search API | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html#search-search-api-path-params) and [Multi-target syntax | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-index.html)
+When you want to reference several indexes (e.g. in a [[Grafana#ElasticSearch Datasource|Grafana ElasticSearch Datasource]]), you can specify an index pattern with Wildcards:
+- **`*` (Asterisk)**:
+    - **Matches zero or more characters**. It can be used anywhere in an index name to match multiple indices
+    - Example:
+        - `logstash-*` matches all indices starting with `logstash-` (e.g., `logstash-2023-10-24`, `logstash-2023-10-25`, etc.)
+        - `*` by itself matches **all indices** in the cluster
+- **Braces `{}` for Expansions**:
+    - Braces can be used for **expansion** of index names. You can define a set of alternatives inside braces to match multiple patterns
+    - Example:
+        - `logstash-{2023,2024}-*` matches indices like `logstash-2023-*` and `logstash-2024-*`
+        - `logs-{a,b,c}-*` would match indices like `logs-a-*`, `logs-b-*`, and `logs-c-*`
+- **Range Patterns**:
+    - You can specify ranges using numeric sequences within braces
+    - Example:
+        - `logstash-2023-10-{01..05}` matches indices `logstash-2023-10-01`, `logstash-2023-10-02`, ..., `logstash-2023-10-05`
 ### Index mapping
 As ElasticSearch is a [[Databases#Non-relational database or NoSQL|NoSQL]] database, it allows user to store [[#Document|documents]] with any fields and any field types inside them. For example, some index may receive this data:
 ```JSON
@@ -31,6 +48,7 @@ However, we have two choices:
 2. [[#Explicit Mapping]]: Explicitly create the mappings on our own
 #### Dynamic Mapping
 #### Explicit Mapping
+
 ### Index template
 An index template is a way to tell Elasticsearch how to configure an index when it is created. For example, you can create a template where you specify:
 - The number of **index replicas**
@@ -56,7 +74,6 @@ An index template is a way to tell Elasticsearch how to configure an index when 
     }
   }
 ```
-
 ## Document
 The data that ElasticSearch stores are called _documents_ and can be specified in [[JSON|JSON format]].
 Each document has got:
@@ -352,7 +369,80 @@ You will be prompted to add the password value.
 ```shell
 ./elasticsearch-keystore list
 ```
-## Explore data
+## ElasticSearch HTTP requests
+_In this section, we use [[Useful commands#curl|curl]] command to send requests to the ElasticSearch instance_
+### Get all [[#Indices]]
+Retrieve ElasticSearch [[#Indices]]:
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/_cat/indices [other_curl_options]
+```
+### Create a new [[#Indices|Index]]
+```shell
+curl -X PUT http(s)://ES_IP:ES_PORT/<indexname> [other_curl_options]
+```
+### Add a new [[#Document]] to an [[#Indices|Index]]
+```shell
+curl -X POST http(s)://ES_IP:ES_PORT/<indexname>/_doc [other_curl_options] -H 'Content-Type: application/json' -d '{...(document)...}'
+```
+### Get data [[#Document|Documents]] inside an [[#Indices|Index]]
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search?pretty [other_curl_options]
+```
+If want to query documents:
+#### Query data
+_Refer to [The search API | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-your-data.html)_
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search [other_curl_options]
+{
+	<QueryDSL-Body>
+}
+```
+Queries can be performed in two contexts:
+- **Query context**: We write the query and ElasticSearch will calculate how well each document matches the query, sorted in descending order by some score value
+- **Filter context**: We write the query and ElasticSearch will return only the documents that fulfill the query
+##### Query DSL
+_Refer to [Query DSL | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html)_
+The query is [[DSL]] and it is based on [[JSON]].
+###### Get the documents which have some fieldname
+```JSON
+{"query": { "exists": { "field": "<fieldname>"}}}
+```
+So as to display only certain fields:
+```JSON
+{"query": { "exists": { "field": "<fieldname>"}}, "_source": ["<fieldname1>", "<fieldname2>", ...]}%%  %%
+```
+But if you want to display a [[#Runtime fields|runtime field]], then:
+```JSON
+{"query": { "exists": { "field": "<fieldname>"}}, "fields": ["<runtime_fieldname1>", "<runtime_fieldname2>", ...]}
+```
+###### Get the last timestamp
+_Refer to [[#Handy commands]]_
+```JSON
+{"size": 1, "sort": [{"timestamp_field": {"order": "desc"}}]}
+```
+###### Select distinct values of some field
+```JSON
+{"aggs": {"whatever": {"terms": {"field": <fieldname>}}}, "size": 0}
+```
+###### Test [[#Painless Scripting|Painless Script]]
+```shell
+curl -XGET http(s)://ES_IP:ES_PORT/<index_name>/_search?pretty [other_opts] \
+-H "Content-Type: application/json" \
+-d '
+{
+  "runtime_mappings": {
+    "<runtime_fieldname>": {
+      "type": "double",
+      "script": "<Painless_Script>"
+    }
+  },
+  "query": {
+    "match_all": {}
+  },
+  "fields": ["<runtime_fieldname>"] <--- This is necessary to show the runtime field in the output
+}
+'
+```
 ### Check index health
 You can both [[#5. Check cluster health|check ES cluster health]] and check the health for a specific index with:
 ```shell
@@ -364,44 +454,10 @@ curl -X DELETE http(s)://ES_IP:ES_PORT/<index> [other_curl_options]
 ```
 ### Delete all documents inside some index
 Go to [[Kibana]] and click on _Management_. Then, go to _Data > Index Management_, select your index and in _Manage index_ select _Flush index_.
-### Get all indices
-Retrieve ElasticSearch [[#Indices]]:
-```shell
-curl -X GET http(s)://ES_IP:ES_PORT/_cat/indices [other_curl_options]
-```
-### Get data inside an index
-```shell
-curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search [other_curl_options]
-```
 ### Get [[#Index template]]
 ```shell
 curl -X GET http(s)://ES_IP:ES_PORT/<index>/_mapping [other_curl_options]
 ```
-### Query data
-_Refer to [The search API | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-your-data.html)_
-To query ElasticSearch data, you will need to use a [[HTTP#REST|REST]] [[Internet#API|API]] towards `ES_IP:ES_PORT` through [[HTTP]]. The structure of the query is the following:
-```
-GET http(s)://ES_IP:ES_PORT/<index>/_search [other_curl_options]
-{
-	<QueryDSL-Body>
-}
-```
-Queries can be performed in two contexts:
-- **Query context**: We write the query and ElasticSearch will calculate how well each document matches the query, sorted in descending order by some score value
-- **Filter context**: We write the query and ElasticSearch will return only the documents that fulfill the query
-#### Query DSL
-_Refer to [Query DSL | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html)_
-The query is [[DSL]] and it is based on [[JSON]].
-##### Get the last timestamp
-_Refer to [[#Handy commands]]_
-```JSON
-{"size": 1, "sort": [{"timestamp_field": {"order": "desc"}}]}
-```
-##### Select distinct values of some field
-```JSON
-{"aggs": {"whatever": {"terms": {"field": <fieldname>}}}, "size": 0}
-```
-
 #### Kibana Discover App
 _Refer to [[Kibana#Explore ElasticSearch data]]_
 ### Handy commands
@@ -422,5 +478,14 @@ curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search -H "Content-type: applicatio
 ### Index notation
 - If the index begins with `.`, it is a self-managed index (managed by ElasticSearch itself).
 - `ds = data stream`
+## Painless Scripting
+_Refer to [[Painless]]_
+### Runtime fields
+You can create a new field which is a transformation (e.g. a sum or substract) of another fields in a document. The transformation is defined through a Script, in .
+For this purpose, two options are available:
+1. Configure the [[#Index mapping]] and add the runtime field Script
+2. From [[Kibana]]: go to _Management > Data Views_, select a Data View, which is actually an [[#Index pattern]], and get into _Add Field_. Check _Set value_ option and define the [[Painless]] Script
+_Note: in case you have added in the runtime field by the second way (Kibana), that runtime field will be only available inside Kibana and only for data visualizations, not for any use case such as [[Grafana]]. The recommended way is the first one, that permanently creates the runtime field as though it were another generic field_
+If want to try a Painless Script, you can perform a [[#Test Painless Scripting Painless Script]].
 # References
 - [Elastic Products - Entry Point of Documentation](https://www.elastic.co/guide/index.html)

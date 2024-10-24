@@ -89,7 +89,46 @@ tail <file>
 ```
 Interesting flags:
 - `-f`: to keep the file opened (useful to see logs)
-`
+## Variables
+You can define a variable like:
+```shell
+var_name = var_value
+```
+Example: `i = 4`
+Then, to access to variable value:
+```shell
+$var_name
+```
+You can store any command output as a variable with `$(command)`. For example:
+```shell
+var_name = $(cat my_file.txt)
+```
+### Take substring
+For any variable, you can treat it as a string and take a substring with the following notation:
+```Shell
+${var_name:offset:length}
+```
+Would take `length` characters from the `var_name` value from `offset` included (indexing from 0 included).
+Examples:
+```shell
+some_string="hello, world"
+echo ${some_string:2:7}
+	--> Output = "llo, wo"
+```
+- If `length` is a negative value, the meaning of this parameter will be the last character index to take, starting from the end of the string to the left, indexing from 0 (e.g. `-1` means the last character included, `-2` means the second to last character included and so on). If not specified, will take up to the end:
+```shell
+some_string="hello, world"
+echo ${some_string:2:-1}
+	--> Output = "llo, worl"
+```
+
+```shell
+some_string="hello, world"
+echo ${some_string:2}
+	--> Output = "llo, world"
+```
+
+
 ## if condition
 ```shell
 if [ condition ]; then (press enter to start writing the if body)
@@ -135,7 +174,6 @@ condition = -f "filename"
 ```
 condition = -d "directory"
 ```
-
 ## awk (Text processing tool)
 Refer to [[AWK]] to know how the scripting language is.
 ## | (Pipes)
@@ -251,3 +289,34 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 Interesting options:
 - `vmstat <period [s]>`: reports data each `<period [s]>`
 - `vmstat <period [s]> <max_samples>`: reports data each `<period [s]>` and stops after showing `<max_samples>` samples
+## route
+Shows [[Operating System#Kernel|Kernel]] IP routing table.
+In other words, this command provides information about each [[IP#Network Interfaces|Network Interface]]: specifically, about the [[Internet#Gateways|Gateway]] that each interface use depending on the destination [[Internet#LAN|LAN]] or host.
+For example:
+```
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         myhome.router.n 0.0.0.0         UG    100    0        0 ens33
+link-local      0.0.0.0         255.255.0.0     U     1000   0        0 ens33
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+172.18.0.0      0.0.0.0         255.255.0.0     U     0      0        0 abc768
+172.19.0.0      0.0.0.0         255.255.0.0     U     0      0        0 abc768
+172.24.112.0    0.0.0.0         255.255.240.0   U     100    0        0 ens33
+```
+We can read it from right to left.
+For example:
+```
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+172.19.0.0      0.0.0.0         255.255.0.0     U     0      0        0 abc768
+```
+Means that:
+- When we send packets from `abc768` interface to any machine in the LAN `172.19.0.0/255.255.0.0 = 172.19.X.X`, we are not using any Gateway (i.e. `0.0.0.0`), but we communicate directly to that destination. The Flag `U` means that the route is UP
+For example:
+```
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         myhome.router.n 0.0.0.0         UG    100    0        0 ens33
+```
+Means that:
+- When we communicate to any IP address on Internet (`Destination = default` with `Genmask = 0.0.0.0`, which means "all the Internet") sending packets through the `ens33` interface, we use the Gateway `myhome.router.n` (i.e. our home router). The Flags `UG` mean that the route is UP and is using a GATEWAY
+Interesting flags:
+- `-n` displays data in IP format

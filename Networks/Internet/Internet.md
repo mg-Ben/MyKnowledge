@@ -69,7 +69,7 @@ A gateway machine actually means:
 - A [[Proxies|Proxy]]
 - A [[Firewalls|Firewall]]
 - A [[Balancers]]
-- A [[#Router]]
+- A [[#Router]]: for example, your home router is a Gateway
 - A [[NAT]]
 ### Client-Server communication
 #### Server

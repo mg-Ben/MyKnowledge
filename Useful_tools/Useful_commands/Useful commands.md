@@ -43,7 +43,7 @@ Flags and options:
 100 10792    0 10792    0     0  96603      0 --:--:-- --:--:-- --:--:-- 97225
 ```
 - `-H <field>:<value>`: set [[HTTP#Header]] values (e.g. `-H "Content-type:application/json"`)
-- `-d`: whenever you perform a [[HTTP#POST]] operation, data must be specified. The `-d` flag allows user to specify which data to send (e.g. `-d file.json`). You can even set the data manually, like `-d "{"name": "Josh", "age": 21}"`
+- `-d`: whenever you perform a [[HTTP#POST]] operation, data must be specified. The `-d` flag allows user to specify which data to send (e.g. `-d @file.json`). You can even set the data manually, like `-d "{"name": "Josh", "age": 21}"`
 # ack
 Search inside all the plain-text file contents (such as logs, configuration files, text files, code files...) of some directory (you can search recursively, i.e. inside all the subdirectories) and find all ocurrences of some word or regular expression:
 ```shell
@@ -85,3 +85,9 @@ lshw
 With this command, you can get the [[Operating System#CPU Architectures|CPU architecture]], for example.
 Interesting flags:
 - `-c <classname>`: to get specific information about some component (e.g. `processor`)
+# tcpdump
+A powerful command-line packet analyzer tool used to capture and display network traffic. It allows users to monitor and analyze packets that are transmitted or received over a network interface.
+Analyze packets of various protocols, including [[TCP]], [[UDP]], [[ICMP]], and more.
+```shell
+tcpdump -i <interface>
+```

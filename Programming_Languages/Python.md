@@ -83,13 +83,118 @@ python(3)
 ```shell
 python <script.py>
 ```
+### Python functions
+```Python
+def function(x, y, z):
+	...
+```
+#### `-> <datatype>` hint
+To explicitly specify the returning type of a function.
+```Python
+def function(x, y, z) -> int:
+	...
+```
+_It is just a hint and does **not enforce** the return type at runtime. Python is dynamically typed, so it won't raise an error if the return type doesn't match the hint, but type hinting helps make the code clearer and can be checked with static analysis tools_
+
 ### Python classes
 _For more information, refer to [9. Classes — Python 3.13.0 documentation](https://docs.python.org/3/tutorial/classes.html)_
 Python is an [[General Features#Object Oriented language|Object Oriented language]], so we can define classes with attributes and methods.
 ```python
 class Animal:
-	
+	colour = 'brown'
+	def __init__(self, animal_name):
+		self.name = animal_name
 ```
+In the example above:
+- `colour` is an attribute which is shared for every object of class `Animal` that is created (i.e. it is a **class attribute** rather than an object attribute). It is equivalent to `static` in Java
+- However, `name` attribute, which is defined in the constructor `__init__()`, is not shared
+If looking for a better understandable way to define classes, take a look at [[#Python dataclasses]].
+#### `@property` built-in decorator
+To define a method that is invoked as if it were an object attribute. Used to define a **getter** method:
+```Python
+class Animal:
+	def __init__(self, animal_name):
+		self._name = animal_name
+	
+	@property
+	def name(self):
+		return self._name
+
+bear = Animal("bear")
+print(bear.name) # We access to the name method as if it were an attribute (i.e. with object.attribute syntax)
+```
+#### `@<field>.setter` built-in decorator
+To define a method that is invoked as if it were an object attribute. Used to define a **setter** method:
+```Python
+class Animal:
+	def __init__(self, animal_name):
+		self._name = animal_name
+	
+	@name.setter
+	def name(self, new_name):
+		self._name = new_name
+
+bear = Animal("bear")
+bear.name = "polar bear" # We access to the name method as if it were an attribute (i.e. with object.attribute syntax)
+```
+#### `@<field>.deleter` built-in decorator
+To define a method that is invoked as if it were an object attribute. Used to define a **deleter** method:
+```Python
+class Animal:
+	def __init__(self, animal_name):
+		self._name = animal_name
+	
+	@name.deleter
+	def name(self):
+		del self._name
+
+bear = Animal("bear")
+del bear.name # We access to the name method as if it were an attribute (i.e. with object.attribute syntax)
+```
+#### Abstract classes
+_Refer to [abc — Abstract Base Classes — Python 3.13.0 documentation](https://docs.python.org/3/library/abc.html)_
+Python doesn't provide a built-in way to implement [[Java#Abstract|Abstract classes]], so you will need to use the `ABC` library.
+```Python
+from abc import ABC
+
+class Machine(ABC):
+	# It's not necessary to define the constructor
+
+	@abstractmethod
+	def calculate(self, x, y, z):
+		... # We use ... to specify that the method has no implementation
+```
+#### Python dataclasses
+Another way to define [[#Python classes]], in a more comprehensible manner:
+```Python
+from dataclasses import dataclass
+
+@dataclass
+class Employee:
+    name: str
+    dept: str
+    salary: int
+```
+#### Useful libraries
+There are useful libraries to ease the definition of Python classes:
+##### attrs
+_Refer to [attrs 24.2.0 documentation](https://www.attrs.org/en/stable/index.html)_
+You can write classes in a better understandable and similar to built-in [[#Python dataclasses]] way like:
+```Python
+import attrs
+
+@attrs.define(kw_only=True) # kw_only=True means that the attributes must be defined as keyword when creating an instance (object) of the class Person
+class Person:
+	name: str
+	age: int
+	children_names: List[str]
+	wage: Optional[int] # Define an optional attribute
+	type: str = "human" # Define class attribute (i.e. shared between all the instances of this class)
+
+person = Person("John", 30) # Would raise an error
+person = Person(name="John", age=30, children_names=["sara", "john", "maria"])
+```
+The difference with `dataclasses` is that you can define classes in a more customizable manner (e.g. the `kw_only`).
 ## PIP
 ### Download PIP
 You can get PIP with these commands:
