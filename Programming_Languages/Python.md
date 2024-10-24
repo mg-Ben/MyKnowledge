@@ -72,6 +72,12 @@ It is the package manager for Python. Included by default in Python installation
 _PyPI stands for Python Package Index_
 Whenever you run [[#Hands on#PIP#Install package|pip install]], the package name is resolved using PyPI, which is the main repository for Python packages. However, you can configure `pip` to look for in other custom repositories.
 By default, the URL where packages are obtained is `https://pypi.org/simple/`, which is a public repository that `pip` uses to find and install packages. Nonetheless, you can configure where to get the repositories from in `~/.config/pip/pip.conf` file (see [[#Hands on#PyPI#Configure download repositories#Through `pip.conf`|pip.conf repositories configuration]]), or in the `pip install` command itself, using [[#Install package|--index-url or --extra-index-url]] command.
+## Django
+A Framework for [[Internet#Web Application Server]] development with Python.
+## venv (Python Virtual ENVironment)
+_Refer to [Python Virtual Environments](https://docs.python.org/3/library/venv.html)_
+It is a similar concept to [[Docker]]: you can create a python code and, instead of downloading all the dependencies systemwide (i.e. in your machine, in general), you can only download it in the virtual environment.
+To do this, you need to create a virtual environment inside some directory.
 # Hands on
 ## Python
 ### Open Python interpreter
@@ -313,3 +319,21 @@ import <my_module_1>
 from another_package import <my_module_2>
 from another_package.another_package_2 import <my_module_3>
 ```
+## venv
+### Create a virtual environment
+```shell
+ptyhon -m venv <virtual_environment_path>
+```
+A directory will be created in `./<virtual_environment_path>`.
+That directory contains:
+- The libraries (i.e. Python packages) that you will install inside the virtual environment
+- The Python interpreter
+- The Scripts to [[#Activate a virtual environment|activate]] and [[#Deactivate a virtual environment|deactivate]] the virtual environment
+### Activate a virtual environment
+In [[Windows#PowerShell]]:
+```PowerShell
+.\activate
+```
+### Deactivate a virtual environment
+
+
