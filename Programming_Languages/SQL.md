@@ -491,5 +491,9 @@ ORDER BY _column_ ASC/DESC
 LIMIT _count_
 OFFSET _COUNT_;
 ```
+## DELETE
+```SQL
+DELETE FROM mytable WHERE condition;
+```
 # References
 - [SQLBolt - Learn SQL - Introduction to SQL](https://sqlbolt.com/)
