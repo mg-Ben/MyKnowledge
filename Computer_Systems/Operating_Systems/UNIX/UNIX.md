@@ -127,8 +127,23 @@ some_string="hello, world"
 echo ${some_string:2}
 	--> Output = "llo, world"
 ```
-
-
+### Find and replace
+In case we have a string stored inside `input_string` variable with value `test string` and we want to replace some substring (e.g. `test`) with another string (`example`), this is:
+```
+input_string = test string
+output_string = example string
+```
+We can use the find and replace option with this generic syntax:
+```
+${input_string/substring_to_replace/new_string}
+```
+For the example, above: `${input_string/test/example}` would result in `example string`.
+Try this:
+```shell
+input_string="test string"
+output_string=${input_string/test/example}
+echo output_string
+```
 ## if condition
 ```shell
 if [ condition ]; then (press enter to start writing the if body)

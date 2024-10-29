@@ -29,6 +29,9 @@ When you want to reference several indexes (e.g. in a [[Grafana#ElasticSearch Da
     - You can specify ranges using numeric sequences within braces
     - Example:
         - `logstash-2023-10-{01..05}` matches indices `logstash-2023-10-01`, `logstash-2023-10-02`, ..., `logstash-2023-10-05`
+### Index alias
+_Refer to [Aliases | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/aliases.html)_
+An Index alias is a secondary name for a group of data streams or indices. Most Elasticsearch APIs accept an alias in place of a data stream or index name.
 ### Index mapping
 As ElasticSearch is a [[Databases#Non-relational database or NoSQL|NoSQL]] database, it allows user to store [[#Document|documents]] with any fields and any field types inside them. For example, some index may receive this data:
 ```JSON
@@ -74,6 +77,14 @@ An index template is a way to tell Elasticsearch how to configure an index when 
     }
   }
 ```
+### Reindex
+_For more information, refer to [Reindex API | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html)_
+We can copy all documents from one index to another. The destination index can be previously created, or can be created on the go.
+The reindex process simplified consists of making a [[HTTP#POST]] request towards the ElasticSearc Reindex API and specify the source and destination indices:
+```shell
+curl -XPOST http(s)://ES_IP:ES_PORT/_reindex [other_curl_options] -H "Content-Type: application/json" -d `{"source": {"index": "<source_index>"}, "dest": {"index": "<destination_index>"}}`
+```
+_Note: if `<destination_index>` does not exist before running that command, it will be automatically created before the reindex process_
 ## Document
 The data that ElasticSearch stores are called _documents_ and can be specified in [[JSON|JSON format]].
 Each document has got:
@@ -112,6 +123,7 @@ Each document has got:
 ## Data path
 For Debian-based installations:
 - [[Linux#/var|/var]]/lib/elasticsearch
+You can change the data path with `paht.data` in [[#Main Configuration Files|elasticsearch.yml]]. This is very useful when you need to change the [[Operating System#Partition|partition]] where to build the database. In this case, ensure that the new directory has got the same permissions and owners as the original `/var/lib/elasticsearch`. You can create the new directory by copying `/var/lib/elasticsearch` directory and using [[UNIX#cp (Copy files)]] command with the `-p` flag.
 ## Configuration Files
 Where are they located? Inside [[#Configuration Files Path]].
 ### Main Configuration Files
@@ -381,9 +393,12 @@ curl -X GET http(s)://ES_IP:ES_PORT/_cat/indices [other_curl_options]
 curl -X PUT http(s)://ES_IP:ES_PORT/<indexname> [other_curl_options]
 ```
 ### Add a new [[#Document]] to an [[#Indices|Index]]
+_Refer to [Index API | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html)_
 ```shell
 curl -X POST http(s)://ES_IP:ES_PORT/<indexname>/_doc [other_curl_options] -H 'Content-Type: application/json' -d '{...(document)...}'
 ```
+You can use the Bulk API ([Bulk API | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html)) to insert several documents at a time.
+If want to specify the new document id, use [[HTTP#PUT]] and `/<indexname>/_doc/<id>` endpoint.
 ### Get data [[#Document|Documents]] inside an [[#Indices|Index]]
 ```shell
 curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search?pretty [other_curl_options]
@@ -405,15 +420,19 @@ _Refer to [Query DSL | Elasticsearch Guide [8.13] | Elastic](https://www.elastic
 The query is [[DSL]] and it is based on [[JSON]].
 ###### Get the documents which have some fieldname
 ```JSON
-{"query": { "exists": { "field": "<fieldname>"}}}
+{"query": {"exists": {"field": "<fieldname>"}}}
 ```
 So as to display only certain fields:
 ```JSON
-{"query": { "exists": { "field": "<fieldname>"}}, "_source": ["<fieldname1>", "<fieldname2>", ...]}%%  %%
+{"query": {"exists": {"field": "<fieldname>"}}, "_source": ["<fieldname1>", "<fieldname2>", ...]}
 ```
 But if you want to display a [[#Runtime fields|runtime field]], then:
 ```JSON
-{"query": { "exists": { "field": "<fieldname>"}}, "fields": ["<runtime_fieldname1>", "<runtime_fieldname2>", ...]}
+{"query": {"exists": {"field": "<fieldname>"}}, "fields": ["<runtime_fieldname1>", "<runtime_fieldname2>", ...]}
+```
+###### Get the documents which do not contain some fieldname
+```JSON
+{"query": {"bool": {"must_not": {"exists": {"field": "<fieldname>"}}}}}
 ```
 ###### Get the last timestamp
 _Refer to [[#Handy commands]]_
@@ -432,7 +451,7 @@ curl -XGET http(s)://ES_IP:ES_PORT/<index_name>/_search?pretty [other_opts] \
 {
   "runtime_mappings": {
     "<runtime_fieldname>": {
-      "type": "double",
+      "type": "<output_datatype_of_painless_script>",
       "script": "<Painless_Script>"
     }
   },
@@ -443,6 +462,7 @@ curl -XGET http(s)://ES_IP:ES_PORT/<index_name>/_search?pretty [other_opts] \
 }
 '
 ```
+The `<output_datatype_of_painless_script>` cannot be `int`: only `double` is supported in this case ([Map a runtime field | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/8.15/runtime-mapping-fields.html)).
 ### Check index health
 You can both [[#5. Check cluster health|check ES cluster health]] and check the health for a specific index with:
 ```shell
@@ -481,7 +501,7 @@ curl -X GET http(s)://ES_IP:ES_PORT/<index>/_search -H "Content-type: applicatio
 ## Painless Scripting
 _Refer to [[Painless]]_
 ### Runtime fields
-You can create a new field which is a transformation (e.g. a sum or substract) of another fields in a document. The transformation is defined through a Script, in .
+You can create a new field which is a transformation (e.g. a sum or substract) of another fields in a document. The transformation is defined through a Script, written in [[Painless]].
 For this purpose, two options are available:
 1. Configure the [[#Index mapping]] and add the runtime field Script
 2. From [[Kibana]]: go to _Management > Data Views_, select a Data View, which is actually an [[#Index pattern]], and get into _Add Field_. Check _Set value_ option and define the [[Painless]] Script

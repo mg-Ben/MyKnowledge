@@ -7,6 +7,7 @@ tags:
 _SQL stands for Structured Query Language_
 A language to query [[Databases#Relational database|relational databases]].
 A SQL database consists of several [[#Table|tables]].
+Although SQL queries depend on the background database (e.g. the queries for [[PostgreSQL]] are not the same as those for [[MySQL]]), there is a standard query format called **ANSI SQL** (_American National Standards Institute SQL_).
 ## Database
 Contains several [[#Table|tables]].
 ![[SQL-idea.png]]
@@ -493,7 +494,7 @@ OFFSET _COUNT_;
 ```
 ## DELETE
 ```SQL
-DELETE FROM mytable WHERE condition;
+DELETE FROM mytable WHERE <condition>;
 ```
 # References
 - [SQLBolt - Learn SQL - Introduction to SQL](https://sqlbolt.com/)

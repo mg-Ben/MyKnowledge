@@ -3,6 +3,7 @@ tags:
   - Programming_Languages
 ---
 # Core principles
+_Refer to [Painless scripting language | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-painless.html) and [Painless Language Specification | Painless Scripting Language [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/painless/8.15/painless-lang-spec.html)_
 The language used in [[ElasticSearch]].
 # Hands on
 For the examples below, we suppose your [[ElasticSearch#Indices|Index]] [[ElasticSearch#Document|Documents]] are:

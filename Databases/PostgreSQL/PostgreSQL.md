@@ -84,3 +84,4 @@ SELECT * FROM <table>;
 ```
 ### SQL commands
 Once you have connected to a PostgreSQL table, you can perform [[SQL#SQL Queries|SQL Queries]].
+However, remember that PostgreSQL implements its own queries apart from the standard SQL queries: for more information about PostgreSQL queries, refer to [PostgreSQL: Documentation: 17: Chapter 7. Queries](https://www.postgresql.org/docs/current/queries.html). If interested in pattern matching in the [[SQL#WHERE]] clause, refer to [PostgreSQL: Documentation: 17: 9.7. Pattern Matching](https://www.postgresql.org/docs/17/functions-matching.html).

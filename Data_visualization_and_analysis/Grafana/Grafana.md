@@ -25,6 +25,20 @@ If you want to define a variable which is a dropdown menu with several options, 
 {"find": "terms", "field": <fieldname>}
 ```
 _Note: this is **not** a [[ElasticSearch#Query DSL]]! It is specific to Grafana_
+#### `__text` and `__value`
+Supposing we have a dashboard variable called `server` with value `core-host`:
+- We want to filter data from a database using that variable value (e.g. `hostname==${server}`)
+- Nonetheless, the string literal `core-host` does not exist with that name in the database, but with name `core_host`
+- However, we are querying other databases which use the string `core-host`, so we have to standardize somehow
+Then, we can use the `__text` and `__value`:
+- `__text` is the variable value that is visible in the dashboard for the user (`core-host`)
+- `__value` is the variable _actual_ and hidden value when the user selects the value as `core-host` in the dashboard (`core_host`)
+We can then modify the dashboard [[#Panel]] so that one uses `${server:__text}` and the other one uses `${server:__value}`.
+This can be done through a [[PostgreSQL]] query where we have stored both name versions (`core-host` and `core_host` in two different columns named `server_format1` and `server_format2`, respectively), for example:
+```SQL
+SELECT server_format1 AS __value, server_format2 AS __text FROM mytable
+```
+That query would be in the Grafana dashboard variable query.
 ## Panel
 The [[#Dashboard]] element where some graphic is displayed from a query to a [[#Datasource]].
 ### Data links
