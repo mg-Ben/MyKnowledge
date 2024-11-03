@@ -5,13 +5,15 @@ tags:
 # Core principles
 _It is a [[Databases#Non-relational database or NoSQL|NoSQL]] database, so it provides more scalability and flexibility_
 A DataBase for **analytics** and **fast searches**. It stores data (called [[#Document|documents]]).
-When to use Elasticsearch:
+When to use Elas++ticsearch:
 - Webpages and searches within that webpages (e.g. a searchbox)
 - Log and event storing
 - Machine Learning
 Refer to [[#References | References > Elastic Products - Entry Point of Documentation]] to know more about how this documentation has been structured.
 ## Indices
 It contains several [[#Document|documents]].
+### Index settings
+You can access to and modify some index settings such as number of shards or replicas. However, in many cases you will have an index which is created periodically: in that case, you will have to use [[#Index template|index templates]].
 ### Index pattern
 _Refer to [Search API | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html#search-search-api-path-params) and [Multi-target syntax | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-index.html)
 When you want to reference several indexes (e.g. in a [[Grafana#ElasticSearch Datasource|Grafana ElasticSearch Datasource]]), you can specify an index pattern with Wildcards:
@@ -59,6 +61,7 @@ An index template is a way to tell Elasticsearch how to configure an index when 
 - The document fields and data types
 - Before creating an index, you must create the template
 - Index templates can be specified as [[JSON]] objects
+It will typically be necessary to [[#Create an Index template]] before [[#Create a new Indices Index|creating a new index]]. When creating a template, an [[#Index pattern]] is specified to be applied to future indices that will be created matching that pattern.
 #### Example
 ```JSON
 "template": {
@@ -85,6 +88,65 @@ The reindex process simplified consists of making a [[HTTP#POST]] request toward
 curl -XPOST http(s)://ES_IP:ES_PORT/_reindex [other_curl_options] -H "Content-Type: application/json" -d `{"source": {"index": "<source_index>"}, "dest": {"index": "<destination_index>"}}`
 ```
 _Note: if `<destination_index>` does not exist before running that command, it will be automatically created before the reindex process_
+### ILM
+_ILM stands for Index Lifecycle Management_
+_Refer to [Index lifecycle management APIs | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management-api.html) and [Configure a lifecycle policy | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/set-up-lifecycle-policy.html#apply-policy-template)_
+In case you have installed ElasticSearch in a resource limited environment (with some limitations in [[Operating System#Secondary memory (Disk)|Hard disk]], for example), you can set policies to roll over the data from some index to a new one after some elapsed time, or after reaching a limit such as index space usage (recommended) or index age.
+#### Rollover setup
+The steps to follow will typically be:
+1) Create your policy by `curl -XPUT <ES_IP>:<ES_PORT>/_ilm/policy/<policy-name>`. For example, the policy configuration can be:
+```JSON
+{
+    "policy": {
+        "phases": {
+            "hot": {
+                "actions": {
+                    "rollover": {
+                        "max_size": "15kb"
+                    }
+                }
+            
+            },
+            "delete": {
+                "min_age": "1d",
+                "actions": {
+                    "delete": {}
+                }
+            }
+        }
+    }
+}
+```
+_In this example, we are instructing ElasticSearch to rollover (i.e. create) a new index when the current index we are storing data reaches 15kb size. The previous indices would keep alive, but after 1d will be deleted_
+2) Two posibilities:
+	1) Attach your policy to an index template (see more details [Configure a lifecycle policy | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/set-up-lifecycle-policy.html#apply-policy-template)) by `curl -XPUT http(s)://<ES_IP>:<ES_PORT>/_index_template/<template-name> [other_curl_options]`; for example:
+```shell
+{
+  "index_patterns": ["test-*"], 
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1,
+      "index.lifecycle.name": "<policy-name>", 
+      "index.lifecycle.rollover_alias": "<rollover-alias>" 
+    }
+  }
+}
+```
+_Note: you **must** specify `rollover_alias` for rollover operations_
+2) Attach the policy to an index in specific by updating the [[#Index settings]]. To do so, in this case:
+	1) [[#Set an alias to an index]]. Set the following alias options: `"is_write_index": true`
+	2) Apply the policy to the index by `curl -XPUT http(s)://<ES_IP>:<ES_PORT>/<indexname>/_settings [other_curl_options]`:
+```JSON
+{
+    "index": {
+        "lifecycle": {
+            "name": "<policy-name>",
+            "rollover_alias": "<rollover-alias>"
+        }
+  }
+}
+```
 ## Document
 The data that ElasticSearch stores are called _documents_ and can be specified in [[JSON|JSON format]].
 Each document has got:
@@ -268,6 +330,7 @@ _The best way to learn ElasticSearch is firstly [[#ElasticSearch Locally|work lo
 - You can download ElasticSearch [[BinaryFile|Binary Files]] from [here](https://www.elastic.co/downloads/elasticsearch). Extract the ```.tar.gz``` file, look for ```/bin``` directory
 However:
 - If you are using a [[Distributions#Debian|Debian]] distirbution, it's recommended to install ElasticSearch as a [[Linux#APT#Debian package .deb|Debian package (.deb)]] (refer to [Install Elasticsearch with Debian Package | Elasticsearch Guide [8.13] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html)), since the configuration files will be automatically placed where they should be. Remember the [[Linux#APT|steps]] for installing Debian packages
+	- In this case, two options are available: 1) installing through the repository (in this case you will need to import the GPG key first [import the GPG key first](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html#deb-key) and then configure the repository in `/etc/apt/sources.list.d`) or 2) manually installing the `.deb` package
 - On condition that you are using a distribution with [[Linux#RPM|RPM]] as package manager tool (such as [[Distributions#Fedora|Fedora]] or [[Distributions#Red Hat Enterprise Linux (RHEL)|RHEL]]), you can install the [[Linux#RPM file|.rpm package]] and [[Linux#DNF#Install `.rpm` package|install it]]. Refer to [Install Elasticsearch with RPM | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html)
 ### Configure ElasticSearch
 Go to [[#Configuration Files Path]].
@@ -392,6 +455,54 @@ curl -X GET http(s)://ES_IP:ES_PORT/_cat/indices [other_curl_options]
 ```shell
 curl -X PUT http(s)://ES_IP:ES_PORT/<indexname> [other_curl_options]
 ```
+### Get [[#Index settings]]
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/_settings [other_curl_options]
+```
+### Set an alias to an index
+If the index already exists:
+```shell
+curl -X POST http(s)://ES_IP:ES_PORT/_aliases [other_curl_options] -H "Content-type: application/json" -d '
+{
+  "actions": [
+    {
+      "add": {
+        "index": "<indexname>",
+        "alias": "<alias>",
+        ... (alias options)
+      }
+    }
+  ]
+}'
+```
+If the index does not exist yet, you can [[#Create a new Indices Index|create it]] and set the alias at a time:
+```shell
+curl -X PUT http(s)://ES_IP:ES_PORT/<indexname> [other_curl_options] -H "Content-type: application/json" -d '
+{
+  "aliases": {
+    "<alias_name>":{
+      ... (alias options)
+    }
+  }
+}'
+```
+### Update [[#Index settings]]
+```shell
+curl -X PUT http(s)://ES_IP:ES_PORT/_settings [other_curl_options] -H 'Content-type: application/json' -d '
+{
+	...
+}
+'
+```
+If the index does not exist yet, you can specify the settings when [[#Create a new Indices Index|creating a new index]] as:
+```shell
+curl -X PUT http(s)://ES_IP:ES_PORT/<indexname> [other_curl_options] -H 'Content-type: application/json' -d '
+{
+  "settings": {
+    ...
+  }
+}'
+```
 ### Add a new [[#Document]] to an [[#Indices|Index]]
 _Refer to [Index API | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html)_
 ```shell
@@ -474,6 +585,20 @@ curl -X DELETE http(s)://ES_IP:ES_PORT/<index> [other_curl_options]
 ```
 ### Delete all documents inside some index
 Go to [[Kibana]] and click on _Management_. Then, go to _Data > Index Management_, select your index and in _Manage index_ select _Flush index_.
+### Create an [[#Index template]]
+```shell
+curl -X PUT http(s)://ES_IP:ES_PORT/_index_template/<template_name> [other_curl_options] -H 'Content-type: application/json' -d '
+{
+	"index_patterns": ["<index_pattern (e.g. metrics-*)>"]
+		"template": {
+			"settings": {
+				"number_of_shards": 1,
+				"number_of_replicas": 1
+			}
+		}
+}
+'
+```
 ### Get [[#Index template]]
 ```shell
 curl -X GET http(s)://ES_IP:ES_PORT/<index>/_mapping [other_curl_options]
