@@ -335,3 +335,39 @@ Means that:
 - When we communicate to any IP address on Internet (`Destination = default` with `Genmask = 0.0.0.0`, which means "all the Internet") sending packets through the `ens33` interface, we use the Gateway `myhome.router.n` (i.e. our home router). The Flags `UG` mean that the route is UP and is using a GATEWAY
 Interesting flags:
 - `-n` displays data in IP format
+## locale
+Allows users to view or modify locale settings, which affect language, regional settings, time formats, and more for programs that adhere to these environment variables.
+Running `locale` without flags displays the current locale settings:
+```shell
+locale
+```
+Example output:
+```
+LANG=en_US.UTF-8
+LC_CTYPE="en_US.UTF-8"
+LC_NUMERIC="en_US.UTF-8"
+LC_TIME="en_US.UTF-8"
+LC_COLLATE="en_US.UTF-8"
+LC_MONETARY="en_US.UTF-8"
+LC_MESSAGES="en_US.UTF-8"
+LC_PAPER="en_US.UTF-8"
+LC_NAME="en_US.UTF-8"
+LC_ADDRESS="en_US.UTF-8"
+LC_TELEPHONE="en_US.UTF-8"
+LC_MEASUREMENT="en_US.UTF-8"
+LC_IDENTIFICATION="en_US.UTF-8"
+LC_ALL=
+```
+Interesting flags:
+- `-a`: shows available locales (e.g. `es_ES.UTF-8`, `en_US.UTF-8`, `en_IL`...)
+### locale-gen
+For installing new locales.
+```shell
+locale-gen <locale (e.g. es_ES.UTF-8)>
+```
+After installing, [[#update-locale]].
+### update-locale
+For updating the locales.
+```shell
+update-locale
+```

@@ -105,7 +105,6 @@ The steps to follow will typically be:
                         "max_size": "15kb"
                     }
                 }
-            
             },
             "delete": {
                 "min_age": "1d",
@@ -232,7 +231,7 @@ curl -XGET https://raspberrypi.local:9200/_all/_ilm/explain
             "name": "<policy-name>",
             "rollover_alias": "<rollover-alias>"
         }
-  }
+	}
 }
 ```
 ###### Example
@@ -631,7 +630,7 @@ curl -X PUT http(s)://ES_IP:ES_PORT/<indexname> [other_curl_options]
 ```
 ### Get [[#Index settings]]
 ```shell
-curl -X GET http(s)://ES_IP:ES_PORT/_settings [other_curl_options]
+curl -X GET http(s)://ES_IP:ES_PORT/<indexname>/_settings [other_curl_options]
 ```
 ### Set an alias to an index
 If the index already exists:
@@ -800,6 +799,10 @@ curl -X PUT http(s)://ES_IP:ES_PORT/_index_template/<template_name> [other_curl_
 	}
 }
 '
+```
+### Get all [[#Index template|index templates]]
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/_index_template [other_curl_options]
 ```
 ### Get [[#Index template]]
 ```shell
