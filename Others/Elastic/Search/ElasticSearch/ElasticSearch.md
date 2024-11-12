@@ -58,7 +58,7 @@ However, we have two choices:
 An index template is a way to tell Elasticsearch how to configure an index when it is created. For example, you can create a template where you specify:
 - The number of **index replicas**
 - The number of **shards**
-- The document fields and data types
+- The document fields and data types (i.e. [[#Index mapping]])
 - Before creating an index, you must create the template
 - Index templates can be specified as [[JSON]] objects
 It will typically be necessary to [[#Create an Index template]] before [[#Create a new Indices Index|creating a new index]]. When creating a template, an [[#Index pattern]] is specified to be applied to future indices that will be created matching that pattern.
@@ -117,8 +117,13 @@ The steps to follow will typically be:
 }
 ```
 _In this example, we are instructing ElasticSearch to rollover (i.e. create) a new index when the current index we are storing data reaches 15kb size. The previous indices would keep alive, but after 1d will be deleted_
-2) Two posibilities:
-	1) Attach your policy to an index template (see more details [Configure a lifecycle policy | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/set-up-lifecycle-policy.html#apply-policy-template)) by `curl -XPUT http(s)://<ES_IP>:<ES_PORT>/_index_template/<template-name> [other_curl_options]`; for example:
+2) Two posibilities: attach the policy to an [[#Index template]] or to a specific index by attaching the policy to that [[#Index settings]]:
+##### Attach policy to template
+1) Create an initial index that will match the template `index_pattern` that you will create later (e.g. if you are going to create a template for `test-*` indices, in this step you should create an index like `test-000` or `test-001`)
+_Note: the target index name must match the format ` _^.*-\d+$_`; for example, `my-index-00001`_
+2) [[#Set an alias to an index]]. Set the following alias options: `"is_write_index": true`
+3) Create an Index template and attach your policy to the recently created index template (see more details [Configure a lifecycle policy | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/set-up-lifecycle-policy.html#apply-policy-template)) by `curl -XPUT http(s)://<ES_IP>:<ES_PORT>/_index_template/<template-name> [other_curl_options]`
+
 ```shell
 {
   "index_patterns": ["test-*"], 
@@ -132,10 +137,93 @@ _In this example, we are instructing ElasticSearch to rollover (i.e. create) a n
   }
 }
 ```
-_Note: you **must** specify `rollover_alias` for rollover operations_
-2) Attach the policy to an index in specific by updating the [[#Index settings]]. To do so, in this case:
-	1) [[#Set an alias to an index]]. Set the following alias options: `"is_write_index": true`
-	2) Apply the policy to the index by `curl -XPUT http(s)://<ES_IP>:<ES_PORT>/<indexname>/_settings [other_curl_options]`:
+###### Example
+```HTTP
+### Check ElasticSearch current status
+curl -XGET https://raspberrypi.local:9200 --cacert ca.crt
+
+### Get all indices
+curl -XGET https://raspberrypi.local:9200/_cat/indices
+
+### Create/Update the policy
+curl -XPUT https://raspberrypi.local:9200/_ilm/policy/test-policy \
+-H "Content-Type: application/json" \
+-d '
+{
+    "policy": {
+        "phases": {
+            "hot": {
+                "actions": {
+                    "rollover": {
+                        "max_size": "15kb"
+                    }
+                }
+            },
+            "delete": {
+                "min_age": "10s",
+                "actions": {
+                    "delete": {}
+                }
+            }
+        }
+    }
+}'
+
+### Ensure that the policy has been created
+curl -XGET https://raspberrypi.local:9200/_ilm/policy/test-policy
+
+### Create an initial index and a rollover alias at a time
+curl -XPUT https://raspberrypi.local:9200/index-test-000 -H 'Content-Type: application/json' \
+-d '
+{
+    "aliases": {
+        "test_alias": {
+            "is_write_index": true
+        }
+    }
+}'
+
+### Ensure that the alias has been correctly created
+curl -XGET https://raspberrypi.local:9200/_alias/test_alias
+
+### Ensure that the index settings are right
+curl -XGET https://raspberrypi.local:9200/index-test-000/_settings
+
+### Create a new template, attaching to it the policy
+curl -XPUT https://raspberrypi.local:9200/_index_template/template-test \
+-H "Content-Type: application/json" \
+-d '
+{
+    "index_patterns": ["index-test-*"], 
+    "template": {
+        "settings": {
+            "number_of_shards": 2,
+            "number_of_replicas": 0,
+            "index.lifecycle.name": "test-policy", 
+            "index.lifecycle.rollover_alias": "test_alias" 
+        }
+    }
+}'
+
+### Ensure that the template has been created
+curl -XGET https://raspberrypi.local:9200/_index_template/template-test
+
+### Ensure that the policy is applied to the template
+curl -XGET https://raspberrypi.local:9200/_ilm/policy/test-policy
+
+### Post a document
+curl -XPOST https://raspberrypi.local:9200/index-test-000/_doc -H 'Content-Type: application/json' \
+-d '{"name": "Paul", "age": 54}'
+
+### Get all documents inside the index
+curl -XGET https://raspberrypi.local:9200/index-test-000/_search
+
+### Check indices lifecycle phases
+curl -XGET https://raspberrypi.local:9200/_all/_ilm/explain
+```
+##### Attach the policy to an index
+1) [[#Set an alias to an index]]. Set the following alias options: `"is_write_index": true`
+2) Apply the policy to the [[#Index settings]] by `curl -XPUT http(s)://<ES_IP>:<ES_PORT>/<indexname>/_settings [other_curl_options]`:
 ```JSON
 {
     "index": {
@@ -145,6 +233,92 @@ _Note: you **must** specify `rollover_alias` for rollover operations_
         }
 	}
 }
+```
+###### Example
+```HTTP
+### Check ElasticSearch current status
+curl -XGET https://raspberrypi.local:9200 --cacert ca.crt
+
+### Get all indices
+curl -XGET https://raspberrypi.local:9200/_cat/indices
+
+### Create/Update the policy
+curl -XPUT https://raspberrypi.local:9200/_ilm/policy/test-policy \
+-H "Content-Type: application/json" \
+-d '
+{
+    "policy": {
+        "phases": {
+            "hot": {
+                "actions": {
+                    "rollover": {
+                        "max_size": "15kb"
+                    }
+                }
+            },
+            "delete": {
+                "min_age": "10s",
+                "actions": {
+                    "delete": {}
+                }
+            }
+        }
+    }
+}'
+
+### Ensure that the policy has been created
+curl -XGET https://raspberrypi.local:9200/_ilm/policy/test-policy
+
+### Create a new index and a rollover alias at a time
+curl -XPUT https://raspberrypi.local:9200/index-test-0001 -H 'Content-Type: application/json' \
+-d '
+{
+    "aliases": {
+        "test_alias": {
+            "is_write_index": true
+        }
+    }
+}'
+
+### Ensure that the alias has been correctly created
+curl -XGET https://raspberrypi.local:9200/_alias/test_alias
+
+### Ensure that the index settings are right
+curl -XGET https://raspberrypi.local:9200/index-test-0001/_settings
+
+### Attach the policy to the index, specifying the alias on the go
+curl -XPUT https://raspberrypi.local:9200/index-test-0001/_settings \
+-H "Content-Type: application/json" \
+-d '
+{
+    "index": {
+        "lifecycle": {
+            "name": "test-policy",
+            "rollover_alias": "test_alias"
+        }
+    }
+}'
+
+### Ensure that the policy has been attached to the index (1)
+curl -XGET https://raspberrypi.local:9200/_ilm/policy/test-policy
+### Ensure that the policy has been attached to the index (2)
+curl -XGET https://raspberrypi.local:9200/index-test-0001/_settings
+
+### Post a document
+curl -XPOST https://raspberrypi.local:9200/index-test-0001/_doc -H 'Content-Type: application/json' \
+-d '{"name": "Paul", "age": 54}'
+
+### Get all documents inside the index
+curl -XGET https://raspberrypi.local:9200/index-test-0001/_search
+
+### Check index lifecycle phase
+curl -XGET https://raspberrypi.local:9200/index-test-0001/_ilm/explain
+
+### Check index lifecycle phase
+curl -XGET https://raspberrypi.local:9200/index-test-000002/_ilm/explain
+
+### Check indices lifecycle phases
+curl -XGET https://raspberrypi.local:9200/_all/_ilm/explain
 ```
 ## Document
 The data that ElasticSearch stores are called _documents_ and can be specified in [[JSON|JSON format]].
@@ -485,6 +659,14 @@ curl -X PUT http(s)://ES_IP:ES_PORT/<indexname> [other_curl_options] -H "Content
   }
 }'
 ```
+### Get an [[#Index alias|alias]]
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/_alias/<aliasname> [other_curl_options]
+```
+### Get all [[#Index alias|aliases]]
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/_aliases [other_curl_options]
+```
 ### Update [[#Index settings]]
 ```shell
 curl -X PUT http(s)://ES_IP:ES_PORT/_settings [other_curl_options] -H 'Content-type: application/json' -d '
@@ -573,6 +755,26 @@ curl -XGET http(s)://ES_IP:ES_PORT/<index_name>/_search?pretty [other_opts] \
 '
 ```
 The `<output_datatype_of_painless_script>` cannot be `int`: only `double` is supported in this case ([Map a runtime field | Elasticsearch Guide [8.15] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/8.15/runtime-mapping-fields.html)).
+### Create / Update an Index [[#ILM]] policy
+```shell
+curl -X PUT http(s)://ES_IP:ES_PORT/_ilm/policy/<policy-name> [other_curl_options] -H "Content-Type: application/json" -d '
+{
+	... (Policy configuration)
+}'
+```
+### Get an [[#ILM]] policy
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/_ilm/policy/<policy-name> [other_curl_options]
+```
+### Enforce an index to rollover
+```shell
+curl -X POST http(s)://ES_IP:ES_PORT/<rollover_alias_name>/_rollover [other_curl_options]
+```
+### Troubleshoot [[#ILM]] execution issues and see current Indices Lifecycle Phases
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/_all/_ilm/explain [other_curl_options]
+```
+_Note: for troubleshooting specific index ILM executions, you can spcify it with `<indexname>` instead of `_all`_
 ### Check index health
 You can both [[#5. Check cluster health|check ES cluster health]] and check the health for a specific index with:
 ```shell
@@ -588,13 +790,13 @@ Go to [[Kibana]] and click on _Management_. Then, go to _Data > Index Management
 ```shell
 curl -X PUT http(s)://ES_IP:ES_PORT/_index_template/<template_name> [other_curl_options] -H 'Content-type: application/json' -d '
 {
-	"index_patterns": ["<index_pattern (e.g. metrics-*)>"]
-		"template": {
-			"settings": {
-				"number_of_shards": 1,
-				"number_of_replicas": 1
-			}
+	"index_patterns": ["<index_pattern (e.g. metrics-*)>"],
+	"template": {
+		"settings": {
+			"number_of_shards": 1,
+			"number_of_replicas": 1
 		}
+	}
 }
 '
 ```
@@ -603,6 +805,10 @@ curl -X PUT http(s)://ES_IP:ES_PORT/_index_template/<template_name> [other_curl_
 curl -X GET http(s)://ES_IP:ES_PORT/_index_template [other_curl_options]
 ```
 ### Get [[#Index template]]
+```shell
+curl -X GET http(s)://ES_IP:ES_PORT/_index_template/<template> [other_curl_options]
+```
+### Get [[#Index mapping]]
 ```shell
 curl -X GET http(s)://ES_IP:ES_PORT/<index>/_mapping [other_curl_options]
 ```
