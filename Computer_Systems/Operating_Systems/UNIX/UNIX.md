@@ -20,7 +20,7 @@ There is an UTC which is an universal standard and all the countries measure the
 So, imagine if you had to compute the days elapsed between `04-23-1999 at 18:23:11 Spain` and `02-03-2024 at 04:50:23 Guatemala`: you should firstly convert them to UTC and operate in UTC format:
 - `04-23-1999 at 18:23:11 Spain` = `04-23-1999 at 16:23:11 UTC`
 - `02-03-2024 at 04:50:23 Guatemala` = `02-02-2024 at 22:50:23 UTC`
-### Datetime syntax
+### Datetime syntax (ISO 8601 format)
 ```
 yyyy-MM-dd'T'HH:mm:ssZZZZZ
 ```
