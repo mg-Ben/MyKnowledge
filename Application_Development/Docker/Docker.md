@@ -295,7 +295,7 @@ services: #Containers
 			- my-stack-network
 		volumes:
 			python-server-volume:/home/app/data
-	
+		command: python index.py --web-listen-address 8080 #Optional: to specify the command to start the main application (equivalent to CMD option in Dockerfile). You can also run several commands with bash -c "<command> && <command> && <command>"
 	volumes: #Here are the settings for the volumes defined above
 		mongoDB-volume:
 			driver: local

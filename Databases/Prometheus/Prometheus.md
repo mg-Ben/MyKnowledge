@@ -9,7 +9,54 @@ Prometheus also labels time series data (e.g., we can monitor ```server: A, inst
 ## Scraping operation
 Prometheus retrieves data from an endpoint by requesting that data periodically. For each requesting sample, Prometheus waits a timeout to receive that sample.
 ## Alerting operation
-
+Alerting is done via Alertmanager. It comes with prometheus.
+### Alertmanager
+_It is an [[Internet#Endpoint|endpoint]] where we will send alerts as [[JSON]] objects_
+It allows to handle alerts from different sources. For example, here is where you will define...
+- Whom to send those alerts when firing depending on the alert field values (e.g. alerts with `internal==True` will be sent to mail `stuff@enterprise.com` and alerts with `internal==False` will be sent to `stuff@enterprise.com` and `client_stuff@enterprise.com`)
+- **Grouping**: if several alerts are firing for the same host (for instance, see the JSON objects below representing different firing alerts), you can group them by `hostname` and, instead of sending 3 mails (one for each alert), you can send just 1 mail containing the three alerts inside
+```JSON
+[{
+  "labels": {
+    "alertname": "CPU usage",
+    "hostname": "my_server"
+  },
+  "annotations": {
+	"dashboard": "https://my_dashboardA"
+  }
+  "startsAt": "2024-11-05T10:02:40.544069-06:00",
+  "endsAt": "2024-12-05T10:02:40.544069-06:00"
+},
+{
+  "labels": {
+    "alertname": "Disk usage",
+    "hostname": "my_server"
+  },
+  "annotations": {
+	"dashboard": "https://my_dashboardA"
+  }
+  "startsAt": "2024-11-05T10:02:40.544069-06:00",
+  "endsAt": "2024-12-05T10:02:40.544069-06:00"
+},
+{
+  "labels": {
+    "alertname": "RAM usage",
+    "hostname": "my_server"
+  },
+  "annotations": {
+	"dashboard": "https://my_dashboardB"
+  }
+  "startsAt": "2024-11-05T10:02:40.544069-06:00",
+  "endsAt": "2024-12-05T10:02:40.544069-06:00"
+}]
+```
+- **Silencing**: you can silence some alerts depending on some alert values
+#### alertmanager.yml
+_The configuration file for Alertmanager_
+##### For [[Linux]] installations
+Alertmanager configuration can be typically made through `/etc/prometheus/alertmanager.yml`. Nonetheless, the configuration file can be specified when running Alertmanager like `./alertmanager --config.file=alertmanager.yml`. Alertmanager will be typically installed as a [[Linux Service]] together with Prometheus, and consequently you can configure in the [[Linux Service#Unit file|Unit file]] the configuration file path in case you want to place `alertmanager.yml` in another location different from `/etc/prometheus/`.
+##### For [[Docker]] installations
+We can install Alertmanager standalone with [[Docker]] (see [[#Test Environment]]), i.e. without Prometheus. In this case, we will need to specify the configuration file path when starting the container [[Docker#Template example|see command: option in docker-compose.yml]].
 ## Terms
 ### Metric
 It refers to time serie (e.g., metric "temperature", "requests", "responses"...). It has got labels. The format is like:
@@ -26,9 +73,9 @@ Components are mostly written in [[Go]].
 
 ![[Prometheus-components.png]]
 
-- **Server**: scrapes and stores data.
-- **Pushgateway**: only necessary for short-lived jobs.
-- **Alertmanager**: handles alerts.
+- **Server**: scrapes and stores data from [[#Job|jobs]] (or [[#Exporter|exporters]])
+- **Pushgateway**: only necessary for short-lived jobs
+- **[[#Alerting operation#Alertmanager|Alertmanager]]**: handles alerts
 # Hands on
 ## How to deploy
 You can deploy your Prometheus Server on a [[Docker#Docker container]] or as a [[Linux Service]].
@@ -216,6 +263,28 @@ Another important issue is that the regular expression must match at level 1 (se
 #### Alerting configuration
 
 
+### alertmanager.yml
+_Refer to [Alerting configuration](https://prometheus.io/docs/alerting/latest/configuration/)_
+#### templates:
+In case we want to apply a custom design for mail notifications, we will need to use this configuration.
+```YAML
+templates:
+	- '/path/to/my_template.tmpl'
+```
+Where `/path/to/my_template.tmpl` is the path to the template to use (`.tmpl` is the extension for [[Go#Packages#Template|Go Template]]). As Go Template Package uses a data structure to create the template, in this case the data structure from which the template will be created is [Prometheus Alerts Data Structure](https://prometheus.io/docs/alerting/latest/notifications/).
+_How it works? when [[#Alertmanager]] receives JSON alerts, those alerts will pass through the `my_template.tmpl` file. The data struture that the Go template will receive will represent the alerts firing currently._
+In this case, an additional step is needed to render the template. The defined template in `/path/to/my_template.tmpl` won't be shown iself, but a subtemplate defined there. You must specify it in [[#receivers]] section (see `html` option under `email_configs:` option). That's why we have to define a subtemplate in [[Go#Packages#Template|Go Template]] using the [[Go#Packages#Template#Actions|{{ define... }}]] action
+#### receivers:
+Where we define who to send the alert notifications to. For example:
+```YAML
+receivers:
+	- name: me
+	  email_configs:
+		  - to: 'mymail@gmail.com'
+			html: '{{ template "<my_template>" . }}'
+```
+#### Test Environment
+_Refer to [Alertmanager Test Environment](https://github.com/mg-Ben/alertmanager-testEnvironment)_
 ## PromQL queries
 Supposing you have these metrics:
 ```

@@ -55,6 +55,7 @@ systemctl status
 systemctl start <service_name.service>
 ```
 ### Get service status
+_To get [[#Unit file]] location, service status, service Porcess ID, some logs..._
 ```shell
 systemctl status <service_name.service>
 ```
@@ -78,6 +79,10 @@ sudo systemctl enable <file.service>
 Get the Main Process ID from [[#Get service status|service status]] and run:
 ```shell
 sudo kill <Process_ID>
+```
+### See service [[#Unit file]]
+```shell
+sudo systemctl cat <service_name.service>
 ```
 ### See service logs
 There are several ways:
