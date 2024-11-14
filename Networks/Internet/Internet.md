@@ -139,9 +139,11 @@ This means that what it serves is **running code**, such as [[Java#Servlet#Hello
 For example, an Application Server is able to pull data from a database and then render a dynamic webpage.
 ## Supported protocols
 Not limited to [[HTTP]]. For example, can support other protocols such as [[SOAP]].
-
-# Web Application Server
+## Examples
+### IBM WebSphere Application Server
 _Also known as **WAS**_
+Provides a [[Java#Java EE|Jakarta (Java Enterprise Edition)]] environment.
+# Web Application Server
 The same as [[#Application Server]], but focused on web-based applications. They differ in the [[#Web Application Server#Supported protocols|supported protocols]]; whereas an Application Server is not limited to HTTP, a Web Application Server is, as it is web-based.
 ## Supported protocols
 Typically [[HTTP]] and [[HTTP#HTTPS|HTTPS]].

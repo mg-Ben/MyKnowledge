@@ -57,6 +57,7 @@ Hello world
 ### Actions
 _Refer to [Go Templating Actions](https://pkg.go.dev/text/template#hdr-Actions)_
 The things we can do in our code (loops, condition checks, subtemplates definitions...). The generic syntax is `{{ <action> }}`.
+_Note: although in the documentations reference there is no explicit mention for `match` function, you can use it in case you need to implement [[Regular Expressions]] checks (e.g. `{{ if match "<regexp>" <pipeline>}}`)_
 The action might contain a pipeline (see [[#Pipelines]]). For example: `{{ 5 }}`, `{{ "Hello world" }}`, `{{ .Receiver }}`, `{{ len .Receiver }}`, `{{ .CommonLabels.SortedPairs }}`
 #### Pipelines
 A pipeline can be either a function call, method call or a simple value (i.e. an **Argument**). For example, for the JSON above:
