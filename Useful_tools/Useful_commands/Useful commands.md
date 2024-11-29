@@ -91,3 +91,12 @@ Analyze packets of various protocols, including [[TCP]], [[UDP]], [[ICMP]], and 
 ```shell
 tcpdump -i <interface>
 ```
+# jq
+Whenever you need to print [[JSON]] data by terminal, you might want to display data in a better human-readable way (e,g, with colours for each field). In these case, you can use `jq` command with [[UNIX#(Pipes)|pipes]]. The output of the previous command will be passed as an argument for `jq` like:
+```shell
+echo '{"example": 3}' | jq
+```
+You can also specify an input JSON file:
+```shell
+jq <file.json>
+```

@@ -5,7 +5,7 @@ tags:
 # Core principles
 _It is a [[Databases#Non-relational database or NoSQL|NoSQL]] database, so it provides more scalability and flexibility_
 A DataBase for **analytics** and **fast searches**. It stores data (called [[#Document|documents]]).
-When to use Elas++ticsearch:
+When to use Elasticsearch:
 - Webpages and searches within that webpages (e.g. a searchbox)
 - Log and event storing
 - Machine Learning
