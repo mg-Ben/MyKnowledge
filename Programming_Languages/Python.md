@@ -237,7 +237,7 @@ pip install <package_name> <package2_name>...
 Interesting flags:
 - `--index-url <https://your-private-repo/simple>` in case you are using a custom repository apart from PyPI, or
 - `--extra-index-url https://your-private-repo/simple` if you are using a repository of PyPI, but not default repository
-- `--no-index --find-links=/path/to/package(.tar.gz or .whl)`: install packages without Internet connectivity , from a package with extension `.tar.gz` or `.whl` (_wheel)_. The `/paht/to/package(.tar.gz or .whl)` is the directory where the package is located (e.g. if you located the `.tar.gz` insido `/home/user/packages`, you can simply specify `--find-links=/home/user/packages`).
+- `--no-index --find-links=/path/to/package(.tar.gz or .whl)`: install packages without Internet connectivity , from a package with extension `.tar.gz` or `.whl` (_wheel)_. The `/paht/to/package(.tar.gz or .whl)` is the directory where the package is located (e.g. if you located the `.tar.gz` inside `/home/user/packages`, you can simply specify `--find-links=/home/user/packages`).
 _Note: you can get a `.tar.gz` package for any Python package by (1) [[#Download package|downloading it]]) and (2) [[GNU#tar (tape archive)#Archiving (compressing) files|compressing]] the target folder you specified when you downloaded it with the `-d` flag
 
 ### Install several packages at a time
