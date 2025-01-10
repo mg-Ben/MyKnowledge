@@ -74,6 +74,10 @@ _Analogous to [[MySQL#Show tables]]_
 ```postgresql
 \dt
 ```
+#### Get table fields
+```PostgreSQL
+\d <table>
+```
 #### See table content
 ```postgresql
 SELECT * FROM <table>;

@@ -48,7 +48,7 @@ RequiredBy=network.target
 ## systemd software suite
 ### List current services
 ```shell
-systemctl status
+systemctl list-units
 ```
 ### Start service
 ```shell

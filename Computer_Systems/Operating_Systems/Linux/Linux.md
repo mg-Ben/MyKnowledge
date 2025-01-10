@@ -201,12 +201,24 @@ Like [[#RPM]], It is a tool for managing software packages, but in **Debian-base
 - It allows user to automatically [[#Automatically downloading .deb package|download packages with just the package name]]
 ## Debian package .deb
 It is a file with `.deb` extension and represents the software you want to install.
+## apt-get and apt difference
+_`apt` is a second tool which overcomes some design mistakes of `apt-get` command. Hence **you should use the `apt` command**. This command provides nicer interface including progress bars and colors at the CLI. It provides the same functionality as the specialized APT tools, like `apt-get` and `apt-cache`, but enables options more suitable for interactive use by default._
 ## Hands on
+### Update package lists
+Updates the local database of available packages:
+```shell
+apt update
+```
+### Upgrade entire Operating System
+Updates the firmware and every package which is outdated. Specifically, this command will iterate over local package database and compare the installed packages with the available ones. If the package is outdated, we will be prompted to respond with Y (Yes) or n (no) to select whether we want to update that package or not:
+```shell
+apt upgrade
+```
 ### Install a Debian package
 #### Manually downloading .deb package
 Download [[#Debian package .deb]] and run:
 ```shell
-sudo apt install ./<package.deb>
+apt install ./<package.deb>
 ```
 You might need to set `644` permissions to package (`chmod 644 <package.deb>`): refer to [[GNU#chmod (Change file or directory permissions)]].
 #### Automatically downloading .deb package
@@ -216,27 +228,30 @@ For this purpose, go to [[#/etc]]/apt/sources.list.d directory, then create a `.
 deb [signed-by=<path_to_gpg_key.gpg>] <repository_URL> stable main
 ```
 _The repository URL must point to a Debian-compatible package repository (it can't be a GitHub repository, for example)_
-Then, update package lists:
+Then, [[#Update package lists]] and install the package:
 ```shell
-sudo apt update
-```
-And install the package:
-```shell
-sudo apt install <package_name>
+apt install <package_name>
 ```
 Some packages don't require setting the repository URL and can be download just by `sudo apt install <package_name>`.
-#### List packages
+Interesting flags and options:
+- `--only-upgrade <package_name1> <package_name2> <package_name3>...`: Specify the specific packages to upgrade
+- Specify a specific version to download: `apt install <package_name>=<version>`
+### List packages
 ```shell
-sudo dpkg --list | grep <package_name>
+dpkg --list | grep <package_name>
 ```
-#### Uninstall package
-Remove everything, configuration files included:
+### Uninstall package
+To remove everything, configuration files included:
 ```shell
-sudo apt purge <package_name>
+apt purge <package_name>
 ```
-Remove only the package, but not configuration files:
+To remove only the package, but not configuration files:
 ```shell
-sudo apt remove <package_name>
+apt remove <package_name>
+```
+### Show package details
+```
+apt show <package_name>
 ```
 # RPM
 _RPM stands for Red Hat Package Manager_

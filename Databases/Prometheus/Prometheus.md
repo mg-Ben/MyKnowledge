@@ -192,7 +192,7 @@ scrape_configs:
 The ```target``` value both for [[#Static configs targets and labels]] and [[#File Service Discovery configs targets and labels]] must have the format ```IP:port``` (e.g. ```localhost:8080```). However, how can we scrape endpoints with _Request path_ or _Query string_? (see [[HTTP]]).
 ###### Scraping endpoints with Request path and Query string
 You have two options:
-- **Easy way**: add ```metrics_path``` and query string ```params``` to the [[#Scrape configuration]]. **The problem**: all the targets might not have the same ```metrics_path``` and query string ```params``` or values. Example: _This example would scrape 1.2.3.4:1002/users?var1=X, localhost:8000/users?var1=X and 45.44.43.32:8090/users?var1=X_, but we cannot scrape anything different from _<IP:port>**/users?var1=X**_:
+- **Easy way**: add ```metrics_path``` and query string ```params``` to the [[#Scrape configuration]]. **The problem**: all the targets might not have the same ```metrics_path``` and query string ```params``` or values. Example: _This example would scrape 1.2.3.4:1002/users?var1=X, localhost:8000/users?var1=X and 45.44.43.32:8090/users?var1=X_. Note that all of them share the same request path and query string, but if we would like to scrape something different from _<IP:port>**/users?var1=X**_, we couldn't!
 ```yaml
 scrape_configs:
 	- job_name: prom_job
@@ -206,13 +206,13 @@ scrape_configs:
 		    labels:
 			    mylabel: 'value'
 ```
-- **Good and difficult way**: set the targets as you want, with a different format from ```IP:port```, but later use ```relabel_configs``` (see [[#Relabel configs]]).
+- **Good and difficult way**: set the targets as you want (with the request path and query string that you want), with a different format from ```IP:port```, but later use ```relabel_configs``` (see [[#Relabel configs]]).
 ###### Relabel configs
 Relabel configs serve for two main use cases:
 - ```N-to-1```: Depending on ```IP:port```, we concatenate a fixed ```metrics_path``` and a fixed query string ```params``` and fixed values for those query string ```params```. For example:
 	- When connecting to ```1.2.3.4:8080```, concatenate ```/users?username=Bob&userage=17``` to the URL. To do so, inside ```relabel_configs``` section you have to set the [[#Regular expressions|regular expression]] to check whether ```IP:port=1.2.3.4:8080``` and, if true, you have to store into ```__metrics_path__``` reserved word the _Request path_ (```/users``` in the example) and you have to store into ```__param_<paramname>``` reserved word the values of the _Query string_ (in the example, ```__param_username = Bob``` and ```__param_userage = 17```).
 	- When connecting to ```9.8.7.6```, no matter the port, concatenate ```/flats?height=1.68```. Here we are attaching the same _Request Path_ and _Query string_ to several ```IP:port``` tuples. To do so, the same: play around reserved keywords. In this case, the [[#Regular expressions|regular expression]] changes.
-	- When conecting to ```1.60```, no matter the following IP numbers, concatenate ```/cars?color=red&weight=1.3```. Here we are attaching the same _Request Path_ and _Query string_ to several ```IP:port``` tuples. To do so, the same. See the example below.
+	- When connecting to ```1.60```, no matter the following IP numbers, concatenate ```/cars?color=red&weight=1.3```. Here we are attaching the same _Request Path_ and _Query string_ to several ```IP:port``` tuples. To do so, the same. See the example below.
 ```yaml
 scrape_configs:
 	- job_name: prom_job

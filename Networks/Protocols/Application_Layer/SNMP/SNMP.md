@@ -77,6 +77,8 @@ Perform a [[#WALK|SNMP walk]] operation:
 snmpwalk -v <version_to_use> -c <community_name> <agent_IP> <OID_from>
 ```
 If not ```<OID_from>``` specified, it performs walk operation from highest OID tree level (i.e. ```.1 = iso```).
+Interesting flags:
+- `-On`: to display data in OID format (e.g. in place of `IF-MIB::ifNumber.0 = INTEGER: x`, `.1.3.6.1.2.1.2.1.0 = INTEGER: x`)
 #### snmpget
 ## Good practices
 Most SNMP devices can be managed through custom enterprise MIB files depending on which device or the manufacturer. This means that you should analyze specific MIBs for the Internet devices to be managed instead of the most general ones. All these specific-enterprise MIBs lie under ```1.3.6.1.4.1 (iso.org.dod.internet.private.enterprise``` subtree. For example, all the CISCO MIBs can be found under ```1.3.6.1.4.1.9.9```.  Therefore, a good practice when analyzing some device (such as [[Firewalls]], [[Balancers]], [[Switches]] or whatever) is directly performing a [[#WALK]] from the specific OID.
@@ -90,7 +92,7 @@ Here you have a useful command to process through [[AWK]] and [[UNIX#(Pipes)]] t
 ```shell
 snmpwalk [whatever] 1.3.6.1.4.1.9.9 | awk -F '.' '{dict[$4] += 1}END{for(key in dict){print(key";"dict[key])}}'
 ```
-You can also get the number of OIDs which are different than zero, empty string or ```-1``` to know how many OIDs make sense inside a subtree:
+You can also get the number of OIDs which are different from zero, empty string or ```-1``` to know how many OIDs make sense inside a subtree:
 ```shell
 snmpwalk [whatever] 1.3.6.1.4.1.9.9.1 (<- subtree OID) -On | awk -F "[=:]" '{if($2 != " \"\"" && $3 != " 0" && $3 != " -1"){count+=1}}END{print(count)}'
 ```
