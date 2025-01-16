@@ -106,8 +106,8 @@ The problem is the same as [[#Can I use my private key to authenticate myself?]]
 In this particular case, there isn't database, just log in process. The coherence-detection involves using the user's public key to decrypt a sample message which has been encrypted with the private key of the user.
 To prevent malicious users from accessing the service, we must grant [[#Authorization]] here.
 ## Integrity
-It means that your data cannot be manipulated by someone during the way. On Internet, hackers can manipulate your packet to change the destination, for example. **However, integrity cannot prevent hackers from manipulating the bit order of the packets you send**.
-integrity can be addressed by [[#Hashing]] and [[#Encryption]].
+It provides mechanisms to detect when hackers tamper the packet bits. On Internet, hackers can manipulate your packet to change the destination, for example, or they can alter the bits so that the packet doesn't reach its destination. **Integrity cannot prevent hackers from altering the bits of the packets you send**.
+Integrity can be addressed by [[#Hashing]] and [[#Encryption]].
 ## Confidentiality
 It involves preventing hackers from accessing the network information that you send to others, but also from accessing to some services (also known as [[#Authorization]]). This is, you can provide **privacy**. However, **It doesn't prevent hackers from sending you information.**
 Confidentiality can be addressed by using [[#Encryption]].
