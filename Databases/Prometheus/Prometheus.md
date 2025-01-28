@@ -57,6 +57,10 @@ _The configuration file for Alertmanager_
 Alertmanager configuration can be typically made through `/etc/prometheus/alertmanager.yml`. Nonetheless, the configuration file can be specified when running Alertmanager like `./alertmanager --config.file=alertmanager.yml`. Alertmanager will be typically installed as a [[Linux Service]] together with Prometheus, and consequently you can configure in the [[Linux Service#Unit file|Unit file]] the configuration file path in case you want to place `alertmanager.yml` in another location different from `/etc/prometheus/`.
 ##### For [[Docker]] installations
 We can install Alertmanager standalone with [[Docker]] (see [[#Test Environment]]), i.e. without Prometheus. In this case, we will need to specify the configuration file path when starting the container [[Docker#Template example|see command: option in docker-compose.yml]].
+##### Run Alertmanager in DEBUG Mode
+###### For [[Linux]] installations
+1. Add `--log.level=debug` in `/etc/default/prometheus-alertmanager`
+2. [[Linux Service#Restart service|restart prometheus-alertmanager.service]]
 ## Terms
 ### Metric
 It refers to time serie (e.g., metric "temperature", "requests", "responses"...). It has got labels. The format is like:
