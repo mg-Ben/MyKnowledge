@@ -62,12 +62,12 @@ For example, you will use this approach to manually install [[#Fleet Server]] in
 	3. [[#Install Fleet Server]]
 #### Install Fleet Server
 _Go to https://www.elastic.co/downloads/elastic-agent and download the software package.
-Installing a Fleet Server is the same as installing any Elastic Agent, but in the installation command It is needed to specify different flags than those for generic Elastic Agents_
+Installing a Fleet Server is the same as installing any Elastic Agent, but in the installation command It is needed to specify different flags from those for generic Elastic Agents_
 ##### Add a Fleet Server
 You can go to Kibana > Management > Fleet > Agents tab and press *Add Fleet Server* option. You will be provided the command to install the Fleet Server automatically, as well as other options (go to Advanced) such as whether you want the Elastic Agents to trust Fleet Server (production mode) or not (`--insecure` flag):
 
 ![[ssl-tls-in-fleetserver.png]]
-- In Quick Start, you don't need to generate SSL/TLS certificate for Fleet Server. Therefore, use the [[#Interesting flags for Elastic Agent Installation|use --insecure flag]] when installing the remote Elastic Agents to connect to your already existing Fleet Server
+- In Quick Start, you don't need to generate SSL/TLS certificate for Fleet Server. Therefore, [[#Interesting flags for Elastic Agent Installation|use --insecure flag]] when installing the remote Elastic Agents to connect to your already existing Fleet Server
 - In Production mode, you have to generate SSL/TLS certificate for Fleet Server and make the remote Elastic Agents trust the [[Cybersecurity#Certificate Authorities (CA)|CA]] that generated that certificate
 ##### Windows
 Once you have downloaded the [Elastic Agent software-package](https://www.elastic.co/downloads/elastic-agent) and unzipped it (if needed), go inside the downloaded folder (typically `C:\Users\<username>\elastic-agent...`) and look for `elastic-agent` executable file. Then, run this command in [[Windows#PowerShell]] as Administrator:

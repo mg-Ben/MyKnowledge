@@ -4,6 +4,7 @@ tags:
   - Operating_Systems
 ---
 # Core principles
+_AIX stands for Advanced Interactive eXecutive_
 It is a [[UNIX|UNIX-like]] [[Operating System]] developed by IBM.
 ## LPAR
 _LPAR stands for Logical Partition_

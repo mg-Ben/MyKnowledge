@@ -138,7 +138,7 @@ Interesting flags:
 - ```--name <container_name>```: specify the container name. Don't use the ```_``` character
 - ```-p A:B```: bind Host OS port ```A``` to container port ```B```
 - ```-e HELLO_GOODBYE=X -e HERE_THERE_EVERYWHERE=Y```: pass environment variables: some containers, such as MongoDB, requires some environment variables (e.g., passwords or usernames to log into database)
-- ```--network <network_ID_or_name>```: network where this container will join to communicate to other containers. Ensure it is [[#Interesting commands#For Docker networks|created]] before.
+- ```--network <network_ID_or_name>```: network where this container will join to communicate to other containers. Ensure it is [[#Interesting commands#For Docker networks|created]] before. This parameter can also be the [[#Docker network|type of driver]] (e.g. `--network=host`)
 - ```-v <volume_name>:<path_inside_container>```: attach a docker volume (either existing or not; if not, docker automatically creates it) to some path inside container ([[#Docker volume#Docker volume approach]])
 - ```-v <path_inside_host>:<path_inside_container>```: attach a Host path to some path inside container ([[#Docker volume#Bind-mount approach]])
 #### List current containers
