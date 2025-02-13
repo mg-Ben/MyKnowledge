@@ -84,6 +84,10 @@ sudo kill <Process_ID>
 ```shell
 sudo systemctl cat <service_name.service>
 ```
+### Show service details
+```shell
+sudo systemctl show <service_name.service>
+```
 ### See service logs
 There are several ways:
 - Go to [[Linux#/var|/var]]/log/<service_name> directory
