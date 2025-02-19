@@ -258,6 +258,12 @@ docker compose restart
 ```shell
 docker compose logs
 ```
+#### Show logs of some specific container
+```
+docker logs <container_name_or_ID>
+```
+Interesting flags:
+- `-f`: show logs in real-time mode (or _follow_ mode)
 #### Template example
 Here you have the main settings to deploy your containers:
 ```yaml

@@ -125,7 +125,7 @@ output.elasticsearch:
     - path/to/ca.crt
 ```
 ## Binary path
-- For [[Linux]] OS, `/usr/share/metricbeat/bin/metricbeat`
+- For [[Linux]] OS, `/usr/share/metricbeat/bin/metricbeat` or `/usr/bin/metricbeat`
 - For [[AIX]] OS, `/opt/freeware/usr/share/metricbeat/bin/metricbeat`
 ## Logs path
 - For [[Linux]] OS, `/var/log/metricbeat/metricbeat.X` or in `/var/log/syslog`
