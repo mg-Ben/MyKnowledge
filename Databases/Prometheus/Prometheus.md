@@ -61,6 +61,12 @@ We can install Alertmanager standalone with [[Docker]] (see [[#Test Environment]
 ###### For [[Linux]] installations
 1. Add `--log.level=debug` in `/etc/default/prometheus-alertmanager`
 2. [[Linux Service#Restart service|restart prometheus-alertmanager.service]]
+#### API
+There exist an Alertmanager API to [[HTTP#POST]] or [[HTTP#GET]] alerts, among others. The current version of the API is v2, and the documentation reference is [alertmanager/api/v2/openapi.yaml at main · prometheus/alertmanager](https://github.com/prometheus/alertmanager/blob/main/api/v2/openapi.yaml). The base path is `basePath: "/api/v2/"`, which means that the child options in the YAML will have the prefix `/api/v2/`:
+For example, the child option `/alerts` contain the different [[HTTP#Methods]] we can use for `/api/v2/alerts` endpoint:
+- [[HTTP#GET]] method would retrieve the list of alerts
+- [[HTTP#POST]] method would create a new alert
+> Note: To manually resolve (delete) a currently firing alert, you can post the same alert with a past `endsAt` value
 ## Terms
 ### Metric
 It refers to time serie (e.g., metric "temperature", "requests", "responses"...). It has got labels. The format is like:
@@ -265,10 +271,34 @@ An important issue is that the [[Regular Expressions]] syntax we define inside `
 Another important issue is that the regular expression must match at level 1 (see [[Regular Expressions#Matching Groups]]) to take effect.
 #### Rules configuration
 #### Alerting configuration
-
-
 ### alertmanager.yml
 _Refer to [Alerting configuration](https://prometheus.io/docs/alerting/latest/configuration/)_
+#### global:
+##### [[SMTP]]
+To make alerts arrive to your email, you will need to configure [[SMTP]] in `alertmanager.yml`. To do so:
+- Configure the target [[SMTP#SMTP Server|SMTP Server]]
+```YAML
+global:
+	smtp_smarthost 'smtp.gmail.com:587'
+```
+- Configure the username and password (if SMTP Server needs it):
+```YAML
+global:
+	smtp_smarthost 'smtp.gmail.com:587'
+	smtp_auth_username: 'mygmail@gmail.com'
+	smtp_auth_password: 'mypassword'
+	smtp_require_tls: true
+```
+_If connecting to Google SMTP Server, `smtp_auth_password` field must be an Application Password in the form `'abcd efgh ijkl mnop'`_
+- Finally, set the SMTP _From_ (the mail that will appear as the referer in the notification): typically, will be the same as `smtp_auth_username`:
+```YAML
+global:
+	smtp_from: 'mygmail@gmail.com'
+	smtp_smarthost 'smtp.gmail.com:587'
+	smtp_auth_username: 'mygmail@gmail.com'
+	smtp_auth_password: 'mypassword'
+	smtp_require_tls: true
+```
 #### templates:
 In case we want to apply a custom design for mail notifications, we will need to use this configuration.
 ```YAML
@@ -284,11 +314,18 @@ Where we define who to send the alert notifications to. For example:
 receivers:
 	- name: me
 	  email_configs:
-		  - to: 'mymail@gmail.com'
+		  - to: 'somegmail@gmail.com'
 			html: '{{ template "<my_template>" . }}'
 ```
 #### Test Environment
 _Refer to [Alertmanager Test Environment](https://github.com/mg-Ben/alertmanager-testEnvironment)_
+### Apply changes
+If you have made changes in either [[#prometheus.yml]] or [[#alertmanager.yml]], you can make those changes take effect with the following options.
+#### Prometheus as Linux Service
+You can either:
+- [[Linux Service#Reload a service|perform a service reload]]
+- Use Prometheus [[Internet#API|API]]: send a [[HTTP#POST|POST]] towards the endpoint `<Prometheus_IP>:<Prometheus_Port>/-/reload` (you can use [[Useful commands#curl|curl]])
+
 ## PromQL queries
 Supposing you have these metrics:
 ```

@@ -32,6 +32,10 @@ Typically, the timezone information goes at the end of the datetime, and it is p
 To ease the operation with datetimes, every [[Operating System]] has got a _UNIX timestamp_, which is the number of seconds elapsed since `01-01-1970 at 00:00:00 UTC`. There is also a variant which is the number of milliseconds. In this way, you can add or substract two timestamps easily and the convert the result to number of days, months or whatever.
 - If you want to convert from timestamp to datetime, you should firstly get the datetime in `UTC` and then convert it to datetime depending on timezone.
 - If you want to convert from datetime to timestamp, you should firstly convert the datetime to `UTC` and then to timestamp.
+## rsyslog
+_Rsyslog stands for Rocket-fast system logging_
+A software utility that comes with most UNIX [[Operating System|Operating Systems]] and is about an implementation of [[Syslog]].
+In [[Linux]] Operating Systems, for example, rsyslog comes pre-installed as a [[Linux Service]].
 # Nice processes
 Each process in UNIX has got a priority value. However, we can modify it; in that case, we say that the process has been _niced_. The new value is called **nice value**, and determines the new priority. This allows system administrators to influence the scheduling of processes, ensuring that higher-priority tasks receive more CPU time compared to lower-priority tasks.
 Through **nice mechanism** you can adjust the CPU time for each process.
@@ -75,6 +79,8 @@ rm -r <directory>
 ```shell
 mkdir <directory_name>
 ```
+Interesting flags and options:
+- `mkdir -m <permissions> <directory_name>`: create directory and set permissions to it at once. The `<permissions>` must be the same as [[GNU#chmod (Change file or directory permissions)|chmod octal number]]
 ## rmdir (Remove an empty directory)
 ```shell
 rmdir <directory_name>
@@ -143,6 +149,33 @@ Try this:
 input_string="test string"
 output_string=${input_string/test/example}
 echo output_string
+```
+### Dictionaries
+#### Declare a dictionary
+_Also known as Associative Array_
+```shell
+declare -A my_dict
+```
+#### Set a key/value pair to a dictionary
+```shell
+my_dict[key]=value
+```
+#### Access to all dictionary keys
+```shell
+${!my_dict[@]}
+```
+#### Access to all dictionary values
+```shell
+${my_dict[@]}
+```
+#### Access to some dictionary key
+```shell
+${my_dict[key]}
+```
+#### Useful examples
+##### Iterate over key/value pairs
+```shell
+for key in ${!my_dict[@]}; do echo ${my_dict[$key]}; done
 ```
 ## if condition
 ```shell
@@ -335,6 +368,16 @@ Means that:
 - When we communicate to any IP address on Internet (`Destination = default` with `Genmask = 0.0.0.0`, which means "all the Internet") sending packets through the `ens33` interface, we use the Gateway `myhome.router.n` (i.e. our home router). The Flags `UG` mean that the route is UP and is using a GATEWAY
 Interesting flags:
 - `-n` displays data in IP format
+## date (Get current date)
+```shell
+date
+```
+Interesting options:
+- `+%s`: print current date in timestamp
+- `--date='@123456789'`: convert timestamp into date (in [[#UTC]] by default). If want to specify output timezone, set the timezone in `TZ` variable. For example:
+```shell
+TZ=America/Chicago date --date='@123456789'
+```
 ## locale
 Allows users to view or modify locale settings, which affect language, regional settings, time formats, and more for programs that adhere to these environment variables.
 Running `locale` without flags displays the current locale settings:

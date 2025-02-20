@@ -320,6 +320,12 @@ curl -XGET https://raspberrypi.local:9200/index-test-000002/_ilm/explain
 ### Check indices lifecycle phases
 curl -XGET https://raspberrypi.local:9200/_all/_ilm/explain
 ```
+### Datemath
+When specifying a time from and time to (e.g. when computing a [[#Query DSL]]), there are two options:
+- Specify absolute times: for example, from `2025-04-23T23:30:02Z` up to `2025-05-23T11:30:02Z`
+- Specify relative times: for example, from `now-5d` to `now`
+In the case of relative times, _Datemath_ comes into play ([Date math expressions | Elasticsearch .NET Clients [7.17] | Elastic](https://www.elastic.co/guide/en/elasticsearch/client/net-api/7.17/date-math-expressions.html)). Datemath comprises specifications about what each letter means in terms of units.
+For example, `now-1d/m` means: "Take the exact time `now`, substract `1d = 1 day` and round (`/`) to the start of the `m = minute`". In this example: if `now = 2025-04-23T23:30:42Z`, `now-1d/m` is `2025-04-22T23:30:00Z`. We can also round to the start of the hour, day, week, month...
 ## Document
 The data that ElasticSearch stores are called _documents_ and can be specified in [[JSON|JSON format]].
 Each document has got:

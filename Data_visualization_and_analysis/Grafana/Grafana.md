@@ -649,3 +649,28 @@ To add a new ElasticSearch datasource, go to hamburger menu _**☰** > Managemen
 _If your database uses [[HTTP#HTTPS|HTTPS]], Grafana should verify the certificate as it is the client for the database requests. However, you can skip this step by enabling the option **Skip TLS Verify**_
 - For example, if you want to retrieve data for all the indices whose name begins with `importer`, you can specify `importer*` as _Index name_.
 - In case you want to retrieve data from `importer*` indices and `tests*` indices, you can specify `importer*,tests*` as _Index name_. **In this case, you must specify it separated by commas, without a blank space!**
+## Grafana-managed alerts
+You can configure Grafana alerts and forward them to an Alertmanager (e.g. [[Prometheus#Alertmanager|Prometheus Alertmanager]]) to receive them as an email notification.
+### Connect to Prometheus Alertmanager
+Configure Grafana to use the same [[SMTP#SMTP Server|SMTP Server]] as [[Prometheus#Alertmanager]]. To do so, go to [[#Configuration files#grafana.ini|grafana.ini]] and add the following settings under `[smtp]` section:
+```.ini
+[smtp]
+enabled = true
+host = "The same as alertmanager.yml smtp_smarthost"
+user = "The same as alertmanager.yml smtp_auth_username"
+password = "The same as alertmanager.yml smtp_auth_password"
+skip_verify = "If alertmanager.yml's smtp_require_tls is true, set this to false and the the other way round"
+from_address = "The same as alertmanager.yml smtp_from"
+```
+### Configure Prometheus Alertmanager
+_Go to ☰ > Connections_
+Search "Alertmanager", click on it and click on Create Alertmanager Connection.
+- Set Implementation = Prometheus
+- Toggle on the setting "Receive Grafana Alerts"
+### Disable default Grafana Alertmanager
+_Go to ☰ > Alerting > Admin > Set "Send alerts to" to "Only External"_
+In newer versions of Grafana:
+_Go to ☰ > Alerting > Settings > Disable Grafana Alertmanager_
+### Create an alert
+_Go to ☰ > Alerting > Alert rules_ and click on Create alert rule.
+Remember: alerts contain two main types of tags, which are [[Prometheus#Alerting operation|labels and annotations]]. If you want to add tags under `labels`, configure them in the section "Notifications" in Grafana. If want to configure them under `annotations`, configure them under "Add details for your alert rule".

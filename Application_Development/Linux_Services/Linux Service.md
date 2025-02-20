@@ -50,6 +50,8 @@ RequiredBy=network.target
 ```shell
 systemctl list-units
 ```
+Interesting flags:
+- `--state=<state> (e.g. active, loaded, failed)`: filter output by unit state
 ### Start service
 ```shell
 systemctl start <service_name.service>
@@ -72,8 +74,19 @@ systemctl restart <service_name.service>
 sudo systemctl daemon-reload
 ```
 ### Enable a service
+Whenever you enable a service, you make it run automatically on startup.
 ```shell
 sudo systemctl enable <file.service>
+```
+### Disable a service
+Whenever you disable a service, you prevent it from running automatically on startup.
+```shell
+sudo systemctl disable <file.service>
+```
+### Reload a service
+Reloading a service implies updating the configuration files without interrupting the service. It is useful when we have made changes to some configuration file (say [[Prometheus#prometheus.yml|prometheus.yml]], for example) and we don't want to restart the entire service.
+```shell
+sudo systemctl reload <service_name.service>
 ```
 ### Kill service
 Get the Main Process ID from [[#Get service status|service status]] and run:
@@ -101,3 +114,10 @@ You can daemonize a [[GNU#Bash#Useful commands|GNU or UNIX-standard command]] (i
 3. Enable the service with ```systemctl [--user] enable <your_unit_file>.service```
 4. Run ```systemctl [--user] restart <your_unit_file>.service```
 The ```--user``` option will be necessary in case you defined the [[#Unit file]] for normal user.
+
+### Common issues
+#### Failed at step EXEC spawning "binary": Permission denied
+This typically occurs when the `<binary>` file is located in an unsuitable directory and is probably related to [[SELinux]]. It is recommended to place it under `/sbin` or `/usr/bin` if possible.
+In case you cannot place it there, then:
+1. [[SELinux#Get File SELinux Context]] and ensure that the binary file is of type `bin_t`
+2. If it is not `bin_t`, change it with [[SELinux#Set File SELinux Context]]

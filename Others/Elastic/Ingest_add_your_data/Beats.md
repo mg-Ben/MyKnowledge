@@ -134,6 +134,21 @@ output.elasticsearch:
 Modules to be monitored are configured as [[YAML]] files under the following path:
 - For [[Linux]] OS, `/etc/metricbeat/modules.d/`
 - For [[AIX]], `/opt/freeware/etc/metricbeat/modules.d/`
+## Metricbeat common issues
+### Fatal glibc error: rseq registration failed
+To solve this issue, add the following configuration in [[#metricbeat.yml]]:
+```YAML
+seccomp:
+	default_action: allow
+```
+Reference: [GitHub issue 30576](https://github.com/elastic/beats/issues/30576)
+## Metric fields
+### system.cpu.total.pct
+It is typically a value in the range `[0-1]*#cores`
+### system.cpu.total.norm.pct
+It is the lump sum of the metric [[#system.core.total.norm.pct]] for each core.
+It is typically a value between 0 and 1.
+### system.core.total.norm.pct
 ## Hands on
 ### Download MetricBeat package
 _Refer to `https://www.elastic.co/es/downloads/past-releases/metricbeat-MAJOR-MINOR-PATCH`_

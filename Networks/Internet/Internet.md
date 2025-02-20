@@ -14,6 +14,7 @@ It is a packet switcher that receives packets through some input links and sends
 It is the same as [[#Switch|switches]], but they differ in the [[OSI Model|Internet layer]] they work. While switches operate in [[#Link Layer]], routers operate in [[#Network Layer]].
 ## Switch
 It is the same as [[#Router|routers]], but they differ in the [[OSI Model|Internet layer]] they work. While routers operate in [[#Network Layer]], switches operate in [[#Link Layer]].
+Nevertheless, It's frequent to see that modern switches come with [[OSI Model|Network Layer]] routing capabilities too, so they can act as routers in some cases.
 ## ISP
 _ISP stands for Internet Services Provider_
 The [[#Router|routers]] and [[#Switch|switches]] that we all use on the Internet don't belong to the Internet users, but to **Internet Services Providers**. Summarized, the ISPs can be viewed as an interconnection of routers, and thanks to ISPs we have Internet connectivity from our homes.

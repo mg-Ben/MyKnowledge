@@ -36,6 +36,7 @@ curl -X <HTTP_method> <HTTP_endpoint>
 ```
 Flags and options:
 - `--cacert <path_to_CA_cetificate>`: specify a [[Cybersecurity#Certificate Authorities (CA)|CA certificate file]] to trust in. You may need to run curl with [[Linux#Users#Super/Root users|sudo]] as the certificate file might be private
+- `--insecure`: if you want to connect to a remote endpoint without specifying a CA certificate to trust in (insecure mode)
 - `-s or --silent`: silent mode. Used to prevent the command output from displaying additional data like this:
 ```
  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -100,3 +101,5 @@ You can also specify an input JSON file:
 ```shell
 jq <file.json>
 ```
+Interesting options:
+- Show an specific field in JSON: `jq '.<fieldname>'`
