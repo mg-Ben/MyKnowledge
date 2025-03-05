@@ -38,8 +38,8 @@ DROP DATABASE <database_name>;
 ## CREATE TABLE
 ```sql
 CREATE TABLE <table_name> (
-	field1 <DATA_TYPE> <CONSTRATINS> DEFAULT <default_value>,
-	field2 <DATA_TYPE> <CONSTRAsTINS> DEFAULT <default_value>
+	field1 <DATA_TYPE> <CONSTRAINTS> DEFAULT <default_value>,
+	field2 <DATA_TYPE> <CONSTRAINTS> DEFAULT <default_value>
 	...
 );
 ```

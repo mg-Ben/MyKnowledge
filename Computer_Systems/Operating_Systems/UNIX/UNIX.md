@@ -187,6 +187,16 @@ Or, in one line:
 ```shell
 if [ condition ]; then command; fi
 ```
+## if-elif-else condition
+```shell
+if [ condition ]; then
+	# Code to execute if condition is true
+elif [ another_condition ]; then
+	# Code to execute if another_condition is true
+else
+	# Code to execute if no conditions are met
+fi
+```
 ## while loop
 ```shell
 while condition; do (press enter to start writing the loop body)
