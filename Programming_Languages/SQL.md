@@ -25,6 +25,8 @@ For example:
 |     2      | Mark  | 45  | Salesman   |
 |     3      | Maria | 24  | Researcher |
 |     4      | Sara  | 28  | Researcher |
+## Sequence
+It is a database object that generates a sequence of unique integers (e.g. for ids). We can create a sequence that will generate unique ids as integers (1, 2, 3, 4...) for another table.
 # SQL Queries
 _NOTE: Remember the ; character at the end of each query!_
 ## CREATE DATABASE
@@ -52,6 +54,50 @@ DROP TABLE <table_name>;
 INSERT INTO <table_name> (column1, column2...) VALUES(12, 'Hello');
 ```
 _NOTE: If you are running this command from [[PostgreSQL]], when inserting a string, use single-quoted strings with ' instead of double-quoted strings._
+## ALTER TABLE
+### ADD COLUMN
+```SQL
+ALTER TABLE <table_name>
+ADD COLUMN <column_name> <data_type> DEFAULT <value> CONSTRAINTS;
+```
+### DROP COLUMN
+```SQL
+ALTER TABLE <table_name>
+DROP COLUMN <column_name>;
+```
+### CHANGE OWNER
+```SQL
+ALTER TABLE public.<table_name> OWNER TO <new_owner>
+```
+## ALTER SEQUENCE
+### CHANGE OWNER
+```SQL
+ALTER SEQUENCE public.<sequence_name> OWNER TO <new_owner>
+```
+## CREATE SEQUENCE
+```SQL
+CREATE SEQUENCE <sequence_name>
+AS <data_type (e.g. BIGINT)>
+START WITH <start_value>
+INCREMENT BY <step_value>;
+```
+For example, we can create a [[#Sequence]] of integers starting from 1 (included) with step 1 and we can use it to automatically generate identifiers for some table:
+```SQL
+CREATE SEQUENCE my_id_sequence
+AS BIGINT
+START WITH 1
+INCREMENT BY 1;
+```
+Then, we can reference it when inserting a new element in a table. To do so, we will specify it in [[#CREATE TABLE]] query like:
+```SQL
+CREATE TABLE <table_name> (
+	field1 <DATA_TYPE> <CONSTRAINTS> DEFAULT <default_value>,
+	field2 <DATA_TYPE> <CONSTRAINTS> DEFAULT <default_value>
+	...
+	id BIGINT DEFAULT nextval('<my_id_sequence>'::regclass),
+	...
+);
+```
 ## SELECT + FROM
 To retrieve data from a certain table.
 Supposing you have this table:

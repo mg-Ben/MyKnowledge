@@ -69,6 +69,14 @@ You can also connect to an existing database directly from [[Operating System#Sh
 psql <database>
 ```
 In this case, you may not need to change user to **postgres** user.
+#### List all
+```postgresql
+\d *
+```
+#### List tables and sequences
+```postgresql
+\d
+```
 #### List tables
 _Analogous to [[MySQL#Show tables]]_
 ```postgresql

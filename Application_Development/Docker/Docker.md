@@ -188,6 +188,7 @@ NETWORK ID     NAME                     DRIVER    SCOPE
 95f97f73ce3d   host                     host      local
 6163518f361f   none                     null      local
 ```
+_Note: the network interface in [[Virtualization#Host Operating System|Host OS]] attached to the [[#Docker container]] typically has got the name `br_<network_id>` (you can see it with [[IP#IP address|ifconfig or ipconfig command]])_
 #### Create network
 Creates a network for inter-container communication (see [[#Docker network#Bridge driver]]):
 ```shell
