@@ -167,11 +167,11 @@ Go to the downloaded `.zip` package and unzip it. Look for `metricbeat.exe` and 
 It is recommended to install MetricBeat as [[Linux#APT#Debian package .deb|Debian package]] following these steps: [[Linux#Install a Debian package]] to automatically place the MetricBeat files where they should be.
 #### On AIX
 To install MetricBeat on an [[AIX]] [[Operating System]], you should get the [[Linux#RPM file]]. Once you have it, [[Linux#Install a rpm package|install it]].
-Supposing you want to get the MetricBeat `.rpm` package, as this file cannot be found directly from the official website, the recommended way to proceed is:
-1. Get access to the [[AIX]] system through [[SSH]]
-2. Perform a [[Linux#DNF#Redownload installed packages but not installing]] setting the `--downloaddir` to some directory you can control
-3. Go to the `.rpm` location and export it running a [[SSH#scp (Secure Copy)]] command from the machine that will receive the package
-Once downloaded, you can [[AIX Subsystem|convert it into a subsystem]].
+Supposing you want to get the MetricBeat `.rpm` package from an already existing AIX system that has already installed metricbeat on it (instead of getting it from official website):
+1. Get access to that [[AIX]] system through [[SSH]]
+2. Perform a [[Linux#DNF#Redownload installed packages but not installing]] setting the `--downloaddir` to some output directory you can control
+3. Go to the `.rpm` location and export it running a [[SSH#scp (Secure Copy)]] command
+Once installed, you can [[AIX Subsystem|convert it into a subsystem]].
 # PacketBeat
 # WinlogBeat
 ## WinLog fields

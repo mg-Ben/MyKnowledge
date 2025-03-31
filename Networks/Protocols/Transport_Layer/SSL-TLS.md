@@ -35,7 +35,7 @@ openssl pkcs8 -inform PEM -in <certificate.key> -topk8 -nocrypt -outform PEM -ou
 ```
 ### Get Fingerprint from .crt
 ```shell
-openssl x509 -noout -fingerprint -sha256 -in <certificate.crt>
+openssl x509 -noout -fingerprint -sha256 -in <certificate.crt>
 ```
 ### Get DNS names from .pem
 ```shell

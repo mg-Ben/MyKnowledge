@@ -134,6 +134,7 @@ echo ${some_string:2}
 	--> Output = "llo, world"
 ```
 ### Find and replace
+#### Replace only the first occurrence of some pattern
 In case we have a string stored inside `input_string` variable with value `test string` and we want to replace some substring (e.g. `test`) with another string (`example`), this is:
 ```
 input_string = test string
@@ -148,7 +149,24 @@ Try this:
 ```shell
 input_string="test string"
 output_string=${input_string/test/example}
-echo output_string
+echo $output_string
+```
+#### Replace all occurrences of some pattern
+In case we have a string stored inside `input_string` variable with value `AB:CD:EF` and we want to replace some substring (e.g. `:` character) with another string (`.` or empty), this is:
+```
+input_string = AB:CD:EF
+output_string = ABCDEF
+```
+We can use the find and replace option with this generic syntax:
+```
+${input_string//substring_to_replace/new_string}
+```
+For the example, above: `${input_string//':'/''}` would result in `ABCDEF`.
+Try this:
+```shell
+input_string="AB:CD:EF"
+output_string=${input_string//':'/''}
+echo $output_string
 ```
 ### Dictionaries
 #### Declare a dictionary

@@ -171,10 +171,10 @@ In these cases, you can configure the output as `<ES_IP>:<ES_PORT>` (in the exam
 ![[fleet-server-elastic-agents-corrected.png]]
 In the example above, `1.2.3.4:9200` is where we can find ElasticSearch process running, but the truth is that in that `IP:port` there might be a Logstash server or whatever. You can even configure >1 output.
 ##### How to configure SSL/TLS?
-It will depend on the output.
+It will depend on the output:
 ###### ElasticSearch Output
 As HTTP**S** is mandatory when installing Fleet Server, ElasticSearch must be secured with TLS/SSL. Therefore, firstly you will have to [[ElasticSearch#4. Security|configure SSL/TLS inside ElasticSearch]].
-Once you have configured it, you must get the [[ElasticSearch#Generate Certification Authority|CA certificate file (.crt)]] and then the [[SSL-TLS#OpenSSL#Get Fingerprint from .crt|fingerprint]]. Copy it without the character `:` and paste in the Kibana > Management > Fleet > Settings > Outputs > ElasticSearch > *Elasticsearch CA trusted fingerprint (optional)*.
+Once you have configured it, you must get the [[ElasticSearch#Generate Certification Authority|CA certificate file (.crt)]] and then the [[SSL-TLS#OpenSSL#Get Fingerprint from .crt|fingerprint]]. Copy it without the character `:` and paste in the Kibana > Management > Fleet > Settings > Outputs > ElasticSearch > *Elasticsearch CA trusted fingerprint (optional)*. See [[UNIX#Replace all occurrences of some pattern]] on how to replace all `:` with empty characters if you want to save time.
 
 _In this way, Elastic Agents will trust the `https://ES_IP:ES_PORT` URL, as you have set inside Kibana > Fleet the CA that your Elastic Agents must trust in._
 ###### Logstash Output
