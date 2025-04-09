@@ -287,7 +287,7 @@ services: #Containers
 		limits: #Only if you want to limit the CPU and RAM resources
 			cpus: '3' #CPU cores to use. 0.0 = Use the same cores as hostOS
 			memory: 4G #RAM to use. '0' = Use the same RAM as hostOS
-		restart: always #This means that this container will try to automatic restart if it stops working (for service continuity and high-availability of the service)
+		restart: always #This means that this container will try to automatically  restart if it stops working (for service continuity and high-availability of the service)
 		user: root #The process inside the container will run as root user
 	server: #The same
 		depends_on:
@@ -302,16 +302,21 @@ services: #Containers
 			- my-stack-network
 		volumes:
 			python-server-volume:/home/app/data
-		command: python index.py --web-listen-address 8080 #Optional: to specify the command to start the main application (equivalent to CMD option in Dockerfile). You can also run several commands with bash -c "<command> && <command> && <command>"
-	volumes: #Here are the settings for the volumes defined above
-		mongoDB-volume:
-			driver: local
-		python-server-volume:
-			driver: local
+		command: python index.py --web-listen-address 8080 #Optional: to specify the command to start the main application (equivalent to CMD option in Dockerfile). You can also run several commands with bash -c "<command> && <command> && <command>".
+		#You can also specify only command-line arguments. For example:
+		command:
+			- "--config.file=/etc/prometheus/prometheus.yml"
+			- "--enable-feature=remote-write-receiver"
+			
+volumes: #Here are the settings for the volumes defined above
+	mongoDB-volume:
+		driver: local
+	python-server-volume:
+		driver: local
 	
-	networks: #Here are the settings for the networks defined above
-		my-stack-network:
-			driver: bridge
+networks: #Here are the settings for the networks defined above
+	my-stack-network:
+		driver: bridge
 ```
 A good and common practice is to have a ```.env``` file on the same directory of ```docker-compose.yml``` where you can define all the versions, port numbers and environment variables to use (e.g., the Python image version to use and the username/password for database containers):
 ```
